@@ -12,6 +12,7 @@ router = Router()
 
 @router.message(F.voice)
 async def handle_voice(message: Message):
+    print("🔊 Обработка голосового сообщения")
     user_id = message.from_user.id
     question = get_user_question(user_id)
     if not question:
@@ -46,6 +47,7 @@ async def handle_voice(message: Message):
         response = await evaluate_answer(question, transcribed_text)
         print(f"📜 Teacher: {response}")
         await message.answer(f"📜 Teacher: {response}")
+
         # Исправляем ошибки
         # corrected_text = await correct_text(transcribed_text)
         # print(f"✅ Corrected: {corrected_text}")

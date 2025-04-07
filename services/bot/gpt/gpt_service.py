@@ -3,7 +3,7 @@ from .prompts import TOEFL_TASK1_PROMPT, TOEFL_EXAMINER_PROMPT
 
 async def generate_question():
     try:
-        response = client.chat.completions.create(
+        response = await client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": TOEFL_TASK1_PROMPT},
@@ -17,7 +17,7 @@ async def generate_question():
 
 async def evaluate_answer(question: str, answer: str) -> str:
     try:
-        response = client.chat.completions.create(
+        response =await client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {"role": "system", "content": TOEFL_EXAMINER_PROMPT},
