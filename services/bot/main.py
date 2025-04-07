@@ -20,8 +20,8 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.client.session.aiohttp import AiohttpSession
-from bot.config import TELEGRAM_BOT_TOKEN
-from bot.handlers import start, question  # импорт других хэндлеров
+from config import TELEGRAM_BOT_TOKEN
+from handlers import start, question  # импорт других хэндлеров
 
 async def main():
     session = AiohttpSession()

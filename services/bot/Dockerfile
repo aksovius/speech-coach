@@ -25,4 +25,4 @@ EXPOSE 8080
 ENV PYTHONUNBUFFERED=1
 
 # Запускаем бота
-CMD ["python", "main.py"]
+# CMD ["python", "main.py"]

@@ -1,4 +1,4 @@
-from bot.gpt.client import client
+from gpt.client import client
 from pydub import AudioSegment
 
 async def text_to_speech(text, output_path="output.mp3"):

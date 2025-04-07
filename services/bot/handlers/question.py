@@ -1,8 +1,8 @@
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
-from bot.gpt.gpt_service import generate_question
-from bot.services.question_manager import set_user_question
+from gpt.gpt_service import generate_question
+from services.question_manager import set_user_question
 
 router = Router()
 

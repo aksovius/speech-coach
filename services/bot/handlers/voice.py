@@ -1,12 +1,12 @@
 from aiogram import Router, F
 from aiogram.types import Message
-from bot.services.question_manager import get_user_question
-from bot.audio.convert import convert_ogg_to_wav
-from bot.whisper.transcribe import transcribe_audio
-from bot.gpt.gpt_service import evaluate_answer
+from services.question_manager import get_user_question
+from audio.convert import convert_ogg_to_wav
+from whisper.transcribe import transcribe_audio
+from gpt.gpt_service import evaluate_answer
 
 import aiohttp
-from bot.config import TELEGRAM_BOT_TOKEN
+from config import TELEGRAM_BOT_TOKEN
 
 router = Router()
 
