@@ -1,5 +1,5 @@
 services:
-  python-app:
+  bot:
     build:
       context: services/bot
       dockerfile: Dockerfile
@@ -14,3 +14,14 @@ services:
     tty: true
     stdin_open: true
     command: bash
+  db:
+    image: postgres:latest
+    container_name: my_postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
