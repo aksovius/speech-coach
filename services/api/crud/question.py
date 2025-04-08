@@ -1,4 +1,4 @@
-from models.question import Question
+from models.schema import Question
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 

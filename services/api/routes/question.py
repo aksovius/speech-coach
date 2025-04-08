@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from services.gpt import generate_question
+from services.question import generate_question
 from crud.question import save_user_question
 from dependencies import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
