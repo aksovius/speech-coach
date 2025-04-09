@@ -3,6 +3,7 @@ from aiogram.types import TelegramObject
 from typing import Callable, Dict, Any
 
 ALLOWED_USERS = {1096190825}
+BACKEND_URL = "http://localhost:8000"
 
 class AuthMiddleware(BaseMiddleware):
     async def __call__(

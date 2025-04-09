@@ -1,14 +1,26 @@
-from fastapi.responses import JSONResponse
 import services.auth as auth
-from schemas.user import User
-from fastapi import Depends
+from schemas.user import UserCreate
+from fastapi import Depends, APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 from dependencies import get_db
 
+router = APIRouter(prefix="/user", tags=["User"])
+
 @router.post("/register")
-async def register_user(user: User, db: AsyncSession = Depends(get_db)):
+async def register_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
     try:
-        await auth.get_or_create_user_by_telegram_id(db, user)
-        return JSONResponse(status_code=201, content={"message": "User registered successfully"})
+        await auth.create_user(db, user)
+        return {"message": "User registered successfully"}
     except Exception as e:
-        return JSONResponse(status_code=400, content={"message": str(e)})
+        return {"message": str(e)}
+
+@router.get("/me")
+async def get_current_user(telegram_id: int , db: AsyncSession = Depends(get_db)):
+    try:
+        user = await auth.get_current_user(db, telegram_id)
+        if user:
+            return user
+        else:
+            return {"message": "User not found"}
+    except Exception as e:
+        return {"message": str(e)}

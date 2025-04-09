@@ -7,7 +7,7 @@ class QuestionRequest(BaseModel):
     last_name: Optional[str]
     username: Optional[str]
 
-class QuestionResponce(BaseModel):
+class QuestionResponse(BaseModel):
     id: int
     category: str
     text: str

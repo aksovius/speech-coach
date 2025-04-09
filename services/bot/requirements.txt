@@ -1,5 +1,5 @@
 aiogram==3.4.1
-aiohttp
+httpx
 openai
 pydub
 python-dotenv

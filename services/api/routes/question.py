@@ -8,8 +8,8 @@ from schemas.question import QuestionRequest, QuestionResponse
 router = APIRouter(prefix="/question", tags=["Question"])
 
 @router.get("", response_model=QuestionResponse)
-async def get_question(user: int, db: AsyncSession = Depends(get_db)):
-    return await question.get_question_for_user(user=QuestionRequest, db=db)
+async def get_question(user: QuestionRequest, db: AsyncSession = Depends(get_db)):
+    return await question.get_question_for_user(user=user, db=db)
 
 # @router.post("", response_model=QuestionResponse)
 # async def create_question(data: QuestionRequest, db: AsyncSession = Depends(get_db)):
