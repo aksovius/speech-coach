@@ -1,8 +1,10 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = "postgresql+asyncpg://user:pass@postgres/database" # Example URL
-
+    DATABASE_URL: str
+    TELEGRAM_BOT_TOKEN: str
+    DEBUG: bool = False
+    
     class Config:
         env_file = None
 

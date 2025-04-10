@@ -8,8 +8,8 @@ class UserCreate(BaseModel):
     username: Optional[str]
 
     class Config:
-        orm_mode = True
-        schema_extra = {
+        from_attributes = True
+        json_schema_extra = {
             "example": {
                 "telegram_id": 123456789,
                 "first_name": "John",

@@ -1,17 +1,4 @@
 services:
-  # bot:
-  #   build:
-  #     context: services/bot
-  #     dockerfile: Dockerfile
-  #   container_name: speech-bot
-  #   volumes:
-  #     - ./services/bot:/app
-  #   working_dir: /app
-  #   env_file:
-  #     - .env
-  #   tty: true
-  #   stdin_open: true
-  #   command: "python main.py" #bash
   app:
     build:
       context: app
