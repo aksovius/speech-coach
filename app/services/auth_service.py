@@ -1,0 +1,26 @@
+from sqlalchemy.ext.asyncio import AsyncSession
+from models.schema import User
+from crud import user_crud as crud_user, user_quota_crud
+from schemas.user_schema import UserCreate
+
+# async def create_user(db: AsyncSession, user: UserCreate)-> User:
+#     user = await crud_user.create_user(db, user)
+#     await user_quota_crud.create_user_quota(user.id, db)
+#     return user
+# async def get_current_user(telegram_id: int, db: AsyncSession) -> User | None:
+#     user = await crud_user.get_by_telegram_id(db, telegram_id)
+#     if not user:
+#         return None
+#     return user
+
+async def get_current_user_or_create(user_dto: UserCreate, db: AsyncSession) -> User:
+    user = await crud_user.get_by_telegram_id(user_dto.telegram_id, db)
+    if not user:
+        user = await crud_user.create_user(user_dto, db)
+        await user_quota_crud.create_user_quota(user.id, db)
+    return user
+
+async def get_user_quota(user_dto: UserCreate, db:AsyncSession) -> int:
+    user = await get_current_user_or_create(user_dto=user_dto, db=db)
+    user_quota = await user_quota_crud.get_user_quota(user.id, db)
+    return user_quota.total_allowed - user_quota.used
