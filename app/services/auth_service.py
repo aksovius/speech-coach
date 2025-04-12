@@ -20,7 +20,10 @@ async def get_current_user_or_create(user_dto: UserCreate, db: AsyncSession) -> 
         await user_quota_crud.create_user_quota(user.id, db)
     return user
 
-async def get_user_quota(user_dto: UserCreate, db:AsyncSession) -> int:
+async def get_user_id_and_quota(user_dto: UserCreate, db:AsyncSession) -> dict:
     user = await get_current_user_or_create(user_dto=user_dto, db=db)
     user_quota = await user_quota_crud.get_user_quota(user.id, db)
-    return user_quota.total_allowed - user_quota.used
+    return {
+        "user_id": user.id,
+        "quota": user_quota.total_allowed - user_quota.used
+    }

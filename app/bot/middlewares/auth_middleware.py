@@ -2,9 +2,7 @@ from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 from typing import Callable, Dict, Any
 
-from schemas.user_schema import UserCreate
-from services.auth_service import get_user_quota
-from utils.database import with_db_session
+from services.auth_service import get_user_id_and_quota
 ALLOWED_USERS = {1096190825}
 
 class AuthMiddleware(BaseMiddleware):
@@ -14,31 +12,22 @@ class AuthMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any]
     ) -> Any:
-        user = data.get("event_from_user")
+        user_dto = data.get("user_dto")
         bot = data['bot']
-        if not user:
-            await bot.send_message("⛔Неизвестный пользователь.")
-            return
-        user_dto = UserCreate(
-            telegram_id=user.id,
-            username=user.username,
-            first_name=user.first_name,
-            last_name=user.last_name,
-        )
-        user_quota = await with_db_session(get_user_quota, user_dto)
-        print(f"🔑 user_quota: {user_quota}")
+        db = data['db']
+        user_data = await get_user_id_and_quota(user_dto, db)
+        print(f"🔑 user_quota: {user_data}")
 
         #TODO: Delete on production
-        if user and user.id not in ALLOWED_USERS:
-            print(f"⛔ Доступ запрещён для user_id={user.id}")
-            bot = data['bot']
-            await bot.send_message(user.id, "⛔ У вас нет доступа к этому боту.")
+        if user_dto.telegram_id not in ALLOWED_USERS:
+            print(f"⛔ Доступ запрещён для user_id={user_dto.telegram_id}")
+            await bot.send_message(user_dto.username, "⛔ У вас нет доступа к этому боту.")
             return
 
 
-        if user_quota <= 0:
-            print(f"⛔ Доступ запрещён для user_id={user.id}")
-            await bot.send_message(user.id, "⛔ У вас закончились вопросы.")
+        if user_data["quota"] <= 0:
+            print(f"⛔ Доступ запрещён для user_id={user_dto.telegram_id}")
+            await bot.send_message(user_dto.username, "⛔ У вас закончились вопросы.")
             return
-
+        data['user_id'] = user_data["user_id"]
         return await handler(event, data)
