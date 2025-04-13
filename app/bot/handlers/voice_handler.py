@@ -1,6 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message
 from services.question_manager import get_user_question
+from services import audio_service
 # from audio.convert import convert_ogg_to_wav
 # from whisper.transcribe import transcribe_audio
 # from gpt.gpt_service import evaluate_answer
@@ -13,23 +14,23 @@ router = Router()
 @router.message(F.voice)
 async def handle_voice(message: Message):
     print("🔊 Обработка голосового сообщения")
-    # user_id = message.from_user.id
-    # question = get_user_question(user_id)
-    # if not question:
-    #     await message.answer("🤖 Сначала попроси вопрос с помощью команды /question.")
-    #     return
-    #
-    # try:
-    #     print("📥 Голосовое сообщение получено")
-    #     await message.answer("🤖 Обрабатываю ваше голосовое сообщение...")
-    #     file_info = await message.bot.get_file(message.voice.file_id)
-    #     file_url = f"https://api.telegram.org/file/bot{settings.TELEGRAM_BOT_TOKEN}/{file_info.file_path}"
-    #
-    #     # Скачиваем файл
-    #     async with aiohttp.ClientSession() as session:
-    #         async with session.get(file_url) as resp:
-    #             with open("voice.ogg", "wb") as f:
-    #                 f.write(await resp.read())
+    telegram_id = message.from_user.id
+    question = get_user_question(telegram_id)
+    if not question:
+        await message.answer("🤖 Сначала попроси вопрос с помощью команды /question.")
+        return
+
+    try:
+        print("📥 Голосовое сообщение получено")
+        await message.answer("🤖 Обрабатываю ваше голосовое сообщение...")
+        file_info = await message.bot.get_file(message.voice.file_id)
+        file_url = f"https://api.telegram.org/file/bot{settings.TELEGRAM_BOT_TOKEN}/{file_info.file_path}"
+        audio_service.process_audio(file_url)
+        # Скачиваем файл
+        async with aiohttp.ClientSession() as session:
+            async with session.get(file_url) as resp:
+                with open("voice.ogg", "wb") as f:
+                    f.write(await resp.read())
     #     await message.answer("✅ Голосовое сообщение скачано")
     #     print("✅ Голосовое сообщение скачано")
     #
@@ -62,6 +63,6 @@ async def handle_voice(message: Message):
 
         # # Отправляем исправленный голос
         # await message.answer_voice(FSInputFile(speech_file))
-    # except Exception as e:
-    #     print(f"❌ Ошибка обработки голосового сообщения: {e}")
-    #     await message.answer("❌ Произошла ошибка при обработке вашего голосового сообщения.")
+    except Exception as e:
+        print(f"❌ Ошибка обработки голосового сообщения: {e}")
+        await message.answer("❌ Произошла ошибка при обработке вашего голосового сообщения.")
