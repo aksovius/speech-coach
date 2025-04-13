@@ -10,7 +10,7 @@ services:
     ports:
       - "${API_PORT}:8000"
     env_file:
-      - .env
+      - ../secrets/speech-coach.env
     depends_on:
       - db
     tty: true
