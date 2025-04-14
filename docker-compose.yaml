@@ -1,29 +1,16 @@
 services:
-  bot:
+  app:
     build:
-      context: services/bot
+      context: app
       dockerfile: Dockerfile
-    container_name: speech-bot
+    container_name: speech-app
     volumes:
-      - ./services/bot:/app
-    working_dir: /app
-    env_file:
-      - .env
-    tty: true
-    stdin_open: true
-    command: "python main.py" #bash
-  api:
-    build:
-      context: services/api
-      dockerfile: Dockerfile
-    container_name: speech-api
-    volumes:
-      - ./services/api:/app
+      - ./app:/app
     working_dir: /app
     ports:
       - "${API_PORT}:8000"
     env_file:
-      - .env
+      - ../secrets/speech-coach.env
     depends_on:
       - db
     tty: true

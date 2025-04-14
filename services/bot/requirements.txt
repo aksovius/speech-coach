@@ -1,5 +1,0 @@
-aiogram==3.4.1
-aiohttp
-openai
-pydub
-python-dotenv

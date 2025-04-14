@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy[asyncio]
+asyncpg
+pydantic
+python-dotenv
+pydantic-settings
+aiogram
+openai
+pydub
