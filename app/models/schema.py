@@ -84,13 +84,15 @@ class QuestionTag(Base):
 class UserQuestionHistory(Base):
     __tablename__ = 'user_question_history'
 
-    user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
-    question_id = Column(Integer, ForeignKey('questions.id', ondelete='CASCADE'), primary_key=True)
-    assigned_at = Column(TIMESTAMP, server_default=func.now())
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    question_id = Column(Integer, ForeignKey('questions.id', ondelete='CASCADE'), nullable=False)
+    assigned_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
 
     __table_args__ = (
-        Index('idx_user_question_history_assigned_at', 'assigned_at'),  
+        Index('idx_user_question_history_assigned_at', 'assigned_at'),
     )
+
 
 
 class UserAnswer(Base):

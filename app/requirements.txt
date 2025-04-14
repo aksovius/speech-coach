@@ -8,3 +8,5 @@ pydantic-settings
 aiogram
 openai
 pydub
+minio
+uuid
