@@ -1,5 +1,7 @@
+from ai.client import client
 
-async def transcribe_audio(audio_path):
+async def transcribe_audio(audio_path) -> str | None:
+    print("client", client)
     print(f"🔊Start audio transcribe : {audio_path}")
     try:
         with open(audio_path, "rb") as audio_file:
@@ -14,5 +16,5 @@ async def transcribe_audio(audio_path):
             )
         return response.text
     except Exception as e:
-        print(f"❌ audio transcribe error: {e}")
-        return "Audio transcribe error"
+        print(f"❌ Failed to transcribe the audio file: {e}")
+        return None
