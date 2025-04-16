@@ -1,0 +1,69 @@
+- name: Install prerequisites
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - wget
+    - ca-certificates
+    - gnupg
+
+- name: Import PostgreSQL signing key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Add PostgreSQL APT repository
+  apt_repository:
+    repo: "deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main"
+    state: present
+    filename: "pgdg"
+
+- name: Import PostgreSQL signing key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Install PostgreSQL
+  apt:
+    name: "postgresql-{{ postgresql_version }}"
+    state: present
+    update_cache: yes
+
+- name: Ensure PostgreSQL service is running and enabled
+  service:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Create PostgreSQL user manually (LXC-safe)
+  become: true
+  shell: |
+    sudo -u postgres psql -tc "SELECT 1 FROM pg_roles WHERE rolname = '{{ postgresql_user }}'" | grep -q 1 || \
+    sudo -u postgres psql -c "CREATE USER {{ postgresql_user }} WITH PASSWORD '{{ postgresql_password }}' LOGIN;"
+  args:
+    executable: /bin/bash
+
+- name: Create PostgreSQL database manually (LXC-safe)
+  become: true
+  shell: |
+    sudo -u postgres psql -tc "SELECT 1 FROM pg_database WHERE datname = '{{ postgresql_db }}'" | grep -q 1 || \
+    sudo -u postgres psql -c "CREATE DATABASE {{ postgresql_db }} OWNER {{ postgresql_user }};"
+  args:
+    executable: /bin/bash
+
+- name: Set postgresql.conf parameters
+  lineinfile:
+    path: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+    regexp: "^#?{{ item.key }}\\s*="
+    line: "{{ item.key }} = {{ item.value }}"
+  loop: "{{ postgresql_conf_params | dict2items }}"
+  notify: Restart PostgreSQL
+
+- name: Allow remote access in pg_hba.conf
+  lineinfile:
+    path: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+    line: "host    replication    replicator    0.0.0.0/0    md5"
+    create: yes
+    insertafter: EOF
+  notify: Restart PostgreSQL

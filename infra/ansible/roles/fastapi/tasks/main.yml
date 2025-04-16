@@ -1,0 +1,55 @@
+- name: Install required packages
+  apt:
+    name:
+      - python3
+      - python3-pip
+      - python3-venv
+    update_cache: yes
+
+- name: Create application directory
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy FastAPI app
+  copy:
+    src: "{{ fastapi_app_src }}"
+    dest: "{{ app_dir }}/app/"
+    mode: '0755'
+
+- name: Copy requirements.txt
+  template:
+    src: requirements.txt
+    dest: "{{ app_dir }}/requirements.txt"
+
+- name: Copy .env file
+  copy:
+    src: "{{ fastapi_env_file }}"
+    dest: "{{ app_dir }}/.env"
+    mode: '0644'
+
+- name: Create virtual environment
+  command: python3 -m venv {{ venv_dir }}
+  args:
+    creates: "{{ venv_dir }}/bin/activate"
+
+- name: Install Python dependencies in virtualenv
+  command: "{{ venv_dir }}/bin/pip install -r {{ app_dir }}/app/requirements.txt"
+
+- name: Copy FastAPI systemd service file
+  copy:
+    src: fastapi.service
+    dest: /etc/systemd/system/fastapi.service
+    mode: '0644'
+
+- name: Reload systemd daemon
+  command: systemctl daemon-reexec
+
+- name: Enable and start FastAPI service
+  systemd:
+    name: fastapi.service
+    enabled: true
+    state: started
