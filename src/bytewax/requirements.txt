@@ -1,0 +1,2 @@
+bytewax==0.21.1
+bytewax[kafka]==0.21.1

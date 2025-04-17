@@ -4,3 +4,5 @@
 **/__pycache__/**
 sandbox
 .venv
+*.pub
+db_dump.sql
