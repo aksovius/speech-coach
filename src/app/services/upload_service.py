@@ -1,20 +1,23 @@
-from config import settings
+import io
+import mimetypes
+import uuid
+from pathlib import Path
+
 from minio import Minio
 from minio.error import S3Error
-import mimetypes
-from pathlib import Path
-import uuid
-import io
+
+from config import settings
 
 minio_client = Minio(
     settings.MINIO_ENDPOINT,
     access_key=settings.MINIO_ROOT_USER,
     secret_key=settings.MINIO_ROOT_PASSWORD,
-    secure=False  # Set True if using HTTPS
+    secure=False,  # Set True if using HTTPS
 )
 
 if not minio_client.bucket_exists(settings.MINIO_BUCKET):
     minio_client.make_bucket(settings.MINIO_BUCKET)
+
 
 async def upload_file(file_path: str):
     try:

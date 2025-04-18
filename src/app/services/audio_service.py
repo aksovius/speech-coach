@@ -1,12 +1,15 @@
 from typing import Dict
-from services import download_service, upload_service, audio_processing,answers_service
+
 from ai.services.audio_service import transcribe_audio
 from ai.services.chat_service import evaluate_answer
-from models.schema import UserAnswer, Question
+from models.schema import Question, UserAnswer
+from services import answers_service, audio_processing, download_service, upload_service
 
 
-async def process_voice_message(file_url: str, question: Question, user_id:int,  db) -> Dict[str, str]:
-    ogg_path = "temp_audio.ogg"
+async def process_voice_message(
+    file_url: str, question: Question, user_id: int, db
+) -> Dict[str, str]:
+    ogg_path = "/tmp/temp_audio.ogg"
     # Download the audio file
     downloaded_file = await download_service.download_file(file_url, ogg_path)
     if not downloaded_file:
@@ -19,10 +22,10 @@ async def process_voice_message(file_url: str, question: Question, user_id:int, 
 
     transcription = await transcribe_audio(converted_file)
     file = await upload_service.upload_file(downloaded_file)
-    print(f'File uploaded to: {file}')
+    print(f"File uploaded to: {file}")
     if not transcription:
         return {"error": "Failed to transcribe the audio file."}
-    answer = await evaluate_answer(question.text,transcription)
+    answer = await evaluate_answer(question.text, transcription)
     user_answer = UserAnswer(
         user_id=user_id,
         question_id=question.id,

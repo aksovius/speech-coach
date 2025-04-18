@@ -1,5 +1,6 @@
 import json
 
+
 def deserialize_message(kafka_message):
     try:
         if not kafka_message.value:
@@ -10,11 +11,11 @@ def deserialize_message(kafka_message):
             return None
         after = payload.get("after") or {}
         return {
-            "id":          after.get("id"),
-            "user_id":     after.get("user_id"),
+            "id": after.get("id"),
+            "user_id": after.get("user_id"),
             "asr_transcript": after.get("asr_transcript"),
-            "operation":   payload.get("op"),
-            "ts_ms":       payload.get("ts_ms"),
+            "operation": payload.get("op"),
+            "ts_ms": payload.get("ts_ms"),
         }
     except Exception as e:
         # логируем, чтобы не ломать поток

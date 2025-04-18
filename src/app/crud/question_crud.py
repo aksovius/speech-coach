@@ -1,15 +1,15 @@
 from models.schema import Question, UserQuestionHistory
+from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, insert
-
-
 
 
 async def get_unseen_questions(user_id: int, db: AsyncSession) -> Question | None:
     # TODO: move to crud layer
 
     # Get unseen questions for the user
-    subquery = select(UserQuestionHistory.question_id).where(UserQuestionHistory.user_id == user_id)
+    subquery = select(UserQuestionHistory.question_id).where(
+        UserQuestionHistory.user_id == user_id
+    )
 
     # Take the first unseen question
     result = await db.execute(
@@ -37,7 +37,9 @@ async def get_unseen_questions(user_id: int, db: AsyncSession) -> Question | Non
     if seen_question:
         # If there are no unseen questions, return the last seen question
         await db.execute(
-            insert(UserQuestionHistory).values(user_id=user_id, question_id=seen_question.id)
+            insert(UserQuestionHistory).values(
+                user_id=user_id, question_id=seen_question.id
+            )
         )
         await db.commit()
         return seen_question
