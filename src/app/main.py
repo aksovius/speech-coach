@@ -2,8 +2,9 @@ from aiogram.types import Update
 from bot.dp import bot, dp, set_commands
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+
+import app.messaging.consumers
 from app.messaging.broker import broker
-import app.messaging.consumers  
 from config import settings
 
 WEBHOOK_PATH = f"/webhook/{settings.TELEGRAM_BOT_TOKEN}"
@@ -38,6 +39,7 @@ async def on_startup():
     await broker.start()
     print("✅ Webhook установлен")
     print("✅ Брокер подключён")
+
 
 @app.on_event("shutdown")
 async def on_shutdown():

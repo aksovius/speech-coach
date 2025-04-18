@@ -3,7 +3,6 @@ import processors.deserialize as des
 import processors.filters as flt
 import processors.text_processing as txt
 import sinks as sk
-
 from bytewax import operators as op
 from bytewax.connectors.kafka import operators as kop
 from bytewax.dataflow import Dataflow

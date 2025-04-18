@@ -30,7 +30,7 @@ Only provide the evaluation. Do not restate the question or the full answer.
 Note: You're evaluating based on the transcription. Use it to infer clarity of speech, but do not overestimate accuracy of delivery.
 
 """
-TOEFL_RECOMMENDATION_PROMPT = """To respond to this particular question, you should clearly state what your opinion is: 
+TOEFL_RECOMMENDATION_PROMPT = """To respond to this particular question, you should clearly state what your opinion is:
 Do you think it is better to take risks or to be cautious? Then you should give reasons to support your
 opinion. If you take the position that you think it is better to take risks and try new things, you
 might give an example of a time when you or someone you know took a risk and was rewarded.
