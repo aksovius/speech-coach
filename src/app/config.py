@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     MINIO_ROOT_PASSWORD: str
     MINIO_ENDPOINT: str
     MINIO_BUCKET: str
+    REDIS_URL: str  # redis://pass@localhost:6379
+    APP_HOST: str  # app.com
     DEBUG: bool = False
 
     class Config:

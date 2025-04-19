@@ -2,3 +2,4 @@ alembic
 black
 ruff
 mypy
+pytest

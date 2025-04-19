@@ -6,4 +6,4 @@ sandbox
 .venv/
 *.pub
 db_dump.sql
-tmp
+temp

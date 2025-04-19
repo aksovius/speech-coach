@@ -1,16 +1,44 @@
+import logging
+from contextlib import asynccontextmanager
+
 from aiogram.types import Update
 from bot.dp import bot, dp, set_commands
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from faststream import FastStream
+from messaging.broker import broker
 
-import app.messaging.consumers
-from app.messaging.broker import broker
 from config import settings
 
+logger = logging.getLogger(__name__)
 WEBHOOK_PATH = f"/webhook/{settings.TELEGRAM_BOT_TOKEN}"
-WEBHOOK_URL = f"https://aksovius.ddns.net{WEBHOOK_PATH}"
+WEBHOOK_URL = f"https://{settings.APP_HOST}{WEBHOOK_PATH}"
+faststream_app = FastStream(
+    broker
+)  # Create a FastStream app with the broker (resiver app)
 
-app = FastAPI(title="Speech Coach API", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # STARTUP
+    await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
+    await set_commands()
+    await broker.connect()  # start broker connection
+    await faststream_app.start()
+    logger.debug("✅ Webhook установлен")
+    logger.debug("✅ Брокер подключён")
+
+    yield
+
+    # SHUTDOWN
+    await bot.delete_webhook()
+    await broker.close()
+    await faststream_app.stop()
+    print("❌ Webhook удалён")
+    print("❌ Брокер отключён")
+
+
+app = FastAPI(title="Speech Coach API", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,21 +58,3 @@ async def telegram_webhook(request: Request):
     update = Update.model_validate(data)
     await dp.feed_update(bot, update)
     return {"ok": True}
-
-
-@app.on_event("startup")
-async def on_startup():
-    await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
-    await set_commands()
-    await broker.start()
-    print("✅ Webhook установлен")
-    print("✅ Брокер подключён")
-
-
-@app.on_event("shutdown")
-async def on_shutdown():
-    await bot.delete_webhook()
-    await bot.session.close()
-    await broker.close()
-    print("🛑 Webhook удалён")
-    print("🛑 Брокер отключён")

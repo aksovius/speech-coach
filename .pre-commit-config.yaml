@@ -22,5 +22,5 @@ repos:
       - id: add-init-py
         name: Add missing __init__.py files
         entry: python scripts/add_inits.py
-        language: system
+        language: python
         types: [python]

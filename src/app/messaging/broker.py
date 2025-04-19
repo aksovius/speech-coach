@@ -1,3 +1,5 @@
 from faststream.redis import RedisBroker
 
-broker = RedisBroker("redis://redis:6379")
+from config import settings
+
+broker = RedisBroker(settings.REDIS_URL)
