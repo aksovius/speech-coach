@@ -1,6 +1,7 @@
 import asyncio
 import logging
 
+import consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
 from faststream import FastStream
 from messaging.broker import broker
 

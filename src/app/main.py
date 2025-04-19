@@ -1,6 +1,7 @@
 import logging
 from contextlib import asynccontextmanager
 
+import consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
 from aiogram.types import Update
 from bot.dp import bot, dp, set_commands
 from fastapi import FastAPI, Request

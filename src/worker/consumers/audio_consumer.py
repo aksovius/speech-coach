@@ -17,4 +17,5 @@ async def handle_task(data: dict):
     uploaded_file = await upload_service.upload_file(downloaded_file)
     data["converted_file"] = converted_file
     data["uploaded_file"] = uploaded_file
+    print("🔥 Отправляю результат:", data, flush=True)
     await broker.publish(data, stream="audio_response_stream")

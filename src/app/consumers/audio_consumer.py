@@ -2,8 +2,8 @@ from ai.services.audio_service import transcribe_audio
 from ai.services.chat_service import evaluate_answer
 from bot.dp import bot
 from messaging.broker import broker
-from models.schema import UserAnswer
-from services import answers_service
+from models.schema import Media, UserAnswer
+from services import answers_service, media_service
 from services.question_manager import get_user_question
 from utils.database import async_session
 
@@ -31,7 +31,12 @@ async def handle_task(result: dict):
         gpt_feedback=answer,
         score_overall=0,
     )
-
+    media = Media(
+        source_type="user_answers",
+        media_type="audio",
+        url=converted_file,
+        description=transcription or "Transcription not available",
+    )
     if not answer or not transcription:
         await bot.send_message(
             chat_id=telegram_id, text="❌ Error: Failed to evaluate the answer."
@@ -47,6 +52,8 @@ async def handle_task(result: dict):
 
     # Save the answer to the database
     async with async_session() as session:
-        await answers_service.save_answer(user_answer, session)
+        answer_id = await answers_service.save_answer(user_answer, session)
+        media.source_id = answer_id
+        await media_service.save_media(media, session)
         print(f"Transcription: {transcription}")
         print(f"Answer: {answer}")
