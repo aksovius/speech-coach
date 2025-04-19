@@ -1,3 +1,5 @@
+import os
+
 from ai.services.audio_service import transcribe_audio
 from ai.services.chat_service import evaluate_answer
 from bot.dp import bot
@@ -50,6 +52,7 @@ async def handle_task(result: dict):
     if answer:
         await bot.send_message(chat_id=telegram_id, text=f"Coach answer: {answer}")
 
+    os.remove(converted_file)
     # Save the answer to the database
     async with async_session() as session:
         answer_id = await answers_service.save_answer(user_answer, session)

@@ -1,3 +1,5 @@
+import os
+
 from messaging.broker import broker
 from services import audio_processing, upload_service
 
@@ -15,6 +17,7 @@ async def handle_task(data: dict):
         return
 
     uploaded_file = await upload_service.upload_file(downloaded_file)
+    os.remove(downloaded_file)
     data["converted_file"] = converted_file
     data["uploaded_file"] = uploaded_file
     print("🔥 Отправляю результат:", data, flush=True)
