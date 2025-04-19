@@ -1,0 +1,16 @@
+{
+  "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+  "database.user": "coach",
+  "database.dbname": "speech",
+  "slot.name": "debezium_slot",
+  "publication.name": "debezium_pub",
+  "database.server.name": "dbserver1",
+  "database.port": "5432",
+  "plugin.name": "pgoutput",
+  "tombstones.on.delete": "false",
+  "topic.prefix": "postgres_",
+  "database.hostname": "postgres",
+  "database.password": "${env:DB_PASSWORD}",
+  "name": "postgres-source",
+  "table.include.list": "public.user_answers"
+}

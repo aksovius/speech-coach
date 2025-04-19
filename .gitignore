@@ -3,4 +3,7 @@
 .idea
 **/__pycache__/**
 sandbox
-.venv
+.venv/
+*.pub
+db_dump.sql
+temp

@@ -1,0 +1,10 @@
+postgresql_version: 16
+postgresql_user: coach
+postgresql_db: speech
+ansible_distribution_release: bookworm
+postgresql_password: your_password_here
+postgresql_conf_params:
+  listen_addresses: "'*'"
+  wal_level: logical
+  max_replication_slots: 10
+  max_wal_senders: 10

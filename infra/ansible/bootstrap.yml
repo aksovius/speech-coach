@@ -1,0 +1,41 @@
+---
+- name: Bootstrap LXC container for Ansible access
+  hosts: all
+  become: true
+  vars:
+    ansible_new_user: ansible
+    ansible_pubkey: "{{ lookup('file', 'ansible.pub') }}"
+
+  tasks:
+    - name: Set authorized key for ansible user
+      authorized_key:
+        user: "{{ ansible_new_user }}"
+        key: "{{ ansible_pubkey }}"
+        state: present
+
+    - name: Allow 'sudo' without password
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: "^{{ ansible_new_user }} ALL="
+        line: "{{ ansible_new_user }} ALL=(ALL) NOPASSWD:ALL"
+        validate: 'visudo -cf %s'
+    - name: Ensure resolv.conf has correct nameservers
+      copy:
+        content: |
+          nameserver 8.8.8.8
+          nameserver 1.1.1.1
+        dest: /etc/resolv.conf
+        force: yes
+    # - name: Disable password authentication (optional, SSH hardened)
+    #   lineinfile:
+    #     path: /etc/ssh/sshd_config
+    #     regexp: '^#?PasswordAuthentication'
+    #     line: 'PasswordAuthentication no'
+    #   notify: Restart SSH
+
+  handlers:
+    - name: Restart SSH
+      service:
+        name: ssh
+        state: restarted

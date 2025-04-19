@@ -1,0 +1,5 @@
+pydub
+faststream[redis]
+pydantic-settings
+uuid
+minio

@@ -1,0 +1,4 @@
+app_dir: /opt/fastapi_app
+venv_dir: /opt/fastapi_app/venv
+fastapi_app_src: app_path
+fastapi_env_file: env_path

@@ -1,0 +1,38 @@
+[tool.black]
+line-length = 88
+target-version = ['py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+  \.venv
+  | alembic
+  | build
+  | dist
+  | migrations
+  | docs-site
+  | config
+  | docs
+  | infra
+
+)/
+'''
+
+
+[tool.mypy]
+python_version = 3.12
+strict = true
+ignore_missing_imports = true
+exclude = 'migrations|tests|alembic'
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+exclude = ["alembic", "migrations", ".venv"]
+fix = true
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
