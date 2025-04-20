@@ -5,24 +5,25 @@ from ai.services.chat_service import evaluate_answer
 from bot.dp import bot
 from messaging.broker import broker
 from models.schema import Media, UserAnswer
+from schemas.audio_schema import AudioTaskResult
 from services import answers_service, media_service
 from services.question_manager import get_user_question
 from utils.database import async_session
 
 
 @broker.subscriber(stream="audio_response_stream")
-async def handle_task(result: dict):
+async def handle_task(result: AudioTaskResult):
 
     print("Получена результат:", result)
-    telegram_id = result.get("telegram_id")
-    if result.get("error"):
+    telegram_id = result.telegram_id
+    if result.error:
         await bot.send_message(
             chat_id=telegram_id, text="❌ Error: Failed to process the audio file."
         )
         return
 
-    converted_file = result.get("converted_file")
-    user_id = result.get("user_id")
+    converted_file = result.converted_file
+    user_id = result.user_id
     question = get_user_question(telegram_id)
     transcription = await transcribe_audio(converted_file)
     answer = await evaluate_answer(question.text, transcription)
