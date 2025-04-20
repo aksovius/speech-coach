@@ -15,6 +15,7 @@ async def transcribe_audio(audio_path) -> str | None:
                 temperature=0.0,
                 prompt=None,
             )
+
         return response.text
     except Exception as e:
         print(f"❌ Failed to transcribe the audio file: {e}")

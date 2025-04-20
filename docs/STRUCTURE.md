@@ -137,8 +137,12 @@
 │   │   │       ├── __init__.py
 │   │   │       └── user_data_middleware.py
 │   │   ├── config.py
+│   │   ├── consumers
+│   │   │   ├── audio_consumer.py
+│   │   │   └── __init__.py
 │   │   ├── crud
 │   │   │   ├── __init__.py
+│   │   │   ├── media_crud.py
 │   │   │   ├── question_crud.py
 │   │   │   ├── user_answers_crud.py
 │   │   │   ├── user_crud.py
@@ -146,10 +150,10 @@
 │   │   ├── database.py
 │   │   ├── dependencies.py
 │   │   ├── Dockerfile
+│   │   ├── __init__.py
 │   │   ├── main.py
 │   │   ├── messaging
 │   │   │   ├── broker.py
-│   │   │   ├── consumers.py
 │   │   │   └── __init__.py
 │   │   ├── models
 │   │   │   ├── __init__.py
@@ -166,10 +170,10 @@
 │   │   │   ├── auth_service.py
 │   │   │   ├── download_service.py
 │   │   │   ├── __init__.py
+│   │   │   ├── media_service.py
 │   │   │   ├── question_manager.py
 │   │   │   ├── question_service.py
 │   │   │   └── upload_service.py
-│   │   ├── tmp
 │   │   └── utils
 │   │       ├── database.py
 │   │       └── __init__.py
@@ -187,12 +191,14 @@
 │   │   ├── requirements.txt
 │   │   └── sinks.py
 │   └── worker
+│       ├── consumers
+│       │   └── audio_consumer.py
 │       ├── Dockerfile
 │       ├── main.py
-│       ├── messaging
 │       └── requirements.txt
+├── temp
 └── tests
     └── app
         └── services
 
-63 directories, 133 files
+64 directories, 138 files

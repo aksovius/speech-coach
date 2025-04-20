@@ -2,6 +2,7 @@ import uuid
 from typing import Dict
 
 from messaging.broker import broker
+from schemas.audio_schema import AudioTaskProcessing
 from services import download_service
 
 
@@ -13,8 +14,13 @@ async def process_voice_message(
     downloaded_file = await download_service.download_file(file_url, ogg_path)
     if not downloaded_file:
         return {"error": "Failed to download the audio file."}
+    message = AudioTaskProcessing(
+        telegram_id=telegram_id,
+        user_id=user_id,
+        file_path=downloaded_file,
+    )
     await broker.publish(
-        {"user_id": user_id, "telegram_id": telegram_id, "file_path": downloaded_file},
+        message,
         stream="audio_stream",
     )
     # # Convert OGG to WAV
