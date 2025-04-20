@@ -1,3 +1,4 @@
+exclude: ^src/app/alembic/
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -5,6 +6,7 @@ repos:
       - id: check-added-large-files
       - id: end-of-file-fixer
       - id: trailing-whitespace
+
 
   - repo: https://github.com/psf/black
     rev: 24.3.0
