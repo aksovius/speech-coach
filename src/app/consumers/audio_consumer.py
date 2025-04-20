@@ -14,11 +14,12 @@ from utils.database import async_session
 @broker.subscriber(stream="audio_response_stream")
 async def handle_task(result: AudioTaskResult):
 
-    print("Получена результат:", result)
     telegram_id = result.telegram_id
     if result.error:
         await bot.send_message(
-            chat_id=telegram_id, text="❌ Error: Failed to process the audio file."
+            chat_id=telegram_id,
+            text="<b>❌ Error:</b> Failed to process the audio file.",
+            parse_mode="HTML",
         )
         return
 
@@ -27,12 +28,13 @@ async def handle_task(result: AudioTaskResult):
     question = get_user_question(telegram_id)
     transcription = await transcribe_audio(converted_file)
     answer = await evaluate_answer(question.text, transcription)
+    print(f"Answer: {answer}")
     user_answer = UserAnswer(
         user_id=user_id,
         question_id=question.id,
         asr_transcript=transcription,
-        gpt_feedback=answer,
-        score_overall=0,
+        gpt_feedback=answer.feedback,
+        score_overall=answer.score,
     )
     media = Media(
         source_type="user_answers",
@@ -42,16 +44,32 @@ async def handle_task(result: AudioTaskResult):
     )
     if not answer or not transcription:
         await bot.send_message(
-            chat_id=telegram_id, text="❌ Error: Failed to evaluate the answer."
+            chat_id=telegram_id,
+            text="<b>❌ Error:</b> Failed to evaluate the answer.",
+            parse_mode="HTML",
         )
         return
 
     if transcription:
         await bot.send_message(
-            chat_id=telegram_id, text=f"User transcription: {transcription}"
+            chat_id=telegram_id,
+            text=f"<b>User:</b> {transcription}",
+            parse_mode="HTML",
         )
     if answer:
-        await bot.send_message(chat_id=telegram_id, text=f"Coach answer: {answer}")
+        await bot.send_message(
+            chat_id=telegram_id,
+            text=f"<b>Coach:</b> {answer.feedback}",
+            parse_mode="HTML",
+        )
+        await bot.send_message(
+            chat_id=telegram_id, text=f"<b>Score:</b> {answer.score}", parse_mode="HTML"
+        )
+        await bot.send_message(
+            chat_id=telegram_id,
+            text=f"<b>Example:</b> {answer.example_answer}",
+            parse_mode="HTML",
+        )
 
     os.remove(converted_file)
     # Save the answer to the database

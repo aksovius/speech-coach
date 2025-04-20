@@ -25,9 +25,9 @@ ignore_missing_imports = true
 exclude = 'migrations|tests|alembic'
 
 [tool.ruff]
-line-length = 88
+line-length = 120
 target-version = "py312"
-exclude = ["alembic", "migrations", ".venv"]
+exclude = ["alembic", "migrations", ".venv", "prompts.py"]
 fix = true
 
 [tool.ruff.lint]
