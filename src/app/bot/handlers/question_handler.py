@@ -13,4 +13,6 @@ async def handle_question(message: Message, **kwargs):
     user_id = kwargs.get("user_id")
     question = await get_question_for_user(user_id, db_session)
     set_user_question(message.from_user.id, question)
-    await message.answer(f"<b>❓ Question:</b>\n{question.text}", parse_mode="HTML")
+    await message.answer(
+        f"<b>❓Question: 45 sec</b>\n{question.text}", parse_mode="HTML"
+    )
