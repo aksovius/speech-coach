@@ -38,6 +38,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs-site/build
+          cname: speech-coach.alexanderkim.dev
 
       - name: Test build
         working-directory: ./docs-site
