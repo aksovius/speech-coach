@@ -113,7 +113,7 @@ const config: Config = {
           title: 'More',
           items: [
             { label: 'Blog', to: '/blog' },
-            { label: 'Roadmap', to: '/docs/roadmap/current' },
+            { label: 'Roadmap', to: '/docs/roadmap' },
           ],
         },
       ],
