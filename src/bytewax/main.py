@@ -3,8 +3,11 @@ from bytewax.connectors.kafka import operators as kop
 from bytewax.connectors.stdio import StdOutSink
 from bytewax.dataflow import Dataflow
 
-flow = Dataflow("test")
-inp = kop.input(
-    "in", flow, brokers=["redpanda:9092"], topics=["postgres_.public.user_answers"]
-)
+from config import KAFKA_BROKER, TOPIC
+
+print("Starting Kafka consumer...")
+print(KAFKA_BROKER)
+print(TOPIC)
+flow = Dataflow("speech_flow")
+inp = kop.input("in", flow, brokers=[KAFKA_BROKER], topics=[TOPIC])
 op.output("out", inp.oks, StdOutSink())

@@ -29,7 +29,7 @@ dp.include_router(voice_handler.router)
 
 async def set_commands():
     commands = [
-        BotCommand(command="start", description="Начать"),
-        BotCommand(command="question", description="Получить вопрос"),
+        BotCommand(command="start", description="Start"),
+        BotCommand(command="question", description="Get a question"),
     ]
     await bot.set_my_commands(commands)

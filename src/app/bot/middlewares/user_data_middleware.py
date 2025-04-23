@@ -15,7 +15,7 @@ class UserDataMiddleware(BaseMiddleware):
         user = data.get("event_from_user")
         bot = data["bot"]
         if not user:
-            await bot.send_message("⛔Неизвестный пользователь.")
+            await bot.send_message("⛔ Unknown user.")
             return
 
         user_dto = UserCreate(
