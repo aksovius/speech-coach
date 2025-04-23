@@ -28,3 +28,64 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+
+.hero--primary {
+  background-color: #2e8555;
+  color: white;
+}
+
+.navbar__title {
+  font-weight: 600;
+}
+
+.architectureImage {
+  max-width: 100%;
+  margin: 20px 0;
+}
+
+.footer--dark {
+  background-color: #1b1b1d;
+}
+
+/* src/css/custom.css */
+.mainWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+/* Ensure Markdown pages have consistent padding */
+.markdown {
+  padding: 2rem 1rem;
+}
+
+/* Standardize heading margins */
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Ensure lists have consistent spacing */
+.markdown ul,
+.markdown ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+/* src/components/HomepageFeatures/styles.module.css */
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.featureImage {
+  height: 120px;
+  width: auto;
+  margin-bottom: 1rem;
+}

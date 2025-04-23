@@ -6,7 +6,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Speech Coach',
-  tagline: 'A speech coach for everyone',
+  tagline: 'Practice Spoken English with AI-Powered Feedback',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -39,8 +39,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/aksovius/speech-coach/tree/main/docs-site/',
         },
         blog: {
           showReadingTime: true,
@@ -50,8 +49,7 @@ const config: Config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/aksovius/speech-coach/tree/main/docs-site/blog/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -68,21 +66,25 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'My Site',
+      title: 'Speech Coach',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Speech Coach Logo',
         src: 'img/logo.svg',
       },
       items: [
+        { to: '/about', label: 'About', position: 'left' },
+        { to: '/features', label: 'Features', position: 'left' },
+        { to: '/tech-stack', label: 'Tech Stack', position: 'left' },
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          type: 'doc',
+          docId: 'intro',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Docs',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        { to: '/blog', label: 'Blog', position: 'left' },
+        { to: '/contact', label: 'Contact', position: 'right' },
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/aksovius/speech-coach',
           label: 'GitHub',
           position: 'right',
         },
@@ -94,44 +96,28 @@ const config: Config = {
         {
           title: 'Docs',
           items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/intro',
-            },
+            { label: 'Introduction', to: '/docs/intro' },
+            { label: 'Architecture', to: '/docs/architecture/overview' },
+            { label: 'Getting Started', to: '/docs/getting-started/installation' },
           ],
         },
         {
-          title: 'Community',
+          title: 'Connect',
           items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
+            { label: 'GitHub', href: 'https://github.com/aksovius/speech-coach' },
+            { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aksovius' },
+            { label: 'Telegram', href: 'https://t.me/aksovius' },
           ],
         },
         {
           title: 'More',
           items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            },
+            { label: 'Blog', to: '/blog' },
+            { label: 'Roadmap', to: '/docs/roadmap/current' },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `© ${new Date().getFullYear()} Speech Coach. Built by Aksovius.`,
     },
     prism: {
       theme: prismThemes.github,

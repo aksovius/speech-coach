@@ -1,6 +1,6 @@
 {
-  "name": "docs-site",
-  "version": "0.0.0",
+  "name": "speech-coach-docs",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
