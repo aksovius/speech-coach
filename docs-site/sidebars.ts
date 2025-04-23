@@ -39,9 +39,9 @@ const sidebars: SidebarsConfig = {
       items: ['api/endpoints', 'api/health-checks'],
     },
     {
-      type: 'category',
+      type: 'doc',
+      id: 'roadmap',
       label: 'Roadmap',
-      items: ['roadmap/current', 'roadmap/future'],
     },
   ],
 };

@@ -117,7 +117,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `© ${new Date().getFullYear()} Speech Coach. Built by Aksovius.`,
+      copyright: `© ${new Date().getFullYear()} Speech Coach. Built by Alexander Kim.`,
     },
     prism: {
       theme: prismThemes.github,
