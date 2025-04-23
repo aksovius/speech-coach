@@ -23,14 +23,12 @@ class AuthMiddleware(BaseMiddleware):
         # TODO: Delete on production
         if user_dto.telegram_id not in ALLOWED_USERS:
             print(f"⛔ Доступ запрещён для user_id={user_dto.telegram_id}")
-            await bot.send_message(
-                user_dto.username, "⛔ У вас нет доступа к этому боту."
-            )
+            await bot.send_message(user_dto.username, "⛔ Access denied to this bot.")
             return
 
         if user_data["quota"] <= 0:
             print(f"⛔ Доступ запрещён для user_id={user_dto.telegram_id}")
-            await bot.send_message(user_dto.username, "⛔ У вас закончились вопросы.")
+            await bot.send_message(user_dto.username, "⛔ You have no questions left.")
             return
         data["user_id"] = user_data["user_id"]
         return await handler(event, data)
