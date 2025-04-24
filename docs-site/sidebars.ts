@@ -21,7 +21,7 @@ const sidebars: SidebarsConfig = {
       items: [
         "architecture/overview",
         "architecture/data-flow",
-        "architecture/architecture-choices",
+        "architecture/architecture",
         "architecture/ha-failover",
       ],
     },

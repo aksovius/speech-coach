@@ -72,4 +72,4 @@ Your session data is stored securely and efficiently:
 
 ---
 
-Want to learn more about how it all works? Check the [System Architecture](./architecture) page.
+Want to learn more about how it all works? Check the [System Architecture](./docs/architecture/overview) page.
