@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkspeech_coach_docs=self.webpackChunkspeech_coach_docs||[]).push([[121],{8070:e=>{e.exports=JSON.parse('{"tags":[{"label":"welcome","permalink":"/blog/tags/welcome","count":1},{"label":"speech-coach","permalink":"/blog/tags/speech-coach","count":1},{"label":"introduction","permalink":"/blog/tags/introduction","count":1}]}')}}]);

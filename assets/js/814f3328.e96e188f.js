@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkspeech_coach_docs=self.webpackChunkspeech_coach_docs||[]).push([[7472],{5513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Welcome to Speech Coach","permalink":"/blog/welcome-to-speech-coach","unlisted":false,"date":"2025-04-23T00:00:00.000Z"}]}')}}]);
