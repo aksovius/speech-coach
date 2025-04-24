@@ -15,7 +15,8 @@ const FeatureList: FeatureItem[] = [
     image: '/img/ai-feedback.png', // Placeholder; replace with actual image
     description: (
       <>
-        Leverage OpenAI Whisper for speech-to-text and GPT-4 for detailed feedback, helping you improve your English speaking skills.
+        Transform your voice into structured feedback using OpenAI Whisper for speech-to-text 
+        and GPT-4 for tailored coaching. Go beyond scores — receive real linguistic insight.
       </>
     ),
   },
@@ -24,7 +25,9 @@ const FeatureList: FeatureItem[] = [
     image: '/img/analytics.png', // Placeholder; replace with actual image
     description: (
       <>
-        Track your progress with sliding window analysis using Bytewax and Redpanda, providing insights into your performance trends.
+        Understand your speaking with real metrics: total words, unique vocabulary, TTR, 
+        sentence complexity, and active phrase usage. A quantified approach to language learning, 
+        designed for developers and analytical minds.
       </>
     ),
   },
@@ -33,7 +36,8 @@ const FeatureList: FeatureItem[] = [
     image: '/img/telegram.png', // Placeholder; replace with actual image
     description: (
       <>
-        Practice seamlessly via voice messages in Telegram, with a user-friendly interface designed for TOEFL and interview prep.
+        Built on a modern distributed architecture with FastAPI, Redpanda, and Bytewax. 
+        Speech Coach is engineered for high availability, real-time processing, and future app integration.
       </>
     ),
   },

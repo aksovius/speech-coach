@@ -2,7 +2,12 @@
 
 **Speech Coach** is a Telegram-based assistant for practicing spoken English, with automatic feedback, speech recognition, and real-time progress tracking.
 
-Originally built as a personal project to improve my own speaking skills (for TOEFL and interviews), it's also a portfolio piece demonstrating experience in modern backend, infrastructure, and streaming data pipelines. This project is still under development but showcases a robust architecture with room for future growth — including potential research collaboration.
+## 👨‍💻 About the Project
+
+Originally built by [Alexander Kim](https://www.linkedin.com/in/aksovius) as a personal tool to prepare for TOEFL speaking tasks and job interviews, **Speech Coach** has grown into a robust portfolio project. It demonstrates skills in backend development, real-time data pipelines, infrastructure automation, and AI integration.
+
+Beyond individual practice, the project is designed with **language learning analytics** in mind — and can support academic research on speech development and learner progress. Its modular architecture allows for future expansions, including dashboards, experiment tracking, and collaborative study tools.
+
 
 ## 🏗️ System Architecture
 
@@ -96,11 +101,11 @@ This project presented several interesting technical challenges:
 
 A dedicated documentation site is under development using Docusaurus. For now, check the [`docs/`](./docs/) folder for architecture, roadmap, and design notes.
 
-## 🤝 Let's Connect
+## 🤝 About the Creator
 
-I'm open to feedback, collaboration, or job opportunities.
+I’m Alexander Kim — a software engineer passionate about language, data, and scalable systems. I built Speech Coach to combine my interests in microservices, stream processing, and education technology.
 
-Feel free to reach out to me on [Telegram](https://t.me/aksovius) or [LinkedIn](https://www.linkedin.com/in/aksovius).
+Let’s connect on [LinkedIn](https://www.linkedin.com/in/aksovius) or [Telegram](https://t.me/aksovius) — I’m always open to collaboration, feedback, or new opportunities.
 
 ## ⚠️ Disclaimer
 

@@ -2,30 +2,51 @@
 title: Tech Stack
 ---
 
-# Tech Stack
 
-Speech Coach is built with modern, production-grade tools to ensure scalability and reliability.
+# 🧰 Tech Stack
 
-## Backend
-- **FastAPI**: High-performance web server for handling Telegram webhooks and API requests.
-- **FastStream**: Stream processing for audio tasks over Redis Streams.
-- **PostgreSQL**: Persistent storage for users, questions, and answers.
-- **MinIO**: Object storage for audio files.
+**Speech Coach** is built with modern, production-grade technologies focused on scalability, real-time data flow, and developer efficiency.
 
-## Audio Processing
-- **OpenAI API**: Whisper for speech-to-text, GPT-4 for feedback generation.
-- **Bytewax**: Real-time stream processing for analytics.
-- **Redpanda + Debezium**: Change Data Capture (CDC) from PostgreSQL to analytics pipeline.
+---
 
-## Infrastructure
-- **Docker + docker-compose**: Containerized services for easy deployment.
-- **HAProxy, Patroni**: Planned high availability for PostgreSQL.
-- **Ansible**: Automation for service setup (in progress).
-- **Terraform**: Infrastructure-as-code groundwork.
+## 💻 Backend
 
-## Observability (Planned)
-- **Prometheus + Grafana**: Metrics monitoring.
-- **Loki**: Centralized logging.
-- **Jaeger/OpenTelemetry**: Distributed tracing.
+- **FastAPI** – Handles Telegram webhooks and RESTful API requests
+- **FastStream** – Manages audio processing tasks over **Redis Streams**
+- **PostgreSQL** – Stores users, questions, feedback, and session history
+- **Redis** – Used for queuing, caching (planned), and stream coordination
+- **MinIO** – S3-compatible object storage for voice messages
 
-This tech stack reflects a balance of performance, scalability, and modern development practices.
+---
+
+## 🔊 Audio & Feedback Processing
+
+- **OpenAI API** – 
+  - **Whisper** for speech-to-text
+  - **GPT-4** for feedback generation and sample answers
+- **Bytewax** – Stream-based real-time analytics (e.g. sliding windows)
+- **Redpanda + Debezium** – CDC from PostgreSQL to analytics pipeline
+- **ClickHouse** – High-performance OLAP database for storing and querying metrics
+
+---
+
+## 🛠️ Infrastructure
+
+- **Docker + docker-compose** – Containerized dev environment
+- **Ansible** – Partial service automation (in progress)
+- **Terraform** – Infrastructure-as-code for future scalability
+- **HAProxy** – Planned load balancing for multi-instance deployments
+- **Patroni** – Planned high availability setup for PostgreSQL
+
+---
+
+## 📊 Observability & Monitoring (Planned)
+
+- **Prometheus + Grafana** – For metrics collection and visualization
+- **Loki** – Centralized logging backend
+- <!-- optionally keep for later -->
+- <!-- **Jaeger / OpenTelemetry** – For distributed tracing (under consideration) -->
+
+---
+
+This stack reflects a balance of **performance**, **resilience**, and **modern engineering principles** — ready for production scaling and future experimentation.

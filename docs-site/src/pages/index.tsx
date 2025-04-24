@@ -37,14 +37,19 @@ export default function Home() {
         <HomepageFeatures />
         <section className={styles.section}>
           <div className="container">
-            <h2>Why Speech Coach?</h2>
-            <p>
-              Speech Coach is a Telegram-based assistant designed to help users
-              improve their spoken English through AI-powered feedback and
-              real-time analytics. Built as a personal project to prepare for
-              TOEFL and interviews, it showcases a modern microservices
-              architecture and advanced data pipelines.
-            </p>
+          <h2>Why Speech Coach?</h2>
+              <p>
+                Speech Coach is an AI-powered speaking coach that helps developers and tech professionals 
+                improve their spoken English through structured feedback and real-world practice scenarios. 
+                It provides automated speech recognition, lexical analysis, and constructive suggestions 
+                based on actual use cases — from job interviews to team meetings.
+              </p>
+              <p>
+                Originally built to practice English for professional contexts, Speech Coach now serves as 
+                a foundation for language coaching, continuous improvement, and AI-driven communication 
+                support. Its backend is powered by a modern microservices architecture and real-time data pipelines, 
+                with a flexible delivery channel — including but not limited to Telegram.
+              </p>
             <img
               src="/img/architecture-diagram.svg"
               alt="System Architecture"

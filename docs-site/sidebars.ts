@@ -1,4 +1,4 @@
-import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
+import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -14,34 +14,35 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
  */
 const sidebars: SidebarsConfig = {
   docsSidebar: [
-    'intro',
+    "intro",
     {
-      type: 'category',
-      label: 'Architecture',
+      type: "category",
+      label: "Architecture",
       items: [
-        'architecture/overview',
-        'architecture/data-flow',
-        'architecture/challenges',
+        "architecture/overview",
+        "architecture/data-flow",
+        "architecture/architecture-choices",
+        "architecture/ha-failover",
       ],
     },
     {
-      type: 'category',
-      label: 'Getting Started',
+      type: "category",
+      label: "Getting Started",
       items: [
-        'getting-started/installation',
-        'getting-started/configuration',
-        'getting-started/testing',
+        "getting-started/installation",
+        "getting-started/configuration",
+        "getting-started/testing",
       ],
     },
     {
-      type: 'category',
-      label: 'API',
-      items: ['api/endpoints', 'api/health-checks'],
+      type: "category",
+      label: "API",
+      items: ["api/endpoints", "api/health-checks"],
     },
     {
-      type: 'doc',
-      id: 'roadmap',
-      label: 'Roadmap',
+      type: "doc",
+      id: "roadmap",
+      label: "Roadmap",
     },
   ],
 };
