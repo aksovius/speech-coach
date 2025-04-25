@@ -7,3 +7,4 @@ sandbox
 *.pub
 db_dump.sql
 temp
+src/bytewax/recovery/
