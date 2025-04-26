@@ -4,7 +4,7 @@ title: Installation
 sidebar_label: Installation
 ---
 
- ⚙️ Installing Speech Coach
+⚙️ Installing Speech Coach
 
 Ready to try **Speech Coach** locally? Here's how to set it up using Docker Compose. You’ll be up and running in just a few minutes.
 
@@ -88,4 +88,4 @@ If deploying externally:
 
 ---
 
-For more advanced setup or environment customization, check out the [Configuration](./configuration) page.
+For more advanced setup or environment customization, check out the Configutation section.
