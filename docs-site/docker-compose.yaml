@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   docusaurus:
@@ -8,5 +8,5 @@ services:
     volumes:
       - ./:/app
     ports:
-      - "3000:3000"
+      - "3005:3000"
     command: "npm run start -- --host 0.0.0.0"

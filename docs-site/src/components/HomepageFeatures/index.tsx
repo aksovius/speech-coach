@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
-import clsx from 'clsx';
-import Heading from '@theme/Heading';
-import styles from './styles.module.css';
+import type { ReactNode } from "react";
+import clsx from "clsx";
+import Heading from "@theme/Heading";
+import styles from "./styles.module.css";
 
 type FeatureItem = {
   title: string;
@@ -11,33 +11,33 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'AI-Powered Feedback',
-    image: '/img/ai-feedback.png', // Placeholder; replace with actual image
+    title: "AI-Powered Feedback",
+    image: "/img/server.png",
     description: (
       <>
-        Transform your voice into structured feedback using OpenAI Whisper for speech-to-text 
-        and GPT-4 for tailored coaching. Go beyond scores — receive real linguistic insight.
+        Transform your voice into structured feedback using OpenAI Whisper for speech-to-text and
+        GPT-4 for tailored coaching. Go beyond scores — receive real linguistic insight.
       </>
     ),
   },
   {
-    title: 'Real-Time Analytics',
-    image: '/img/analytics.png', // Placeholder; replace with actual image
+    title: "Real-Time Analytics",
+    image: "/img/graph.png",
     description: (
       <>
-        Understand your speaking with real metrics: total words, unique vocabulary, TTR, 
-        sentence complexity, and active phrase usage. A quantified approach to language learning, 
-        designed for developers and analytical minds.
+        Understand your speaking with real metrics: total words, unique vocabulary, TTR, sentence
+        complexity, and active phrase usage. A quantified approach to language learning, designed
+        for developers and analytical minds.
       </>
     ),
   },
   {
-    title: 'Telegram Integration',
-    image: '/img/telegram.png', // Placeholder; replace with actual image
+    title: "Telegram Integration",
+    image: "/img/mic.png",
     description: (
       <>
-        Built on a modern distributed architecture with FastAPI, Redpanda, and Bytewax. 
-        Speech Coach is engineered for high availability, real-time processing, and future app integration.
+        Built on a modern distributed architecture with FastAPI, Redpanda, and Bytewax. Speech Coach
+        is engineered for high availability, real-time processing, and future app integration.
       </>
     ),
   },
@@ -45,7 +45,7 @@ const FeatureList: FeatureItem[] = [
 
 function Feature({ title, image, description }: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx("col col--4")}>
       <div className="text--center">
         <img src={image} alt={title} className={styles.featureImage} />
       </div>

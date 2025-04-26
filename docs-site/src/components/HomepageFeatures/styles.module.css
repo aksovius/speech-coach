@@ -5,7 +5,9 @@
   width: 100%;
 }
 
-.featureSvg {
+.featureImage {
   height: 200px;
   width: 200px;
+  /* background-color: rgb(40, 142, 64); */
+  border-radius: 10px;
 }
