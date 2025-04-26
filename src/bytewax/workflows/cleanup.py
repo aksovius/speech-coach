@@ -4,11 +4,11 @@ from bytewax.dataflow import Dataflow
 from processors.deserialize import deserialize_message
 from processors.filters import filter_empty_transcript, filter_none
 from processors.formaters import to_kafka_message
-from processors.text_processing import normalize_text
+from processors.text_processor import normalize_text
 
 from config import CLEAN_WORDS_TOPIC, DEBEZIUM_TOPIC, KAFKA_BROKER
 
-print("Starting Kafka consumer...")
+print("Starting cleanup flow...")
 flow = Dataflow("cleanup_flow")
 inp = kop.input("in", flow, brokers=[KAFKA_BROKER], topics=[DEBEZIUM_TOPIC])
 

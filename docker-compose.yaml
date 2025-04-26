@@ -150,11 +150,12 @@ services:
     container_name: speech-bytewax
     volumes:
       - ./src/bytewax:/bytewax
-    command: bash
+    command: /bytewax/start.sh
     environment:
       - KAFKA_BROKER=${KAFKA_BROKER}
       - KAFKA_TOPIC=${KAFKA_TOPIC}
     tty: true
+
     # depends_on:
     #   redpanda:
     #     condition: service_healthy

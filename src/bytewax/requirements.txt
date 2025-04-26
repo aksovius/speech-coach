@@ -1,2 +1,7 @@
 bytewax==0.21.1
 bytewax[kafka]==0.21.1
+pydantic==2.4.0
+confluent-kafka==2.10.0
+prometheus_client==0.21.1
+nltk==3.9.1
+clickhouse_connect
