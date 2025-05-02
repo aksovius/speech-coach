@@ -3,9 +3,10 @@
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from server.crud import question_crud
 from shared.services import question_service
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 @pytest.mark.asyncio

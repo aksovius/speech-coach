@@ -1,15 +1,14 @@
 import os
 
-from shared.messaging.broker import broker
-from shared.schemas.audio_schema import AudioTaskResult
-from shared.services import answers_service, media_service
-from shared.services.question_manager import get_user_question
-
 from server.ai.services.audio_service import transcribe_audio
 from server.ai.services.chat_service import evaluate_answer
 from server.bot.dp import bot
 from server.models.schema import Media, UserAnswer
 from server.utils.database import async_session
+from shared.messaging.broker import broker
+from shared.schemas.audio_schema import AudioTaskResult
+from shared.services import answers_service, media_service
+from shared.services.question_manager import get_user_question
 
 
 @broker.subscriber(stream="audio_response_stream")

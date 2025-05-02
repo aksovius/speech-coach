@@ -3,9 +3,10 @@
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from server.models.schema import UserAnswer
 from shared.services.answers_service import save_answer
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 @pytest.mark.asyncio

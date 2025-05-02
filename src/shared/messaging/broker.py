@@ -2,6 +2,7 @@
 
 from faststream import FastStream
 from faststream.redis import RedisBroker
+
 from shared.config import settings
 
 # Initialize Redis broker with settings

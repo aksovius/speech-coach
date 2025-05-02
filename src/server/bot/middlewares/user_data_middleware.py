@@ -2,6 +2,7 @@ from typing import Any, Callable, Dict
 
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
+
 from shared.schemas.user_schema import UserCreate
 
 

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
-from shared.schemas.user_schema import UserCreate
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import server.services.auth_service as auth
 from server.dependencies import get_db
+from shared.schemas.user_schema import UserCreate
 
 router = APIRouter(prefix="/user", tags=["User"])
 

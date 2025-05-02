@@ -2,6 +2,7 @@
 
 import pytest
 from pydantic import ValidationError
+
 from shared.schemas.user_schema import UserCreate
 
 

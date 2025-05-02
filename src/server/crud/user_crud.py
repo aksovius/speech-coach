@@ -1,10 +1,10 @@
 from typing import Optional
 
-from shared.schemas.user_schema import UserCreate
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
 from server.models.schema import User
+from shared.schemas.user_schema import UserCreate
 
 
 async def get_user(user_id: int, db: AsyncSession) -> Optional[User]:

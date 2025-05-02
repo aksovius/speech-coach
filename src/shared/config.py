@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     # Provide default values for tests
     DATABASE_URL: str = "postgresql://user:password@localhost:5432/testdb"
     TELEGRAM_BOT_TOKEN: str = "test_token"
+    TELEGRAM_API_URL: str = "https://api.telegram.org"
     OPENAI_API_KEY: str = "test_key"
     MINIO_ROOT_USER: str = "test_user"
     MINIO_ROOT_PASSWORD: str = "test_password"

@@ -1,11 +1,11 @@
-from bytewax import operators as op
-from bytewax.connectors.kafka import operators as kop
-from bytewax.dataflow import Dataflow
 from processors.deserialize import deserialize_message
 from processors.filters import filter_empty_transcript, filter_none
 from processors.formaters import to_kafka_message
 from processors.text_processor import normalize_text
 
+from bytewax import operators as op
+from bytewax.connectors.kafka import operators as kop
+from bytewax.dataflow import Dataflow
 from config import CLEAN_WORDS_TOPIC, DEBEZIUM_TOPIC, KAFKA_BROKER
 
 print("Starting cleanup flow...")

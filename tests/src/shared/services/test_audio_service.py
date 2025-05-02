@@ -3,6 +3,7 @@
 from unittest.mock import AsyncMock, patch
 
 import pytest
+
 from shared.schemas.audio_schema import AudioTaskProcessing
 
 # Use patch for broker module before importing audio_service

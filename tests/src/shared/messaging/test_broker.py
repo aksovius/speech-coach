@@ -4,6 +4,7 @@ import json
 
 import pytest
 from faststream.redis import RedisBroker, TestRedisBroker
+
 from shared.config import settings
 from shared.messaging.broker import broker
 

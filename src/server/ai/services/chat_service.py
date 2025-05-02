@@ -1,10 +1,9 @@
 import json
 
-from shared.schemas.toefl_schema import TOEFLResult
-
 from server.ai.client import client
 from server.ai.prompts import TOEFL_TOOL_PROMPT
 from server.ai.tools.evaluate_toefl import tools
+from shared.schemas.toefl_schema import TOEFLResult
 
 
 async def evaluate_answer(question: str, answer: str) -> TOEFLResult:

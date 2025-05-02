@@ -1,6 +1,6 @@
 import clickhouse_connect
-from bytewax.outputs import DynamicSink, StatelessSinkPartition
 
+from bytewax.outputs import DynamicSink, StatelessSinkPartition
 from config import (
     CLICKHOUSE_DB,
     CLICKHOUSE_HOST,

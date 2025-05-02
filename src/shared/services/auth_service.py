@@ -1,8 +1,9 @@
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from server.crud import user_crud as crud_user
 from server.crud import user_quota_crud
 from server.models.schema import User
 from shared.schemas.user_schema import UserCreate
-from sqlalchemy.ext.asyncio import AsyncSession
 
 # async def create_user(db: AsyncSession, user: UserCreate)-> User:
 #     user = await crud_user.create_user(db, user)

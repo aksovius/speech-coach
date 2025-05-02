@@ -3,9 +3,10 @@
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from server.models.schema import Media
 from shared.services.media_service import save_media
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 @pytest.mark.asyncio

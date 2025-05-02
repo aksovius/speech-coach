@@ -2,6 +2,7 @@ from typing import Any, Callable, Dict
 
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
+
 from shared.services.auth_service import get_user_id_and_quota
 
 ALLOWED_USERS = {1096190825}

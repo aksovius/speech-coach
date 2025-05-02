@@ -5,6 +5,7 @@ from pathlib import Path
 
 from minio import Minio
 from minio.error import S3Error
+
 from shared.config import settings
 
 minio_client = Minio(

@@ -3,14 +3,14 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
-from shared.config import settings
 
 from server.bot.handlers import question_handler, start_handler, voice_handler
 from server.bot.middlewares.auth_middleware import AuthMiddleware
 from server.bot.middlewares.database_session_middleware import DatabaseSessionMiddleware
 from server.bot.middlewares.user_data_middleware import UserDataMiddleware
+from shared.config import settings
 
-session = AiohttpSession()
+session = AiohttpSession(api=settings.TELEGRAM_API_URL)
 
 bot = Bot(
     token=settings.TELEGRAM_BOT_TOKEN,

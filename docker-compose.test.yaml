@@ -1,0 +1,229 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: src/server/Dockerfile
+    container_name: speech-app-test
+    volumes:
+      - ./src:/app/src
+      - ./tests/e2e:/app/tests/e2e
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    environment:
+      - TELEGRAM_API_URL=http://telegram-mock:3000
+      - OPENAI_API_URL=http://openai-mock:3000
+      - REDIS_URL=redis://redis:6379
+      - CLICKHOUSE_URL=clickhouse://clickhouse:8123
+      - MINIO_ENDPOINT=minio:9090
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+      - MINIO_BUCKET=test-bucket
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/speech_coach
+      - TELEGRAM_BOT_TOKEN=1234567890:ABCdefGHIjklMNOpqrsTUVwxyz1234567890
+      - WEBHOOK_URL=http://app:8000/webhook/1234567890:ABCdefGHIjklMNOpqrsTUVwxyz1234567890
+      - APP_HOST=app:8000
+      - PYTHONPATH=/app/src
+    depends_on:
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+      telegram-mock:
+        condition: service_healthy
+      openai-mock:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    command: uvicorn src.server.main:app --host 0.0.0.0 --port 8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  worker:
+    build:
+      context: .
+      dockerfile: src/worker/Dockerfile
+    container_name: speech-worker-test
+    volumes:
+      - ./src:/app/src
+    working_dir: /app
+    environment:
+      - TELEGRAM_API_URL=http://telegram-mock:3000
+      - OPENAI_API_URL=http://openai-mock:3000
+      - REDIS_URL=redis://redis:6379
+      - CLICKHOUSE_URL=clickhouse://clickhouse:8123
+      - MINIO_ENDPOINT=minio:9090
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+      - MINIO_BUCKET=test-bucket
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/speech_coach
+      - TELEGRAM_BOT_TOKEN=1234567890:ABCdefGHIjklMNOpqrsTUVwxyz1234567890
+      - PYTHONPATH=/app/src
+    depends_on:
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+      telegram-mock:
+        condition: service_healthy
+      openai-mock:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    command: python -m src.worker.main
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  redis:
+    image: redis:latest
+    container_name: speech-redis-test
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:23.12
+    container_name: speech-clickhouse-test
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_test_data:/var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8123/ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  telegram-mock:
+    build:
+      context: tests/e2e/mocks/telegram
+      dockerfile: Dockerfile
+    container_name: speech-telegram-mock
+    ports:
+      - "3001:3000"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  openai-mock:
+    build:
+      context: tests/e2e/mocks/openai
+      dockerfile: Dockerfile
+    container_name: speech-openai-mock
+    ports:
+      - "3002:3000"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  minio:
+    image: minio/minio:latest
+    container_name: speech-minio-test
+    ports:
+      - "9090:9090"
+      - "9091:9091"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    command: server /data --address ":9090" --console-address ":9091"
+    volumes:
+      - minio_test_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/minio/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  minio-init:
+    build:
+      context: tests/e2e
+      dockerfile: init-minio.Dockerfile
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+      - MINIO_BUCKET=test-bucket
+    depends_on:
+      minio:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:15
+    container_name: speech-postgres-test
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=speech_coach
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  test-runner:
+    build:
+      context: tests/e2e
+      dockerfile: Dockerfile
+    container_name: speech-test-runner
+    volumes:
+      - ./tests/e2e:/app/tests/e2e
+    working_dir: /app
+    depends_on:
+      app:
+        condition: service_healthy
+      worker:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+      telegram-mock:
+        condition: service_healthy
+      openai-mock:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    command: pytest /app/tests/test_e2e.py -v
+
+volumes:
+  clickhouse_test_data:
+  minio_test_data:
+  postgres_test_data:

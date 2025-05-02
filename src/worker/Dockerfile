@@ -5,8 +5,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+COPY src/worker/requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-WORKDIR /src
+WORKDIR /app
+ENV PYTHONPATH=/app/src
+
+COPY . .
+
+CMD ["python", "-m", "src.worker.main"]

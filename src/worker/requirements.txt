@@ -1,5 +1,7 @@
-pydub
-faststream[redis]
-pydantic-settings
-uuid
-minio
+faststream[redis]==0.4.5
+pydantic==2.6.1
+pydantic-settings==2.2.1
+python-dotenv==1.0.1
+minio==7.2.3
+openai==1.12.0
+pydub==0.25.1
