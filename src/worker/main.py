@@ -1,9 +1,10 @@
 import asyncio
 import logging
 
-import consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
 from faststream import FastStream
-from messaging.broker import broker
+from shared.messaging.broker import broker
+
+import worker.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)

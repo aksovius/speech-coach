@@ -1,9 +1,9 @@
 import logging
 import os
 
-from messaging.broker import broker
-from schemas.audio_schema import AudioTaskProcessing, AudioTaskResult
-from services import audio_processing, upload_service
+from shared.messaging.broker import broker
+from shared.schemas.audio_schema import AudioTaskProcessing, AudioTaskResult
+from shared.services import audio_processing, upload_service
 
 logging.basicConfig(
     filename="consumer.log",
