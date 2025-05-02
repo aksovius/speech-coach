@@ -4,15 +4,19 @@ on:
   push:
     branches: [main]
     paths:
-      - 'src/app/**.py'
+      - 'src/server/**.py'
+      - 'src/shared/**.py'
       - '.pre-commit-config.yaml'
       - 'tests/**.py'
+      - '.github/workflows/**.yaml'
   pull_request:
     branches: [main]
     paths:
-      - 'src/app/**.py'
+      - 'src/server/**.py'
+      - 'src/shared/**.py'
       - '.pre-commit-config.yaml'
       - 'tests/**.py'
+      - '.github/workflows/**.yaml'
 
 jobs:
   build:
