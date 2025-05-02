@@ -1,5 +1,7 @@
 """Tests for broker.py module."""
 
+import asyncio
+
 import pytest
 from faststream.redis import RedisBroker, TestRedisBroker
 
@@ -43,6 +45,8 @@ async def test_broker_rpc():
     test_message = {"test": "data"}
     test_channel = "test_rpc_channel"
     response_message = {"response": "success"}
+    response_received = asyncio.Event()
+    received_response = None
 
     # Define a test handler that returns a response
     @broker.subscriber(test_channel)
@@ -50,12 +54,27 @@ async def test_broker_rpc():
         assert msg == test_message
         return response_message
 
+    # Define a response handler
+    @broker.subscriber(f"{test_channel}_response")
+    async def response_handler(msg):
+        nonlocal received_response
+        received_response = msg
+        response_received.set()
+
     # Use TestRedisBroker for testing
     async with TestRedisBroker(broker) as test_broker:
-        # Send request and wait for response
-        response = await test_broker.request(
-            message=test_message, channel=test_channel, timeout=5.0
+        # Send request
+        await test_broker.publish(
+            message=test_message,
+            channel=test_channel,
+            reply_to=f"{test_channel}_response",
         )
 
-        # Verify response by comparing decoded body
-        assert response._decoded_body == response_message
+        # Wait for response with timeout
+        try:
+            await asyncio.wait_for(response_received.wait(), timeout=5.0)
+        except asyncio.TimeoutError:
+            pytest.fail("Timeout waiting for RPC response")
+
+        # Verify response
+        assert received_response == response_message
