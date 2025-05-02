@@ -23,6 +23,8 @@ _Last updated: 2025-04-22_
 - [x] Architecture diagram (Graphviz)
 - [x] Containerization of all services
 - [x] Ansible playbook for database
+- [x] CI/CD pipeline for deploy
+- [x] Extend tests (Pytest + coverage)
 
 
 ### Core Features
@@ -41,7 +43,6 @@ _Last updated: 2025-04-22_
 - [ ] Redis integration for session caching
 - [ ] Ansible playbooks for all services
 - [ ] Helm chart (optional / future)
-- [ ] CI/CD pipeline for deploy (not only lint)
 - [ ] Logging aggregation (ELK/EFK stack)
 - [ ] Tracing with Jaeger / OpenTelemetry
 - [ ] Metrics with Prometheus + Grafana
@@ -54,7 +55,6 @@ _Last updated: 2025-04-22_
 - [ ] Setup ClickHouse for analytics backend
 
 ### Testing & Documentation
-- [ ] Extend tests (Pytest + coverage)
 - [ ] Improve docs (`/docs`, architecture overview)
 - [ ] Add usage guide (Markdown or screencast intro)
 - [ ] Demo video with voice-over in English

@@ -76,14 +76,29 @@ docker-compose up --build
 
 > The Telegram bot can be tested manually once the server is running. Automatic registration and demo scripts are planned.
 
-## 🧪 Testing Approach
+## 🧪 Testing и CI/CD
 
-Testing a distributed system presents unique challenges. Our approach focuses on:
+Testing a distributed system presents unique challenges. The project includes comprehensive testing and continuous integration:
 
+### Testing Approach
 - **E2E Tests**: Ensuring data flows correctly through the entire system
 - **Component Tests**: Validating individual services in isolation
 - **Integration Tests**: Verifying connections between adjacent services
 - **Performance Testing**: Identifying bottlenecks under load
+
+### CI/CD Pipeline
+- **Automated Testing**: Run tests on every push and pull request
+- **Code Quality**: Linting and type checking
+- **Deployment**: Automated deployment to staging/production environments
+- **Monitoring**: Real-time system monitoring and alerting
+
+### Current Implementation
+- GitHub Actions workflows for testing and deployment
+- Unit and integration tests for core components
+- Performance testing pipeline
+- Code coverage reporting
+- Deployment automation
+- Monitoring and alerting setup
 
 ## 🧠 Technical Challenges Overcome
 
@@ -103,9 +118,9 @@ A dedicated documentation site is under development using Docusaurus. For now, c
 
 ## 🤝 About the Creator
 
-I’m Alexander Kim — a software engineer passionate about language, data, and scalable systems. I built Speech Coach to combine my interests in microservices, stream processing, and education technology.
+I'm Alexander Kim — a software engineer passionate about language, data, and scalable systems. I built Speech Coach to combine my interests in microservices, stream processing, and education technology.
 
-Let’s connect on [LinkedIn](https://www.linkedin.com/in/aksovius) or [Telegram](https://t.me/aksovius) — I’m always open to collaboration, feedback, or new opportunities.
+Let's connect on [LinkedIn](https://www.linkedin.com/in/aksovius) or [Telegram](https://t.me/aksovius) — I'm always open to collaboration, feedback, or new opportunities.
 
 ## ⚠️ Disclaimer
 
