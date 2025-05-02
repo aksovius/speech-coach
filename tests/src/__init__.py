@@ -1,0 +1,1 @@
+"""Tests src package initialization."""

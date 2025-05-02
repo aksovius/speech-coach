@@ -18,7 +18,7 @@ def deserialize_message(kafka_message):
         if payload is None:
             return None
 
-        # Обрабатываем и snapshot (r), и insert/update
+        # Process both snapshot (r) and insert/update
         if payload.get("op") not in ("c", "u", "r"):
             return None
 

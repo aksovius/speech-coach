@@ -12,7 +12,7 @@ router = Router()
 
 @router.message(F.voice)
 async def handle_voice(message: Message, **kwargs):
-    print("📥 Голосовое сообщение получено")
+    print("📥 Voice message received")
     user_id = kwargs.get("user_id")
     telegram_id = message.from_user.id
     question = get_user_question(telegram_id)
@@ -27,7 +27,7 @@ async def handle_voice(message: Message, **kwargs):
         file_url = f"https://api.telegram.org/file/bot{settings.TELEGRAM_BOT_TOKEN}/{file_info.file_path}"
         await audio_service.process_voice_message(file_url, user_id, telegram_id)
     except Exception as e:
-        print(f"❌ Ошибка обработки голосового сообщения: {e}")
+        print(f"❌ Voice message processing error: {e}")
         await message.answer(
             "❌ An error occurred while processing your voice message."
         )

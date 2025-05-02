@@ -1,15 +1,14 @@
 import logging
 from contextlib import asynccontextmanager
 
+import server.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
 from aiogram.types import Update
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from faststream import FastStream
+from server.bot.dp import bot, dp, set_commands
 from shared.config import settings
 from shared.messaging.broker import broker
-
-import server.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
-from server.bot.dp import bot, dp, set_commands
 
 logger = logging.getLogger(__name__)
 WEBHOOK_PATH = f"/webhook/{settings.TELEGRAM_BOT_TOKEN}"
@@ -26,8 +25,8 @@ async def lifespan(app: FastAPI):
     await set_commands()
     await broker.connect()  # start broker connection
     await faststream_app.start()
-    logger.debug("✅ Webhook установлен")
-    logger.debug("✅ Брокер подключён")
+    logger.debug("✅ Webhook set up")
+    logger.debug("✅ Broker connected")
 
     yield
 
@@ -35,8 +34,8 @@ async def lifespan(app: FastAPI):
     await bot.delete_webhook()
     await broker.close()
     await faststream_app.stop()
-    print("❌ Webhook удалён")
-    print("❌ Брокер отключён")
+    print("❌ Webhook removed")
+    print("❌ Broker disconnected")
 
 
 app = FastAPI(title="Speech Coach API", version="0.1.0", lifespan=lifespan)

@@ -1,0 +1,1 @@
+"""Tests shared package initialization."""

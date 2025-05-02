@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 @broker.subscriber(stream="audio_stream")
 async def handle_task(data: AudioTaskProcessing):
-    print("🔥 ПРИШЛО СООБЩЕНИЕ:", data)
+    print("🔥 MESSAGE RECEIVED:", data)
 
     task_output = AudioTaskResult(
         telegram_id=data.telegram_id,
