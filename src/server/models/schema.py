@@ -10,12 +10,16 @@ from sqlalchemy import (
     Integer,
     String,
     Text,
+    and_,
+    func,
 )
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import foreign, relationship, remote
-from sqlalchemy.sql import and_, func
+from sqlalchemy.orm import DeclarativeBase, relationship
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    """Base class for all models."""
+
+    pass
 
 
 class User(Base):
@@ -31,35 +35,6 @@ class User(Base):
     __table_args__ = (Index("idx_users_telegram_id", "telegram_id"),)
 
 
-class Question(Base):
-    __tablename__ = "questions"
-
-    id = Column(Integer, primary_key=True)
-    category = Column(String(100), default="general")
-    text = Column(Text, nullable=False)
-    correct_answer = Column(Text)
-    is_active = Column(Boolean, default=True)
-    created_at = Column(TIMESTAMP, server_default=func.now())
-    media = relationship(
-        "Media",
-        primaryjoin=lambda: and_(
-            foreign(Media.source_id) == remote(Question.id),
-            Media.source_type == "question",
-        ),
-        viewonly=True,
-    )
-
-    __table_args__ = (Index("idx_questions_category_active", "category", "is_active"),)
-
-    @property
-    def correct_audio(self):
-        return next((m for m in self.media if m.description == "correct_answer"), None)
-
-    @property
-    def illustrations(self):
-        return [m for m in self.media if m.media_type == "image"]
-
-
 class Media(Base):
     __tablename__ = "media"
 
@@ -72,6 +47,36 @@ class Media(Base):
     created_at = Column(TIMESTAMP, server_default=func.now())
 
     __table_args__ = (Index("idx_media_source", "source_type", "source_id"),)
+
+
+class Question(Base):
+    __tablename__ = "questions"
+
+    id = Column(Integer, primary_key=True)
+    category = Column(String(100), default="general")
+    text = Column(Text, nullable=False)
+    correct_answer = Column(Text)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(TIMESTAMP, server_default=func.now())
+    media = relationship(
+        "Media",
+        primaryjoin=lambda: and_(
+            Media.source_id == Question.id,
+            Media.source_type == "question",
+        ),
+        foreign_keys=[Media.source_id],
+        viewonly=True,
+    )
+
+    __table_args__ = (Index("idx_questions_category_active", "category", "is_active"),)
+
+    @property
+    def correct_audio(self):
+        return next((m for m in self.media if m.description == "correct_answer"), None)
+
+    @property
+    def illustrations(self):
+        return [m for m in self.media if m.media_type == "image"]
 
 
 class QuestionTag(Base):
@@ -112,23 +117,20 @@ class UserAnswer(Base):
         Integer, CheckConstraint("score_overall >= 0 AND score_overall <= 100")
     )
     created_at = Column(TIMESTAMP, server_default=func.now())
-    media = relationship(
+
+    # Relationship with Media for user's answer audio
+    answer_media = relationship(
         "Media",
         primaryjoin=lambda: and_(
-            foreign(Media.source_id) == remote(UserAnswer.id),
+            Media.source_id == UserAnswer.id,
             Media.source_type == "user_answer",
         ),
+        foreign_keys=[Media.source_id],
         viewonly=True,
     )
 
-    media = relationship(
-        "Media",
-        primaryjoin=lambda: and_(
-            foreign(Media.source_id) == remote(Question.id),
-            Media.source_type == "question",
-        ),
-        viewonly=True,
-    )
+    # Relationship with Question
+    question = relationship("Question")
 
     __table_args__ = (
         Index("idx_user_answers_user_question", "user_id", "question_id"),

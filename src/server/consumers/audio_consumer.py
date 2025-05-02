@@ -37,7 +37,7 @@ async def handle_task(result: AudioTaskResult):
         score_overall=answer.score,
     )
     media = Media(
-        source_type="user_answers",
+        source_type="user_answer",
         media_type="audio",
         url=converted_file,
         description=transcription or "Transcription not available",

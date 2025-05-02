@@ -1,7 +1,5 @@
 """Tests for broker.py module."""
 
-import json
-
 import pytest
 from faststream.redis import RedisBroker, TestRedisBroker
 
@@ -55,7 +53,9 @@ async def test_broker_rpc():
     # Use TestRedisBroker for testing
     async with TestRedisBroker(broker) as test_broker:
         # Send request and wait for response
-        response = await test_broker.request(test_message, channel=test_channel)
+        response = await test_broker.request(
+            message=test_message, channel=test_channel, timeout=5.0
+        )
 
-        # Verify response
-        assert json.loads(response.body) == response_message
+        # Verify response by comparing decoded body
+        assert response._decoded_body == response_message
