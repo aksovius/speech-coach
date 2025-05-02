@@ -1,11 +1,12 @@
 import logging
 from contextlib import asynccontextmanager
 
-import server.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
 from aiogram.types import Update
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from faststream import FastStream
+
+import server.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
 from server.bot.dp import bot, dp, set_commands
 from shared.config import settings
 from shared.messaging.broker import broker
@@ -58,3 +59,9 @@ async def telegram_webhook(request: Request):
     update = Update.model_validate(data)
     await dp.feed_update(bot, update)
     return {"ok": True}
+
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    return {"status": "ok"}

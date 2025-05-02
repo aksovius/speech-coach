@@ -1,7 +1,7 @@
 exclude: ^(src/app/alembic/|docs-site/|docs/)
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: check-added-large-files
       - id: end-of-file-fixer
@@ -9,15 +9,15 @@ repos:
 
 
   - repo: https://github.com/psf/black
-    rev: 24.3.0
+    rev: 25.1.0
     hooks:
       - id: black
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.3.3
+    rev: v0.11.8
     hooks:
       - id: ruff
-        args: ["--fix"]
+        args: ["--fix", "--target-version", "py312"]
 
   - repo: local
     hooks:
