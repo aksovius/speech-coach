@@ -24,7 +24,7 @@ async def process_voice_message(
         stream="audio_stream",
     )
     # # Convert OGG to WAV
-    # converted_file = await audio_processing.convert_ogg_to_wav(downloaded_file)
+    # converted_file = await audio_processing.convert_ogg_to_mp3(downloaded_file)
     # if not converted_file:
     #     return {"error": "Failed to convert the audio file."}
 

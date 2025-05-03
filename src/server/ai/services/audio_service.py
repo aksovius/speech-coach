@@ -10,7 +10,7 @@ async def transcribe_audio(audio_path) -> str | None:
                 model="whisper-1",
                 file=audio_file,
                 response_format="verbose_json",
-                timestamp_granularities=["word"],
+                # timestamp_granularities=["word"],
                 language="en",
                 temperature=0.0,
                 prompt=None,

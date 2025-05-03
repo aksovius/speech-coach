@@ -27,6 +27,14 @@ async def handle_task(result: AudioTaskResult):
     user_id = result.user_id
     question = get_user_question(telegram_id)
     transcription = await transcribe_audio(converted_file)
+    print(f"Transcription: {transcription}")
+    if not transcription:
+        await bot.send_message(
+            chat_id=telegram_id,
+            text="<b>❌ Error:</b> Failed to transcribe the audio file.",
+            parse_mode="HTML",
+        )
+        return
     answer = await evaluate_answer(question.text, transcription)
     print(f"Answer: {answer}")
     user_answer = UserAnswer(
@@ -42,7 +50,7 @@ async def handle_task(result: AudioTaskResult):
         url=converted_file,
         description=transcription or "Transcription not available",
     )
-    if not answer or not transcription:
+    if not answer:
         await bot.send_message(
             chat_id=telegram_id,
             text="<b>❌ Error:</b> Failed to evaluate the answer.",

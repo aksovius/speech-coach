@@ -1,108 +1,88 @@
 """Tests for audio_processing.py module."""
 
 import os
-import tempfile
-from unittest.mock import patch
+from pathlib import Path
 
 import pytest
+from pydub import AudioSegment
 
-from shared.services.audio_processing import convert_ogg_to_wav
-
-
-@pytest.mark.asyncio
-async def test_convert_ogg_to_wav_success():
-    """Test successful OGG to WAV conversion."""
-    # Create temporary OGG file
-    with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as temp_ogg:
-        temp_ogg.write(b"fake ogg data")
-        temp_ogg_path = temp_ogg.name
-
-    # Create temporary WAV file path
-    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_wav:
-        temp_wav_path = temp_wav.name
-
-    try:
-        # Mock AudioSegment
-        with patch("pydub.AudioSegment.from_file") as mock_from_file:
-            mock_audio = mock_from_file.return_value
-            mock_audio.__len__.return_value = 60000  # 60 seconds
-            mock_audio.__getitem__.return_value = mock_audio
-            mock_audio.export.return_value = None
-
-            # Call convert_ogg_to_wav
-            result = await convert_ogg_to_wav(temp_ogg_path, temp_wav_path)
-
-            # Verify the result
-            assert result == temp_wav_path
-            mock_from_file.assert_called_once_with(temp_ogg_path, format="ogg")
-            mock_audio.export.assert_called_once()
-    finally:
-        # Clean up temporary files
-        os.unlink(temp_ogg_path)
-        os.unlink(temp_wav_path)
+from shared.services.audio_processing import convert_ogg_to_mp3, process_audio
 
 
 @pytest.mark.asyncio
-async def test_convert_ogg_to_wav_with_time_limit():
-    """Test OGG to WAV conversion with time limit."""
-    # Create temporary OGG file
-    with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as temp_ogg:
-        temp_ogg.write(b"fake ogg data")
-        temp_ogg_path = temp_ogg.name
+async def test_convert_ogg_to_mp3_success():
+    """Test successful conversion of OGG to MP3."""
+    # Create temporary test files
+    temp_ogg_path = "test.ogg"
+    temp_mp3_path = "test.mp3"
 
-    # Create temporary WAV file path
-    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_wav:
-        temp_wav_path = temp_wav.name
+    # Create a test OGG file
+    audio = AudioSegment.silent(duration=1000)  # 1 second of silence
+    audio.export(temp_ogg_path, format="ogg")
 
     try:
-        # Mock AudioSegment
-        with patch("pydub.AudioSegment.from_file") as mock_from_file:
-            mock_audio = mock_from_file.return_value
-            mock_audio.__len__.return_value = 60000  # 60 seconds
-            mock_audio.__getitem__.return_value = mock_audio
-            mock_audio.export.return_value = None
+        # Call convert_ogg_to_mp3
+        result = await convert_ogg_to_mp3(temp_ogg_path, temp_mp3_path)
 
-            # Call convert_ogg_to_wav with time limit
-            result = await convert_ogg_to_wav(
-                temp_ogg_path, temp_wav_path, time_limit=30
-            )
+        # Verify the result
+        assert result == temp_mp3_path
+        assert Path(temp_mp3_path).exists()
 
-            # Verify the result
-            assert result == temp_wav_path
-            mock_from_file.assert_called_once_with(temp_ogg_path, format="ogg")
-            mock_audio.__getitem__.assert_called_once_with(
-                slice(None, 30000)
-            )  # 30 seconds in milliseconds
-            mock_audio.export.assert_called_once()
+        # Verify the converted file
+        converted_audio = AudioSegment.from_file(temp_mp3_path, format="mp3")
+        assert len(converted_audio) > 0
+
     finally:
-        # Clean up temporary files
-        os.unlink(temp_ogg_path)
-        os.unlink(temp_wav_path)
+        # Clean up
+        Path(temp_ogg_path).unlink(missing_ok=True)
+        Path(temp_mp3_path).unlink(missing_ok=True)
 
 
 @pytest.mark.asyncio
-async def test_convert_ogg_to_wav_exception():
-    """Test error handling in OGG to WAV conversion."""
-    # Create temporary OGG file
-    with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as temp_ogg:
-        temp_ogg.write(b"fake ogg data")
-        temp_ogg_path = temp_ogg.name
+async def test_convert_ogg_to_mp3_with_time_limit():
+    """Test conversion with time limit."""
+    # Create temporary test files
+    temp_ogg_path = "test.ogg"
+    temp_mp3_path = "test.mp3"
 
-    # Create temporary WAV file path
-    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_wav:
-        temp_wav_path = temp_wav.name
+    # Create a test OGG file
+    audio = AudioSegment.silent(duration=5000)  # 5 seconds of silence
+    audio.export(temp_ogg_path, format="ogg")
 
     try:
-        # Mock AudioSegment to raise an exception
-        with patch("pydub.AudioSegment.from_file") as mock_from_file:
-            mock_from_file.side_effect = Exception("FFmpeg error")
+        # Call process_audio with time limit
+        result = await process_audio(
+            temp_ogg_path, temp_mp3_path, time_limit=2, speed_factor=1.0
+        )
 
-            # Call convert_ogg_to_wav and verify exception
-            with pytest.raises(Exception) as exc_info:
-                await convert_ogg_to_wav(temp_ogg_path, temp_wav_path)
+        # Verify the result
+        assert result == temp_mp3_path
+        assert os.path.exists(temp_mp3_path)
 
-            assert str(exc_info.value) == "FFmpeg error"
+        # Check if the file was trimmed correctly
+        processed_audio = AudioSegment.from_mp3(temp_mp3_path)
+        assert len(processed_audio) <= 2000  # Should be less than 2 seconds
+
     finally:
-        # Clean up temporary files
-        os.unlink(temp_ogg_path)
-        os.unlink(temp_wav_path)
+        # Cleanup
+        if os.path.exists(temp_ogg_path):
+            os.remove(temp_ogg_path)
+        if os.path.exists(temp_mp3_path):
+            os.remove(temp_mp3_path)
+
+
+@pytest.mark.asyncio
+async def test_convert_ogg_to_mp3_exception():
+    """Test handling of non-existent file."""
+    # Create temporary test files
+    temp_ogg_path = "nonexistent.ogg"
+    temp_mp3_path = "test.mp3"
+
+    try:
+        # Call convert_ogg_to_mp3 and verify exception
+        with pytest.raises(Exception):
+            await convert_ogg_to_mp3(temp_ogg_path, temp_mp3_path)
+
+    finally:
+        # Clean up
+        Path(temp_mp3_path).unlink(missing_ok=True)
