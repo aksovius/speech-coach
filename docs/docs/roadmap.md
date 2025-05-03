@@ -41,8 +41,8 @@ _Last updated: 2024-05-03_
 ### 🧠 Analysis and Feedback
 - [x] Basic answer analysis via OpenAI
 - [ ] Advanced answer quality metrics
-- [ ] Time analysis from question to answer
-- [ ] Sliding window analysis (last N answers) via Bytewax
+- [x] Time analysis from question to answer
+- [x] Sliding window analysis (last N answers) via Bytewax
 - [ ] Statistics on unique words and their frequency
 
 ### 🏗 Infrastructure
