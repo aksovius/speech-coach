@@ -5,9 +5,9 @@ services:
       dockerfile: src/server/Dockerfile
     container_name: speech-app-test
     volumes:
-      - ./src:/app/src
-      - ./tests/e2e:/app/tests/e2e
-    working_dir: /app
+      - ./src/server:/src/server
+      - ./src/shared:/src/shared
+    working_dir: /src
     ports:
       - "8000:8000"
     environment:
@@ -22,8 +22,8 @@ services:
       - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/speech_coach
       - TELEGRAM_BOT_TOKEN=1234567890:ABCdefGHIjklMNOpqrsTUVwxyz1234567890
       - WEBHOOK_URL=http://app:8000/webhook/1234567890:ABCdefGHIjklMNOpqrsTUVwxyz1234567890
-      - APP_HOST=app:8000
-      - PYTHONPATH=/app/src
+      - APP_HOST=app
+      - PYTHONPATH=/src
     depends_on:
       redis:
         condition: service_healthy
@@ -39,9 +39,9 @@ services:
         condition: service_healthy
       minio-init:
         condition: service_completed_successfully
-    command: uvicorn src.server.main:app --host 0.0.0.0 --port 8000
+    command: uvicorn server.main:app --host 0.0.0.0 --port 8000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8000/health"]
       interval: 5s
       timeout: 3s
       retries: 3
@@ -53,8 +53,9 @@ services:
       dockerfile: src/worker/Dockerfile
     container_name: speech-worker-test
     volumes:
-      - ./src:/app/src
-    working_dir: /app
+      - ./src/worker:/src/worker
+      - ./src/shared:/src/shared
+    working_dir: /src
     environment:
       - TELEGRAM_API_URL=http://telegram-mock:3000
       - OPENAI_API_URL=http://openai-mock:3000
@@ -66,7 +67,7 @@ services:
       - MINIO_BUCKET=test-bucket
       - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/speech_coach
       - TELEGRAM_BOT_TOKEN=1234567890:ABCdefGHIjklMNOpqrsTUVwxyz1234567890
-      - PYTHONPATH=/app/src
+      - PYTHONPATH=/src
     depends_on:
       redis:
         condition: service_healthy
@@ -82,9 +83,9 @@ services:
         condition: service_healthy
       minio-init:
         condition: service_completed_successfully
-    command: python -m src.worker.main
+    command: python -m worker.main
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8000/health"]
+      test: ["CMD", "ps", "aux", "|", "grep", "-v", "grep", "|", "grep", "worker.main"]
       interval: 5s
       timeout: 3s
       retries: 3
@@ -127,6 +128,8 @@ services:
     container_name: speech-telegram-mock
     ports:
       - "3001:3000"
+    volumes:
+      - ./tests/e2e/mocks/telegram/voice:/app/voice
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
       interval: 5s

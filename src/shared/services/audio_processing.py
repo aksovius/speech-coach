@@ -1,18 +1,23 @@
 from pydub import AudioSegment
 
 
-async def convert_ogg_to_wav(input_path: str, output_path: str, time_limit: int = 45):
+async def convert_ogg_to_wav(
+    input_path: str, output_path: str = None, time_limit: int = 45
+):
     """Convert OGG file to WAV format with optional time limit.
 
     Args:
         input_path: Path to input OGG file
-        output_path: Path to output WAV file
+        output_path: Path to output WAV file (default: replaces .ogg with .wav)
         time_limit: Maximum duration in seconds (default: 45)
 
     Returns:
         Path to the converted WAV file or None if conversion failed
     """
     try:
+        if output_path is None:
+            output_path = input_path.replace(".ogg", ".wav")
+
         audio = AudioSegment.from_file(input_path, format="ogg")
         print(f"Original duration: {len(audio) / 1000:.2f} seconds")
 

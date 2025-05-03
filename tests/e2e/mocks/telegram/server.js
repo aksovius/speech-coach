@@ -72,6 +72,14 @@ app.post('/bot:token/setWebhook', checkToken, (req, res) => {
   });
 });
 
+// Mock setMyCommands endpoint
+app.post('/bot:token/setMyCommands', checkToken, (req, res) => {
+  res.json({
+    ok: true,
+    result: true
+  });
+});
+
 // Endpoint to get stored messages for verification
 app.get('/_test/messages', (req, res) => {
   res.json(messages);

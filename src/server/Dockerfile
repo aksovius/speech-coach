@@ -5,13 +5,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY src/server/requirements.txt .
+WORKDIR /src
+ENV PYTHONPATH=/src
 
+COPY src/server/requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-WORKDIR /app
-ENV PYTHONPATH=/app/src
+COPY src/server /src/server
+COPY src/shared /src/shared
 
-COPY . .
-
-CMD ["uvicorn", "src.server.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# CMD ["uvicorn", "server.main:app", "--host", "0.0.0.0", "--port", "8000"]

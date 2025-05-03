@@ -8,3 +8,5 @@ sandbox
 db_dump.sql
 temp
 src/bytewax/recovery/
+.coverage
+coverage.xml

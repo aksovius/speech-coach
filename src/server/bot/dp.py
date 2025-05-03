@@ -10,7 +10,7 @@ from server.bot.middlewares.database_session_middleware import DatabaseSessionMi
 from server.bot.middlewares.user_data_middleware import UserDataMiddleware
 from shared.config import settings
 
-session = AiohttpSession(api=settings.TELEGRAM_API_URL)
+session = AiohttpSession()
 
 bot = Bot(
     token=settings.TELEGRAM_BOT_TOKEN,

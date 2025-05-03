@@ -7,11 +7,12 @@ from datetime import datetime
 
 import httpx
 import pytest
+import pytest_asyncio
 import redis.asyncio as redis
 from clickhouse_driver import Client as ClickhouseClient
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def redis_client():
     """Create Redis client."""
     client = redis.Redis(host="redis", port=6379, decode_responses=True)
@@ -27,14 +28,14 @@ def clickhouse_client():
     client.disconnect()
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def telegram_client():
     """Create HTTP client for Telegram mock."""
     async with httpx.AsyncClient(base_url="http://telegram-mock:3000") as client:
         yield client
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def openai_client():
     """Create HTTP client for OpenAI mock."""
     async with httpx.AsyncClient(base_url="http://openai-mock:3000") as client:
