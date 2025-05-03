@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'version.py'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Get version
+        id: get_version
+        run: |
+          python -c "from version import __version__; print(f'VERSION={__version__}')" >> $GITHUB_ENV
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/heads/')
+        with:
+          name: Release v${{ env.VERSION }}
+          tag_name: v${{ env.VERSION }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
