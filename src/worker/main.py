@@ -1,6 +1,7 @@
 import asyncio
 
 from faststream import FastStream
+from prometheus_client import start_http_server
 
 import worker.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
 from shared.config import settings
@@ -16,11 +17,21 @@ logger = setup_logger(
     use_loki=True,
 )
 
+# Create FastStream app
 app = FastStream(broker)
 
 
 def main():
+    """Main entry point for the worker."""
     logger.info("Starting worker", extra={"event": "startup"})
+
+    # Start Prometheus metrics server
+    start_http_server(8001)
+    logger.info(
+        "Metrics server started on port 8001", extra={"event": "metrics_startup"}
+    )
+
+    # Run FastStream app
     asyncio.run(app.run())
 
 

@@ -4,6 +4,11 @@ from shared.logging import get_log_level, setup_logger
 from shared.messaging.broker import broker
 from shared.schemas.audio_schema import AudioTaskProcessing, AudioTaskResult
 from shared.services import audio_processing, upload_service
+from worker.metrics.worker import (
+    PROCESSED_MESSAGES,
+    PROCESSING_ERRORS,
+    PROCESSING_LATENCY,
+)
 
 # Configure logger with Loki formatter
 logger = setup_logger(
@@ -41,11 +46,14 @@ async def handle_task(data: AudioTaskProcessing):
             "Starting audio processing",
             extra={"event": "processing_start", "file_path": data.file_path},
         )
-        converted_file = await audio_processing.process_audio(
-            data.file_path, time_limit=45, speed_factor=1.0
-        )
-        if not converted_file:
-            raise ValueError("Failed to process the audio file.")
+
+        # Measure processing time and track metrics
+        with PROCESSING_LATENCY.labels(message_type="audio").time():
+            converted_file = await audio_processing.process_audio(
+                data.file_path, time_limit=45, speed_factor=1.0
+            )
+            if not converted_file:
+                raise ValueError("Failed to process the audio file.")
 
         logger.info(
             "Audio processing completed",
@@ -71,12 +79,20 @@ async def handle_task(data: AudioTaskProcessing):
             extra={"event": "task_success", "file_path": data.file_path},
         )
 
+        # Increment success counter
+        PROCESSED_MESSAGES.labels(message_type="audio").inc()
+
     except Exception as e:
         logger.error(
             "Error processing task",
             extra={"event": "task_error", "file_path": data.file_path, "error": str(e)},
         )
         task_output.error = str(e)
+
+        # Track error
+        PROCESSING_ERRORS.labels(
+            message_type="audio", error_type=type(e).__name__
+        ).inc()
 
     finally:
         # Cleanup

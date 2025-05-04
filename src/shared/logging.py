@@ -8,6 +8,10 @@ class JSONFormatter(logging.Formatter):
     """Formatter for JSON log output"""
 
     def format(self, record: logging.LogRecord) -> str:
+        if hasattr(record, "extra"):
+            for key, value in record.extra.items():
+                setattr(record, key, value)
+
         log_data: Dict[str, Any] = {
             "timestamp": datetime.utcnow().isoformat(),
             "level": record.levelname,
@@ -32,6 +36,10 @@ class LokiFormatter(logging.Formatter):
     """Formatter for Loki-compatible JSON log output"""
 
     def format(self, record: logging.LogRecord) -> str:
+        if hasattr(record, "extra"):
+            for key, value in record.extra.items():
+                setattr(record, key, value)
+
         log_data = {
             "timestamp": datetime.utcnow().isoformat(),
             "level": record.levelname,
@@ -74,7 +82,9 @@ def setup_logger(
     logger.addHandler(handler)
 
     # Add additional attributes to log records
-    logger = logging.LoggerAdapter(logger, {"service": service, "component": component})
+    logger = logging.LoggerAdapter(
+        logger, {"service": service, "component": component, "event": "unknown"}
+    )
 
     return logger
 

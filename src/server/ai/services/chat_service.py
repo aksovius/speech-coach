@@ -44,7 +44,7 @@ async def evaluate_answer(question: str, answer: str) -> TOEFLResult:
             extra={
                 "event": "evaluation_response",
                 "model": response.model,
-                "usage": response.usage._asdict() if hasattr(response, "usage") else {},
+                "usage": dict(response.usage) if hasattr(response, "usage") else {},
             },
         )
         tool_call = response.choices[0].message.tool_calls[0]

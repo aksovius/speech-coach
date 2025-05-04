@@ -37,6 +37,15 @@ async def handle_task(result: AudioTaskResult):
         return
     answer = await evaluate_answer(question.text, transcription)
     print(f"Answer: {answer}")
+
+    if isinstance(answer, str):
+        await bot.send_message(
+            chat_id=telegram_id,
+            text=f"<b>❌ Error:</b> {answer}",
+            parse_mode="HTML",
+        )
+        return
+
     user_answer = UserAnswer(
         user_id=user_id,
         question_id=question.id,

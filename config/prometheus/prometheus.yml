@@ -22,7 +22,7 @@ scrape_configs:
 
   - job_name: 'worker'
     static_configs:
-      - targets: ['worker:8000']
+      - targets: ['worker:8001']
     metrics_path: '/metrics'
     scrape_interval: 5s
     scrape_timeout: 4s
