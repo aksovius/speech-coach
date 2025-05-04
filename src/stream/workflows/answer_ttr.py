@@ -6,9 +6,14 @@ from bytewax.dataflow import Dataflow
 
 from shared.logging import get_log_level, setup_logger
 from stream.config import CLEAN_WORDS_TOPIC, KAFKA_BROKER
+from stream.metrics import start_metrics_server
+from stream.metrics_operators import map_with_metrics
 from stream.processors.deserialize import parse_kafka_message
 from stream.processors.text_processor import calculate_ttr_simple
 from stream.sinks.clickhouse import ClickHouseSink
+
+# Запускаем сервер метрик
+start_metrics_server(port=9092)
 
 # Configure logger with Loki formatter
 logger = setup_logger(
@@ -36,27 +41,12 @@ clickhouse_sink = ClickHouseSink(
 oks = inp.oks
 
 # 1. Deserialization → filtering
-deserialized = op.map("deserialize", oks, parse_kafka_message)
+deserialized = map_with_metrics("deserialize", oks, parse_kafka_message)
 logger.debug("Messages deserialized", extra={"event": "deserialize_complete"})
 
 # 2. Calculate TTR
-ttr = op.map("extract_words", deserialized, calculate_ttr_simple)
+ttr = map_with_metrics("calculate_ttr", deserialized, calculate_ttr_simple)
 logger.debug("TTR calculated", extra={"event": "ttr_calculated"})
-
-# op.inspect("inspect_words", ttr)
-# # Group by user_id
-# keyed = op.key_on("key_by_user", words, lambda x: str(x[0]["user_id"]))
-
-# # Count unique words
-# unique_counts = op.stateful_map("count_unique_words", keyed, unique_words_builder())
-
-# N = 5
-# sliding_avg = op.stateful_map(
-#     "sliding_avg_last_5", unique_counts, sliding_avg_builder(N)
-# )
-
-# calculate_ttr = op.map("calculate_ttr", words, calculate_ttr_from_words)
-# op.inspect("inspect_format_ttr", calculate_ttr)
 
 
 def insert_batch_to_clickhouse(ttr):
@@ -69,11 +59,6 @@ def insert_batch_to_clickhouse(ttr):
             "batch_size": len(ttr) if isinstance(ttr, list) else 1,
         },
     )
-    # clickhouse_client.insert(
-    #     "speech.ttr_per_answer",
-    #     [ttr],
-    #     column_names=['user_id', 'timestamp', 'ttr']
-    # )
 
 
 op.output("insert_batch_to_clickhouse", ttr, clickhouse_sink)

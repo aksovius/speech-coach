@@ -30,3 +30,25 @@ scrape_configs:
       - source_labels: [__address__]
         target_label: instance
         replacement: 'worker'
+
+  - job_name: 'cleanup_workflow'
+    static_configs:
+      - targets: ['stream:9091']
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+    scrape_timeout: 4s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'cleanup-workflow'
+
+  - job_name: 'answer_ttr_workflow'
+    static_configs:
+      - targets: ['stream:9092']
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+    scrape_timeout: 4s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'answer-ttr-workflow'
