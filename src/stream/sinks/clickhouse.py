@@ -1,7 +1,7 @@
 import clickhouse_connect
-
 from bytewax.outputs import DynamicSink, StatelessSinkPartition
-from config import (
+
+from stream.config import (
     CLICKHOUSE_DB,
     CLICKHOUSE_HOST,
     CLICKHOUSE_PASSWORD,

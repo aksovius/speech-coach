@@ -147,18 +147,33 @@ services:
   #     - "9005:9000"
   #   volumes:
   #     - clickhouse_data:/var/lib/clickhouse
-  bytewax:
+  stream:
     build:
-      context: ./src/bytewax
-      dockerfile: Dockerfile
-    container_name: speech-bytewax
+      context: .
+      dockerfile: src/stream/Dockerfile
+    container_name: speech-stream
     volumes:
-      - ./src/bytewax:/bytewax
-    command: /bytewax/start.sh
+      - ./src/stream:/src/stream
+      - ./src/shared:/src/shared
+      - ./src/stream/recovery:/src/stream/recovery
+    working_dir: /src
+    command: ./stream/start.sh
     environment:
       - KAFKA_BROKER=${KAFKA_BROKER}
       - KAFKA_TOPIC=${KAFKA_TOPIC}
-    tty: true
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - LOG_SERVICE=${LOG_SERVICE:-speech-coach}
+      - PYTHONPATH=/src/stream:/src
+    networks:
+      - app-network
+      - monitoring-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "logging=promtail"
 
     # depends_on:
     #   redpanda:
