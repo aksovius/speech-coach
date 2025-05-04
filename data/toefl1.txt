@@ -1,0 +1,149 @@
+category: toefl1
+text: Do you agree or disagree that social media has improved the way people communicate with each other? Provide reasons for your opinion.
+
+category: toefl1
+text: Do you agree or disagree with the statement that university education should be free for everyone?
+
+category: toefl1
+text: "Children under the age of 13 should not be allowed to have their own smartphones." Do you agree or disagree with this idea?
+
+category: toefl1
+text: Do you agree or disagree that studying history is just as important as studying science in school?
+
+category: toefl1
+text: Do you agree or disagree: It is better to save money for the future than to spend it for enjoyment now.
+
+category: toefl1
+text: Some people think cities should invest more in public transportation (buses, trains) rather than in building new roads. Do you agree or disagree with investing more in public transit?
+
+category: toefl1
+text: Do you agree or disagree with the following statement: A good leader must be an effective public speaker.
+
+category: toefl1
+text: "It is better to finish a project late but perfectly, than on time but with some mistakes." Do you agree or disagree?
+
+category: toefl1
+text: Do you agree or disagree that professional athletes are paid too much money?
+
+category: toefl1
+text: Do you agree or disagree: Climate change is the most serious problem facing the world today.
+
+category: toefl1
+text: Do you agree or disagree that people should retire from work by the age of 65?
+
+category: toefl1
+text: Do you agree or disagree with the statement that all high school students should be required to learn a foreign language?
+
+category: toefl1
+text: Do you agree or disagree: Watching television is a waste of time.
+
+category: toefl1
+text: Do you agree or disagree that it is better to be a "jack of all trades" (generalist) than a specialist in one field?
+
+category: toefl1
+text: Do you agree or disagree with the idea that high school graduates should take a gap year (a year off) before starting university?
+
+category: toefl1
+text: Would you rather live in a big city or in a small town? Give reasons for your preference.
+
+category: toefl1
+text: Some people prefer to wake up early and start their day, while others prefer to stay up late and work at night. Which do you prefer, and why?
+
+category: toefl1
+text: Do you prefer studying alone or studying in a group when preparing for an exam? Explain your choice.
+
+category: toefl1
+text: Would you rather eat home-cooked meals or dine out at restaurants on a regular basis? Why?
+
+category: toefl1
+text: When traveling for leisure, do you prefer to explore a new destination or return to a place you already know and love? Support your choice.
+
+category: toefl1
+text: Would you rather spend extra money on experiences (such as concerts and travel) or on material things (such as gadgets and clothes)? Explain.
+
+category: toefl1
+text: Do you prefer shopping online or shopping in physical stores? Provide reasons for your preference.
+
+category: toefl1
+text: Would you rather have a large group of many acquaintances or a small circle of very close friends? Why?
+
+category: toefl1
+text: Do you prefer to read physical books or read on an e-reader/device? Explain your preference.
+
+category: toefl1
+text: Would you rather work for a large corporation or start working at a small business? Give reasons for your choice.
+
+category: toefl1
+text: For a college student, do you prefer living with roommates or living alone? Explain which is better for you.
+
+category: toefl1
+text: Would you rather take a vacation in the mountains or at the beach? Why?
+
+category: toefl1
+text: Imagine you have an evening free. Would you rather attend a live sports game or go to a music concert? Explain your choice.
+
+category: toefl1
+text: In communication, do you prefer sending text messages or making phone calls to stay in touch with people? Why?
+
+category: toefl1
+text: Do you prefer to plan out your day in advance or to be spontaneous about how you spend your time? Provide details.
+
+category: toefl1
+text: Describe a person you admire and explain why you respect him or her. Include specific qualities or examples in your response.
+
+category: toefl1
+text: If you could travel to any country in the world for a week, where would you go and why?
+
+category: toefl1
+text: If you could have a conversation with any historical figure, who would you choose and what would you talk about? Explain your choice.
+
+category: toefl1
+text: What is one change you would like to make in your school or workplace? Describe the change and explain why it would be an improvement.
+
+category: toefl1
+text: In your opinion, what is the most important invention of the last 100 years? Explain why you believe it is so important.
+
+category: toefl1
+text: What do you think is the most important quality in a good friend? Provide reasons and examples for your choice.
+
+category: toefl1
+text: Describe a challenge or difficulty you have overcome and explain what you learned from this experience.
+
+category: toefl1
+text: If you had the opportunity to learn a new skill that you haven't had time to learn, what skill would it be and why?
+
+category: toefl1
+text: Describe a traditional holiday or celebration in your culture. Why is it important and how do people typically celebrate it?
+
+category: toefl1
+text: Talk about your favorite book or movie. Why is it your favorite, and what impact did it have on you?
+
+category: toefl1
+text: You need to learn a new subject for work or school. Which method would you choose to learn effectively: (a) reading a textbook, (b) watching online videos, or (c) taking a hands-on workshop? Explain your choice.
+
+category: toefl1
+text: If you received a large amount of money unexpectedly, what would you do with it? Would you (a) invest it, (b) spend it on fun and luxuries, or (c) save it for future needs? Choose one and explain why.
+
+category: toefl1
+text: Your close friend wants to do something special for their birthday. Would you recommend they (a) have a big party, (b) have a small, quiet gathering, or (c) take a vacation trip? Explain your recommendation.
+
+category: toefl1
+text: Which of the following do you think has the biggest impact on a person's success in life? (a) Hard work, (b) Natural talent or luck, or (c) Support from family and friends – choose one and explain your reasoning.
+
+category: toefl1
+text: If you decided to volunteer for one cause in your community, would you choose to help (a) children in need, (b) the environment (e.g. park clean-ups), or (c) the elderly? Explain which cause you would volunteer for and why.
+
+category: toefl1
+text: Online education has become very popular. Discuss the advantages and disadvantages of taking courses online.
+
+category: toefl1
+text: Many high school and college students work part-time while studying. What are the advantages and disadvantages of having a part-time job while being a student?
+
+category: toefl1
+text: Studying abroad for a year can be an enriching experience for students. Discuss the benefits and drawbacks of spending a year studying in another country.
+
+category: toefl1
+text: Remote work (working from home) is increasingly common. Describe some advantages and disadvantages of working from home instead of in an office.
+
+category: toefl1
+text: More people are buying electric cars nowadays. Discuss the advantages and disadvantages of using electric cars compared to traditional gasoline cars.
