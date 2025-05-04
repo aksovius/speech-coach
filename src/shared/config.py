@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     MINIO_ENDPOINT: str = "localhost:9000"
     MINIO_BUCKET: str = "test-bucket"
     REDIS_URL: str = "redis://localhost:6379"
+    REDIS_CACHE_URL: str = "redis://localhost:6379/1"
     APP_HOST: str = "localhost"
     DEBUG: bool = False
 
