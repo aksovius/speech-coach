@@ -1,6 +1,7 @@
 import logging
 import time
 from contextlib import asynccontextmanager
+from datetime import UTC, datetime
 
 from aiogram.types import Update
 from fastapi import FastAPI, Request
@@ -151,6 +152,8 @@ async def telegram_webhook(request: Request):
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint."""
-    logger.info("Health check requested", extra={"event": "health_check"})
-    return {"status": "ok"}
+    return {
+        "status": "healthy",
+        "version": "1.0.0",
+        "timestamp": datetime.now(UTC).isoformat(),
+    }

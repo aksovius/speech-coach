@@ -4,7 +4,7 @@ title: Roadmap
 sidebar_label: Roadmap
 ---
 
-_Last updated: 2024-05-03_
+_Last updated: 2024-05-04_
 
 ## 📋 About the Project
 
@@ -66,10 +66,9 @@ _Last updated: 2024-05-03_
 
 ### 👁 Monitoring
 - [x] Basic logging
-- [ ] Loki integration for centralized logs
-- [ ] Grafana dashboards for all services
-- [ ] Tracing with Jaeger / OpenTelemetry
-- [ ] Metrics with Prometheus + Grafana
+- [x] Loki integration for centralized logs
+- [x] Grafana dashboards for all services
+- [x] Metrics with Prometheus + Grafana
 - [ ] Health endpoints for all services
 
 ### 💵 Monetization
