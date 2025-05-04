@@ -1,6 +1,8 @@
+import json
 import logging
 import time
 from contextlib import asynccontextmanager
+from datetime import datetime
 
 from aiogram.types import Update
 from fastapi import FastAPI, Request
@@ -14,7 +16,31 @@ from server.bot.dp import bot, dp, set_commands
 from shared.config import settings
 from shared.messaging.broker import broker
 
+# Logger setup
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+
+# Loki formatter
+class LokiFormatter(logging.Formatter):
+    def format(self, record):
+        log_data = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "level": record.levelname,
+            "message": record.getMessage(),
+            "service": "speech-coach",
+            "component": "server",
+        }
+        if hasattr(record, "extra"):
+            log_data.update(record.extra)
+        return json.dumps(log_data)
+
+
+# Add formatter to logger
+handler = logging.StreamHandler()
+handler.setFormatter(LokiFormatter())
+logger.addHandler(handler)
+
 WEBHOOK_PATH = f"/webhook/{settings.TELEGRAM_BOT_TOKEN}"
 WEBHOOK_URL = f"https://{settings.APP_HOST}{WEBHOOK_PATH}"
 faststream_app = FastStream(
@@ -53,21 +79,24 @@ TELEGRAM_MESSAGE_TYPES = Counter(
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # STARTUP
+    logger.info("Starting application", extra={"event": "startup"})
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
     await set_commands()
     await broker.connect()  # start broker connection
     await faststream_app.start()
-    logger.debug("✅ Webhook set up")
-    logger.debug("✅ Broker connected")
+    logger.info(
+        "Application started successfully",
+        extra={"event": "startup_complete", "webhook_url": WEBHOOK_URL},
+    )
 
     yield
 
     # SHUTDOWN
+    logger.info("Shutting down application", extra={"event": "shutdown"})
     await bot.delete_webhook()
     await broker.close()
     await faststream_app.stop()
-    print("❌ Webhook removed")
-    print("❌ Broker disconnected")
+    logger.info("Application shutdown complete", extra={"event": "shutdown_complete"})
 
 
 app = FastAPI(title="Speech Coach API", version="0.1.0", lifespan=lifespan)
@@ -116,6 +145,20 @@ async def telegram_webhook(request: Request):
     data = await request.json()
     update = Update.model_validate(data)
 
+    # Логируем входящее сообщение
+    logger.info(
+        "Received Telegram webhook",
+        extra={
+            "event": "telegram_webhook",
+            "update_type": (
+                "message"
+                if update.message
+                else "callback_query" if update.callback_query else "unknown"
+            ),
+            "message_type": update.message.content_type if update.message else None,
+        },
+    )
+
     # Increment request counter
     update_type = (
         "message"
@@ -128,13 +171,21 @@ async def telegram_webhook(request: Request):
     await dp.feed_update(bot, update)
 
     # Record latency
-    TELEGRAM_REQUEST_LATENCY.labels(update_type=update_type).observe(
-        time.time() - start_time
-    )
+    latency = time.time() - start_time
+    TELEGRAM_REQUEST_LATENCY.labels(update_type=update_type).observe(latency)
 
     # Count message types
     if update.message:
         TELEGRAM_MESSAGE_TYPES.labels(message_type=update.message.content_type).inc()
+
+    logger.info(
+        "Processed Telegram webhook",
+        extra={
+            "event": "telegram_webhook_processed",
+            "latency": latency,
+            "update_type": update_type,
+        },
+    )
 
     return {"ok": True}
 
@@ -142,4 +193,5 @@ async def telegram_webhook(request: Request):
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
+    logger.info("Health check requested", extra={"event": "health_check"})
     return {"status": "ok"}

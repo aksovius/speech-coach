@@ -7,9 +7,9 @@ datasources:
     url: http://prometheus:9090
     isDefault: true
     editable: false
-    version: 1
     jsonData:
-      timeInterval: 15s
+      httpMethod: GET
+      queryTimeout: 30s
 
   - name: Loki
     type: loki
@@ -17,9 +17,9 @@ datasources:
     url: http://loki:3100
     isDefault: false
     editable: false
-    version: 1
     jsonData:
-      maxLines: 1000
+      httpMethod: GET
+      queryTimeout: 30s
 
   - name: ClickHouse
     type: grafana-clickhouse-datasource
