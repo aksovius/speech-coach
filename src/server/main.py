@@ -1,8 +1,5 @@
-import json
-import logging
 import time
 from contextlib import asynccontextmanager
-from datetime import datetime
 
 from aiogram.types import Update
 from fastapi import FastAPI, Request
@@ -14,32 +11,17 @@ from prometheus_fastapi_instrumentator import Instrumentator
 import server.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
 from server.bot.dp import bot, dp, set_commands
 from shared.config import settings
+from shared.logging import get_log_level, setup_logger
 from shared.messaging.broker import broker
 
-# Logger setup
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-
-# Loki formatter
-class LokiFormatter(logging.Formatter):
-    def format(self, record):
-        log_data = {
-            "timestamp": datetime.utcnow().isoformat(),
-            "level": record.levelname,
-            "message": record.getMessage(),
-            "service": "speech-coach",
-            "component": "server",
-        }
-        if hasattr(record, "extra"):
-            log_data.update(record.extra)
-        return json.dumps(log_data)
-
-
-# Add formatter to logger
-handler = logging.StreamHandler()
-handler.setFormatter(LokiFormatter())
-logger.addHandler(handler)
+# Configure logger with Loki formatter
+logger = setup_logger(
+    name="server",
+    level=get_log_level(settings.LOG_LEVEL),
+    service=settings.LOG_SERVICE,
+    component="server",
+    use_loki=True,
+)
 
 WEBHOOK_PATH = f"/webhook/{settings.TELEGRAM_BOT_TOKEN}"
 WEBHOOK_URL = f"https://{settings.APP_HOST}{WEBHOOK_PATH}"
@@ -145,7 +127,7 @@ async def telegram_webhook(request: Request):
     data = await request.json()
     update = Update.model_validate(data)
 
-    # Логируем входящее сообщение
+    # Log incoming message
     logger.info(
         "Received Telegram webhook",
         extra={

@@ -1,14 +1,28 @@
 import asyncio
-import logging
 
 from faststream import FastStream
 
 import worker.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
+from shared.config import settings
+from shared.logging import get_log_level, setup_logger
 from shared.messaging.broker import broker
 
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+# Configure logger with Loki formatter
+logger = setup_logger(
+    name="worker",
+    level=get_log_level(settings.LOG_LEVEL),
+    service=settings.LOG_SERVICE,
+    component="worker",
+    use_loki=True,
+)
+
 app = FastStream(broker)
 
-if __name__ == "__main__":
+
+def main():
+    logger.info("Starting worker", extra={"event": "startup"})
     asyncio.run(app.run())
+
+
+if __name__ == "__main__":
+    main()

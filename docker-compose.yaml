@@ -208,6 +208,8 @@ services:
       - GF_AUTH_DISABLE_LOGIN_FORM=true
       - GF_SECURITY_ALLOW_EMBEDDING=true
       - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-worldmap-panel
+      - GF_FEATURE_TOGGLES_ENABLE=newNavigation=true
+      - GF_FEATURE_TOGGLES_ENABLE=drilldown=true
     volumes:
       - ./config/grafana/provisioning:/etc/grafana/provisioning
       - grafana-data:/var/lib/grafana

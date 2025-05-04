@@ -15,9 +15,15 @@ class Settings(BaseSettings):
     APP_HOST: str = "localhost"
     DEBUG: bool = False
 
+    # Logging settings
+    LOG_LEVEL: str = "INFO"
+    LOG_SERVICE: str = "speech-coach"
+    LOG_COMPONENT: str = "unknown"
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+        case_sensitive = True
 
 
 settings = Settings()
