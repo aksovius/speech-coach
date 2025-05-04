@@ -7,7 +7,7 @@ from fastapi import FastAPI, Request
 from fastapi.logger import logger as fastapi_logger
 from fastapi.middleware.cors import CORSMiddleware
 from faststream import FastStream
-from prometheus_client import Counter, Histogram
+from prometheus_client import make_asgi_app
 from prometheus_fastapi_instrumentator import Instrumentator
 
 import server.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
@@ -15,6 +15,13 @@ from server.bot.dp import bot, dp, set_commands
 from shared.config import settings
 from shared.logging import get_log_level, setup_logger
 from shared.messaging.broker import broker
+
+from .metrics import (
+    TELEGRAM_MESSAGE_TYPES,
+    TELEGRAM_REQUEST_LATENCY,
+    TELEGRAM_REQUESTS,
+)
+from .middlewares.metrics import metrics_middleware
 
 # Configure logger with Loki formatter
 logger = setup_logger(
@@ -25,17 +32,17 @@ logger = setup_logger(
     use_loki=True,
 )
 
-# Отключаем логирование GET /metrics запросов
+# Disable logging for GET /metrics requests
 logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
 
 
-# Настраиваем фильтр для логов uvicorn
+# Configure filter for uvicorn logs
 class MetricsFilter(logging.Filter):
     def filter(self, record):
         return not (record.getMessage().find("GET /metrics") >= 0)
 
 
-# Применяем фильтр к логгеру uvicorn
+# Apply filter to uvicorn logger
 uvicorn_logger = logging.getLogger("uvicorn.access")
 uvicorn_logger.addFilter(MetricsFilter())
 fastapi_logger.addFilter(MetricsFilter())
@@ -45,34 +52,6 @@ WEBHOOK_URL = f"https://{settings.APP_HOST}{WEBHOOK_PATH}"
 faststream_app = FastStream(
     broker
 )  # Create a FastStream app with the broker (receiver app)
-
-# HTTP Metrics
-REQUEST_COUNT = Counter(
-    "http_requests_total", "Total HTTP requests", ["method", "endpoint", "status"]
-)
-
-REQUEST_LATENCY = Histogram(
-    "http_request_duration_seconds", "HTTP request latency", ["method", "endpoint"]
-)
-
-# Telegram Bot Metrics
-TELEGRAM_REQUESTS = Counter(
-    "telegram_requests_total",
-    "Total number of Telegram bot requests",
-    ["update_type"],  # message, callback_query, etc.
-)
-
-TELEGRAM_REQUEST_LATENCY = Histogram(
-    "telegram_request_duration_seconds",
-    "Time spent processing Telegram requests",
-    ["update_type"],
-)
-
-TELEGRAM_MESSAGE_TYPES = Counter(
-    "telegram_message_types_total",
-    "Count of different message types",
-    ["message_type"],  # text, voice, photo, etc.
-)
 
 
 @asynccontextmanager
@@ -111,31 +90,12 @@ app.add_middleware(
 # Instrumentation
 Instrumentator().instrument(app).expose(app)
 
+# Mount Prometheus metrics endpoint
+metrics_app = make_asgi_app()
+app.mount("/metrics", metrics_app)
 
-@app.middleware("http")
-async def metrics_middleware(request, call_next):
-    start_time = time.time()
-    response = await call_next(request)
-
-    # Track Telegram webhook requests separately
-    if request.url.path == WEBHOOK_PATH:
-        TELEGRAM_REQUESTS.labels(update_type="webhook").inc()
-        TELEGRAM_REQUEST_LATENCY.labels(update_type="webhook").observe(
-            time.time() - start_time
-        )
-    else:
-        # Track other HTTP requests
-        REQUEST_COUNT.labels(
-            method=request.method,
-            endpoint=request.url.path,
-            status=response.status_code,
-        ).inc()
-
-        REQUEST_LATENCY.labels(
-            method=request.method, endpoint=request.url.path
-        ).observe(time.time() - start_time)
-
-    return response
+# Add metrics middleware
+app.middleware("http")(metrics_middleware)
 
 
 @app.post(WEBHOOK_PATH)
