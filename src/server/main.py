@@ -1,8 +1,10 @@
+import logging
 import time
 from contextlib import asynccontextmanager
 
 from aiogram.types import Update
 from fastapi import FastAPI, Request
+from fastapi.logger import logger as fastapi_logger
 from fastapi.middleware.cors import CORSMiddleware
 from faststream import FastStream
 from prometheus_client import Counter, Histogram
@@ -22,6 +24,21 @@ logger = setup_logger(
     component="server",
     use_loki=True,
 )
+
+# Отключаем логирование GET /metrics запросов
+logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
+
+
+# Настраиваем фильтр для логов uvicorn
+class MetricsFilter(logging.Filter):
+    def filter(self, record):
+        return not (record.getMessage().find("GET /metrics") >= 0)
+
+
+# Применяем фильтр к логгеру uvicorn
+uvicorn_logger = logging.getLogger("uvicorn.access")
+uvicorn_logger.addFilter(MetricsFilter())
+fastapi_logger.addFilter(MetricsFilter())
 
 WEBHOOK_PATH = f"/webhook/{settings.TELEGRAM_BOT_TOKEN}"
 WEBHOOK_URL = f"https://{settings.APP_HOST}{WEBHOOK_PATH}"

@@ -17,7 +17,7 @@ services:
       - monitoring-network
     tty: true
     stdin_open: true
-    command: uvicorn server.main:app --host 0.0.0.0 --port 8000 --reload --log-level debug
+    command: uvicorn server.main:app --host 0.0.0.0 --port 8000 --reload --log-level info --access-log=false
     logging:
       driver: "json-file"
       options:

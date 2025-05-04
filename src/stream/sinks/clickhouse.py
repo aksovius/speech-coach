@@ -1,12 +1,24 @@
+import os
+
 import clickhouse_connect
 from bytewax.outputs import DynamicSink, StatelessSinkPartition
 
+from shared.logging import get_log_level, setup_logger
 from stream.config import (
     CLICKHOUSE_DB,
     CLICKHOUSE_HOST,
     CLICKHOUSE_PASSWORD,
     CLICKHOUSE_PORT,
     CLICKHOUSE_USER,
+)
+
+# Configure logger with Loki formatter
+logger = setup_logger(
+    name="stream.clickhouse",
+    level=get_log_level(os.getenv("LOG_LEVEL", "INFO")),
+    service=os.getenv("LOG_SERVICE", "speech-coach"),
+    component="stream.sinks.clickhouse",
+    use_loki=True,
 )
 
 
@@ -31,7 +43,14 @@ class ClickHouseSinkPartition(StatelessSinkPartition):
 
     def write_batch(self, items):
         if items:
-            print("Inserting batch to ClickHouse:", items)
+            logger.info(
+                "Inserting batch to ClickHouse",
+                extra={
+                    "event": "db_insert",
+                    "table": f"{self.database}.{self.table}",
+                    "batch_size": len(items),
+                },
+            )
             self.client.insert(
                 database=self.database,
                 table=self.table,
@@ -43,7 +62,13 @@ class ClickHouseSinkPartition(StatelessSinkPartition):
         try:
             self.client.disconnect()
         except Exception as e:
-            print(f"Warning: failed to disconnect ClickHouse client cleanly: {e}")
+            logger.warning(
+                "Failed to disconnect ClickHouse client cleanly",
+                extra={
+                    "event": "db_disconnect_warning",
+                    "error": str(e),
+                },
+            )
 
 
 class ClickHouseSink(DynamicSink):
