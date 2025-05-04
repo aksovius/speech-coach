@@ -53,6 +53,10 @@ _Last updated: 2024-05-04_
 - [x] CI/CD pipeline (linting)
 - [x] Ansible playbook for database
 - [x] Redis caching: User information and question state management
+  - [x] User data caching by Telegram ID
+  - [x] Question state management
+  - [x] Cache invalidation strategies
+  - [x] Redis connection pooling
 - [ ] Ansible playbooks for all services
 - [ ] Automated deployment
 
