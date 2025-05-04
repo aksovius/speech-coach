@@ -52,7 +52,7 @@ _Last updated: 2024-05-04_
 - [x] Containerization of all services
 - [x] CI/CD pipeline (linting)
 - [x] Ansible playbook for database
-- [ ] Redis caching
+- [x] Redis caching: User information and question state management
 - [ ] Ansible playbooks for all services
 - [ ] Automated deployment
 
