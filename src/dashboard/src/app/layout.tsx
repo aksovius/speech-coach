@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
 export const metadata: Metadata = {
   title: "Speech Coach Dashboard",
-  description: "Персональная статистика Speech Coach",
+  description: "Personal Speech Coach Statistics",
 };
 
 export default function RootLayout({

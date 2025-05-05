@@ -9,15 +9,15 @@ from stream.metrics import ERRORS, PROCESSED_MESSAGES, PROCESSING_LATENCY
 
 
 def with_metrics(workflow_name: str):
-    """Декоратор для добавления метрик к операторам Bytewax"""
+    """Decorator for adding metrics to Bytewax operators"""
 
     def decorator(operator_func: Callable):
         @wraps(operator_func)
         def wrapper(flow: Dataflow, *args, **kwargs):
-            # Получаем оригинальный оператор
+            # Get the original operator
             original_operator = operator_func(flow, *args, **kwargs)
 
-            # Создаем новый оператор с метриками
+            # Create a new operator with metrics
             def measure_step(step_name: str, func: Callable):
                 def wrapper(*args, **kwargs):
                     start_time = time.time()
@@ -42,7 +42,7 @@ def with_metrics(workflow_name: str):
 
                 return wrapper
 
-            # Добавляем метрики к каждому шагу
+            # Add metrics to each step
             if hasattr(original_operator, "oks"):
                 original_operator.oks = measure_step("oks", original_operator.oks)
             if hasattr(original_operator, "errs"):
@@ -55,7 +55,7 @@ def with_metrics(workflow_name: str):
     return decorator
 
 
-# Декорируем основные операторы
+# Decorate main operators
 map_with_metrics = with_metrics("cleanup")(op.map)
 filter_with_metrics = with_metrics("cleanup")(op.filter)
 input_with_metrics = with_metrics("cleanup")(op.input)

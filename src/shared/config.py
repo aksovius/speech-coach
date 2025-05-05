@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     LOG_SERVICE: str = "speech-coach"
     LOG_COMPONENT: str = "unknown"
+    STATISTICS_API_URL: str = (
+        "https://59f9-112-173-18-77.ngrok-free.app"  # "https://192.168.1.35:3001"
+    )
 
     class Config:
         env_file = ".env"

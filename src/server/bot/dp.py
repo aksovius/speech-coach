@@ -4,7 +4,13 @@ from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 
-from server.bot.handlers import question_handler, start_handler, voice_handler
+from server.bot.handlers import (
+    question_handler,
+    start_handler,
+    statistics_handler,
+    toefl_handler,
+    voice_handler,
+)
 from server.bot.middlewares.auth_middleware import AuthMiddleware
 from server.bot.middlewares.database_session_middleware import DatabaseSessionMiddleware
 from server.bot.middlewares.user_data_middleware import UserDataMiddleware
@@ -19,17 +25,29 @@ bot = Bot(
 )
 
 dp = Dispatcher()
+
+# Register middleware for messages
 dp.message.middleware(DatabaseSessionMiddleware())
 dp.message.middleware(UserDataMiddleware())
 dp.message.middleware(AuthMiddleware())
+
+# Register middleware for callback queries
+dp.callback_query.middleware(DatabaseSessionMiddleware())
+dp.callback_query.middleware(UserDataMiddleware())
+dp.callback_query.middleware(AuthMiddleware())
+
+# Register routers
 dp.include_router(start_handler.router)
+dp.include_router(toefl_handler.router)
 dp.include_router(question_handler.router)
 dp.include_router(voice_handler.router)
+dp.include_router(statistics_handler.router)
 
 
 async def set_commands():
     commands = [
         BotCommand(command="start", description="Start"),
+        BotCommand(command="statistics", description="Statistics"),
         BotCommand(command="question", description="Get a question"),
     ]
     await bot.set_my_commands(commands)

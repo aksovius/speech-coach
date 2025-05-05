@@ -76,7 +76,7 @@ docker-compose up --build
 
 > The Telegram bot can be tested manually once the server is running. Automatic registration and demo scripts are planned.
 
-## 🧪 Testing и CI/CD
+## 🧪 Testing and CI/CD
 
 Testing a distributed system presents unique challenges. The project includes comprehensive testing and continuous integration:
 
