@@ -49,7 +49,7 @@ _Last updated: 2024-05-04_
 - [x] Celery/FastStream integration
 - [x] PostgreSQL + MinIO for storage
 - [x] Development configuration (environments.dev)
-- [x] Containerization of all services
+- [x] Containerization of all seтrvices
 - [x] CI/CD pipeline (linting)
 - [x] Ansible playbook for database
 - [x] Redis caching: User information and question state management
@@ -89,7 +89,7 @@ _Last updated: 2024-05-04_
 - [ ] Demo video with explanation in English
 
 ### 🌐 External Interfaces
-- [ ] Minimal web interface (Next.js + Nest.js)
+- [x] Minimal web interface (Next.js + Nest.js)
 - [ ] API for integration with other services
 - [ ] Preparation for academic collaboration and research
 
