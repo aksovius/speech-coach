@@ -3,6 +3,9 @@ import os
 import sys
 from pathlib import Path
 
+# Add src to Python path
+sys.path.append(str(Path(__file__).parent.parent / "src"))
+
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 

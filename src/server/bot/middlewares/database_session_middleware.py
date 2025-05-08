@@ -15,4 +15,7 @@ class DatabaseSessionMiddleware(BaseMiddleware):
     ) -> Any:
         async with async_session() as session:
             data["db"] = session
-            return await handler(event, data)
+            try:
+                return await handler(event, data)
+            finally:
+                await session.close()

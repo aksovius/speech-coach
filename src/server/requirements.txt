@@ -13,3 +13,4 @@ uuid
 faststream[redis]
 prometheus-client==0.19.0
 prometheus-fastapi-instrumentator==6.1.0
+clickhouse-driver

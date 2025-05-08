@@ -1,0 +1,239 @@
+category: architecture
+text: Latency budget: chat-bot reply must reach the user in < 2 s. Break down each component's share and optimisation options.
+
+category: architecture
+text: Event sourcing vs. CRUD—when would you choose each approach?
+
+category: architecture
+text: How do you create a 6–12 month architecture roadmap under business uncertainty?
+
+category: architecture
+text: What is eventual consistency and when is it acceptable?
+
+category: architecture
+text: Compare serverless (FaaS) with container-based deployments—advantages and trade-offs.
+
+category: architecture
+text: How do you quantify and prioritise technical debt at the architecture level?
+
+category: architecture
+text: Our LLM spend is skyrocketing. Outline a token budgeting and caching layer that lives inside AWS.
+
+category: architecture
+text: List techniques to survive the failure of a single node or availability zone.
+
+category: architecture
+text: Which database-migration strategies do you prefer (online, offline, forward/rollback)?
+
+category: architecture
+text: Outline a multi-layer caching strategy (client, CDN, in-memory, persistent).
+
+category: architecture
+text: How do you trace a request end-to-end across multiple services?
+
+category: architecture
+text: Explain reserved capacity vs. savings plans for EC2—and how you decide which to buy.
+
+category: architecture
+text: Explain idempotent requests and give a practical REST example.
+
+category: architecture
+text: Define Backend-for-Frontend (BFF) and its benefits.
+
+category: architecture
+text: Describe your typical process for evaluating and selecting between two architecture options.
+
+category: architecture
+text: How do you estimate and optimise cloud costs for a new workload?
+
+category: architecture
+text: Explain IAM roles vs. IAM users vs. IAM service‐linked roles.
+
+category: architecture
+text: Give an example of using Step Functions to orchestrate a long-running workflow with human approval.
+
+category: architecture
+text: Assume one of our clinicians accidentally uploads PHI into an S3 bucket marked public; what automated guardrails can prevent that?
+
+category: architecture
+text: When would you pick a NoSQL store over a relational database?
+
+category: architecture
+text: Which encryption mechanisms do you use for data in transit and at rest?
+
+category: architecture
+text: How do you enable exactly-once processing in Kinesis Data Streams or Firehose?
+
+category: architecture
+text: Explain how you would drill down an unexpected spike in AWS bill for data-transfer charges.
+
+category: architecture
+text: Explain the strangler-fig pattern for decomposing a monolith.
+
+category: architecture
+text: Design choices for multi-tenant applications: shared database vs. database-per-tenant.
+
+category: architecture
+text: How do you version an API to avoid breaking existing clients?
+
+category: architecture
+text: Outline the core components of a well-architected VPC: subnets, routing, NAT, and security groups.
+
+category: architecture
+text: What is the bulkhead pattern and where have you applied it?
+
+category: architecture
+text: How do you validate performance assumptions before production?
+
+category: architecture
+text: What checkpoints must be completed before you can sign a HIPAA Business Associate Addendum (BAA) with AWS?
+
+category: architecture
+text: Describe how you'd secure private data traffic between two VPCs in different AWS accounts.
+
+category: architecture
+text: Define CQRS and give a scenario where it adds value.
+
+category: architecture
+text: How do you estimate initial capacity—RPS, storage, and network throughput—for a new system?
+
+category: architecture
+text: If we move the message bus from Redpanda to MSK, how will that affect producer acks, consumer lag, and infra cost?
+
+category: architecture
+text: What metrics and SLO/SLA targets do you define for a public API?
+
+category: architecture
+text: Define back-pressure in streaming systems and how you handle it.
+
+category: architecture
+text: How do you manage front-end versioning with heavy CDN caching?
+
+category: architecture
+text: What is a circuit breaker pattern and when would you apply it?
+
+category: architecture
+text: How do you manage secrets (keys, passwords, tokens) in CI/CD pipelines?
+
+category: architecture
+text: Contrast vertical and horizontal sharding for relational databases.
+
+category: architecture
+text: Which quality attributes (e.g., performance, reliability, security, cost) do you prioritise first, and why?
+
+category: architecture
+text: Monolith vs. microservices—when would you choose each?
+
+category: architecture
+text: Describe a retry-and-dead-letter strategy for message queues or streams.
+
+category: architecture
+text: Outline an S3 static-site hosting solution that supports HTTPS and global caching.
+
+category: architecture
+text: How do you measure and improve p95/p99 latency for an API?
+
+category: architecture
+text: How does DynamoDB partitioning work, and what pitfalls cause hot partitions?
+
+category: architecture
+text: We may need near-real-time analytics. Would you extend ClickHouse, add Redshift, or leverage Athena? Defend your answer.
+
+category: architecture
+text: Your PoC handles ×100 messages/sec. What concrete steps—and costs—do you project to reach ×10 (1 k msg/s) in AWS?
+
+category: architecture
+text: List three CloudWatch alarms you would set for an API Gateway + Lambda stack.
+
+category: architecture
+text: What goes into a disaster-recovery plan, and how do you choose RPO/RTO?
+
+category: architecture
+text: Synchronous vs. asynchronous inter-service communication—selection criteria.
+
+category: architecture
+text: When would you choose AWS MSK Serverless over self-managed Kafka on EC2 or Kubernetes?
+
+category: architecture
+text: Given our current stack (Postgres-CDC → stream → stateful proc → OLAP), where would you insert feature-flag checkpoints?
+
+category: architecture
+text: Compare Application Load Balancer vs. Network Load Balancer—use-cases and limitations.
+
+category: architecture
+text: Describe a 30-day incident-response rotation for a four-engineer team, including on-call, paging, and post-mortem practice.
+
+category: architecture
+text: What is GuardDuty and how does it integrate with a multi-account security strategy?
+
+category: architecture
+text: What is Infrastructure as Code, and which tools have you used?
+
+category: architecture
+text: How do you store large binary objects (e.g., media files) securely and efficiently in the cloud?
+
+category: architecture
+text: How do you protect a public service against DDoS attacks?
+
+category: architecture
+text: How would you audit WHO accessed WHICH patient record, WHEN, and FROM WHERE—across microservices and AWS resources?
+
+category: architecture
+text: Give an example where you knowingly traded one quality attribute for another.
+
+category: architecture
+text: How do you implement end-to-end encryption for S3 objects—including KMS key management and bucket policies?
+
+category: architecture
+text: Walk through a Lambda cold-start scenario and two methods to minimise its impact.
+
+category: architecture
+text: How do you capture and document business requirements before proposing an architecture?
+
+category: architecture
+text: How do you implement feature flags and ensure instant rollback?
+
+category: architecture
+text: Describe an RDS Multi-AZ fail-over event: what switches, how long does it take, and how is the app affected?
+
+category: architecture
+text: In 12 months we expect to serve EU patients. Name two GDPR architectural implications we must plan for today.
+
+category: architecture
+text: Which observability signals are critical for a front-end SPA or mobile app?
+
+category: architecture
+text: Compare SQS FIFO queues with standard SQS—when is FIFO worth the throughput trade-off?
+
+category: architecture
+text: Describe cross-region disaster recovery for a containerised service on EKS.
+
+category: architecture
+text: Explain how you horizontally scale a web application at the API, cache, and database layers.
+
+category: architecture
+text: Describe an Architecture Decision Record (ADR) and its value to a team.
+
+category: architecture
+text: Explain the idea of evolutionary architecture and why it helps start-ups.
+
+category: architecture
+text: What is a sandbox/feature environment and how does it help velocity?
+
+category: architecture
+text: What extra security measures do you recommend for public WebSocket connections?
+
+category: architecture
+text: What are the trade-offs between Lambda + EventBridge Pipes and ECS Fargate for a stream-processing task?
+
+category: architecture
+text: What does centralised logging/metrics look like in a distributed system?
+
+category: architecture
+text: Describe a zero-downtime deployment approach such as blue-green or canary.
+
+category: architecture
+text: Which automated tests are mandatory for an end-to-end pipeline?
+
+category: architecture
+text: Name two compliance frameworks (e.g., GDPR, HIPAA) that affect architecture and how.

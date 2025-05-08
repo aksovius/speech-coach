@@ -12,7 +12,11 @@ router = Router()
 async def handle_question(message: Message, **kwargs):
     db_session = kwargs.get("db")
     user_id = kwargs.get("user_id")
-    question = await get_question_for_user(user_id, db_session)
+
+    # Получаем category из аргументов команды, если они есть
+    command_args = message.text.split()
+    category = command_args[1] if len(command_args) > 1 else None
+    question = await get_question_for_user(user_id, db_session, category)
     set_user_question(message.from_user.id, question)
     await message.answer(
         f"<b>❓Question: 45 sec</b>\n{question.text}", parse_mode="HTML"

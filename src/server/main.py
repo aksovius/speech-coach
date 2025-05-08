@@ -11,7 +11,9 @@ from faststream import FastStream
 from prometheus_client import make_asgi_app
 from prometheus_fastapi_instrumentator import Instrumentator
 
+import server.consumers.architecture_consumer  # noqa: F401   !DO NOT REMOVE
 import server.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
+from server.api.routes import statistics
 from server.bot.dp import bot, dp, set_commands
 from shared.config import settings
 from shared.logging import get_log_level, setup_logger
@@ -33,8 +35,11 @@ logger = setup_logger(
     use_loki=True,
 )
 
-# Disable logging for GET /metrics requests
+# Disable logging for GET /metrics requests and set up root logger
+logging.getLogger().setLevel(logging.WARNING)
+logging.getLogger("uvicorn").setLevel(logging.WARNING)
 logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
+logging.getLogger("fastapi").setLevel(logging.WARNING)
 
 
 # Configure filter for uvicorn logs
@@ -87,6 +92,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include routers
+app.include_router(statistics.router)
 
 # Instrumentation
 Instrumentator().instrument(app).expose(app)

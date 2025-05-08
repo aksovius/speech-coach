@@ -29,7 +29,7 @@ async def test_get_question_for_user_success():
 
         # Verify results
         assert result == mock_question
-        mock_get_questions.assert_called_once_with(user_id, db_session)
+        mock_get_questions.assert_called_once_with(user_id, db_session, None)
 
 
 @pytest.mark.asyncio
@@ -51,7 +51,7 @@ async def test_get_question_for_user_no_questions():
 
         # Verify results
         assert result is None
-        mock_get_questions.assert_called_once_with(user_id, db_session)
+        mock_get_questions.assert_called_once_with(user_id, db_session, None)
 
 
 @pytest.mark.asyncio
@@ -74,4 +74,4 @@ async def test_get_question_for_user_exception():
 
         # Verify exception
         assert str(exc_info.value) == "Database error"
-        mock_get_questions.assert_called_once_with(user_id, db_session)
+        mock_get_questions.assert_called_once_with(user_id, db_session, None)

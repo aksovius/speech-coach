@@ -16,12 +16,19 @@ class Settings(BaseSettings):
     APP_HOST: str = "localhost"
     DEBUG: bool = False
 
+    # ClickHouse settings
+    CLICKHOUSE_HOST: str = "192.168.1.86"
+    CLICKHOUSE_PORT: int = 9000
+    CLICKHOUSE_USER: str = "default"
+    CLICKHOUSE_PASSWORD: str = ""
+    CLICKHOUSE_DATABASE: str = "speech"
+
     # Logging settings
     LOG_LEVEL: str = "INFO"
     LOG_SERVICE: str = "speech-coach"
     LOG_COMPONENT: str = "unknown"
     STATISTICS_API_URL: str = (
-        "https://59f9-112-173-18-77.ngrok-free.app"  # "https://192.168.1.35:3001"
+        "https://aksovius.ddns.net/statistics/"  # "https://192.168.1.35:3001"
     )
 
     class Config:

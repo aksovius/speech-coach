@@ -1,6 +1,6 @@
-from fastapi import APIRouter
+# from fastapi import APIRouter
 
-router = APIRouter(prefix="/question", tags=["Question"])
+# router = APIRouter(prefix="/question", tags=["Question"])
 
 
 # @router.get("", response_model=QuestionResponse)

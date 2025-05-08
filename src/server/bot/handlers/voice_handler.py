@@ -25,10 +25,6 @@ router = Router()
 
 @router.message(F.voice)
 async def handle_voice(message: Message, **kwargs):
-    logger.info(
-        "Voice message received",
-        extra={"event": "voice_received", "chat_id": message.chat.id},
-    )
     user_id = kwargs.get("user_id")
     telegram_id = message.from_user.id
     question = get_user_question(telegram_id)
@@ -39,6 +35,15 @@ async def handle_voice(message: Message, **kwargs):
         )
         await message.answer("🤖 Ask question first /question.")
         return
+
+    logger.info(
+        "Voice message received",
+        extra={
+            "event": "voice_received",
+            "chat_id": message.chat.id,
+            "question_category": question.category,
+        },
+    )
 
     try:
         await message.answer("🤖 Processing your voice message...")
@@ -53,14 +58,22 @@ async def handle_voice(message: Message, **kwargs):
                 "user_id": user_id,
                 "voice_duration": message.voice.duration,
                 "file_id": message.voice.file_id,
+                "question_category": question.category,
             },
         )
 
-        await audio_service.process_voice_message(file_url, user_id, telegram_id)
+        await audio_service.process_voice_message(
+            file_url, user_id, telegram_id, question.category
+        )
     except Exception as e:
         logger.error(
             "Voice message processing error",
-            extra={"event": "voice_error", "error": str(e), "telegram_id": telegram_id},
+            extra={
+                "event": "voice_error",
+                "error": str(e),
+                "telegram_id": telegram_id,
+                "question_category": question.category,
+            },
         )
         await message.answer(
             "❌ An error occurred while processing your voice message."

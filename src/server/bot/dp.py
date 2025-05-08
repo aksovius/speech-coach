@@ -5,6 +5,7 @@ from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 
 from server.bot.handlers import (
+    architecture_handler,
     question_handler,
     start_handler,
     statistics_handler,
@@ -42,12 +43,13 @@ dp.include_router(toefl_handler.router)
 dp.include_router(question_handler.router)
 dp.include_router(voice_handler.router)
 dp.include_router(statistics_handler.router)
+dp.include_router(architecture_handler.router)
 
 
 async def set_commands():
     commands = [
         BotCommand(command="start", description="Start"),
         BotCommand(command="statistics", description="Statistics"),
-        BotCommand(command="question", description="Get a question"),
+        # BotCommand(command="question", description="Get a question"),
     ]
     await bot.set_my_commands(commands)
