@@ -4,11 +4,11 @@ title: Roadmap
 sidebar_label: Roadmap
 ---
 
-_Last updated: 2024-05-04_
+_Last updated: 2025-05-11_
 
 ## 📋 About the Project
 
-**Speech Coach** - a Telegram bot for practicing spoken English. Users receive questions, record voice answers, and the system processes them to provide feedback with recommendations for improvement.
+**Speech Coach** is a Telegram bot for practicing spoken English. Users receive questions, record voice answers, and the system processes them to provide feedback with recommendations for improvement.
 
 ## 🛠 Technologies Used
 
@@ -17,81 +17,80 @@ _Last updated: 2024-05-04_
 - **Data Storage**: PostgreSQL, MinIO (audio)
 - **NLP**: OpenAI API
 - **Stream Processing**: Debezium, Redpanda, Bytewax
-- **Analytics**: ClickHouse (planned)
+- **Analytics**: ClickHouse
 - **Infrastructure**: Docker, Ansible, CI/CD
 
-## 🎯 Project Status
+## ✅ Core Features Implemented
 
 ### 🔊 Audio Processing
 - [x] Audio converter implemented
-- [x] Basic audio processing flow
+- [x] Audio processing via FastStream worker
 - [x] Automatic file deletion after upload
-- [ ] Add TOEFL Speaking 2-4 questions
-- [ ] Add interview and work conversation practice questions
+- [x] Redis stream integration
+- [x] Length and quality control (max 45s, compression)
 
 ### 🤖 Telegram Bot
 - [x] Telegram API integration
-- [x] Sending questions to users
-- [x] Receiving voice answers
-- [x] Question sorting by answered status
-- [x] Remove questions after answering
-- [ ] Multilingual interface
-- [ ] Question repetition feature
+- [x] Send/receive audio questions and answers
+- [x] Question sorting and cleanup
+- [x] Inline buttons and updated menu UX
+- [x] Separate logic for different question types
 
-### 🧠 Analysis and Feedback
-- [x] Basic answer analysis via OpenAI
-- [ ] Advanced answer quality metrics
-- [x] Time analysis from question to answer
-- [x] Sliding window analysis (last N answers) via Bytewax
-- [ ] Statistics on unique words and their frequency
+### 🧠 Answer Analysis
+- [x] OpenAI GPT-based analysis
+- [x] Answer time tracking
+- [x] TTR (unique word ratio)
+- [x] Sliding window (last N answers) with Bytewax
 
 ### 🏗 Infrastructure
-- [x] Celery/FastStream integration
-- [x] PostgreSQL + MinIO for storage
-- [x] Development configuration (environments.dev)
-- [x] Containerization of all seтrvices
-- [x] CI/CD pipeline (linting)
-- [x] Ansible playbook for database
-- [x] Redis caching: User information and question state management
-  - [x] User data caching by Telegram ID
-  - [x] Question state management
-  - [x] Cache invalidation strategies
-  - [x] Redis connection pooling
-- [ ] Ansible playbooks for all services
-- [ ] Automated deployment
+- [x] Docker containerization
+- [x] Redis caching: user info and state
+- [x] PostgreSQL + MinIO storage
+- [x] Basic health check endpoints
+- [x] CI/CD for linting and gh-pages
+- [x] Ansible for database and basic setup
 
-### 📊 Analytics and Stream Processing
-- [x] Basic Debezium integration for data capture
-- [x] Data transfer via Redpanda
-- [x] Initial processing in Bytewax (word counting)
-- [ ] Advanced real-time processing
-- [ ] ClickHouse integration for analytical data storage
-- [ ] Data export for analysis (ClickHouse + PostgreSQL)
-
-### 👁 Monitoring
-- [x] Basic logging
-- [x] Loki integration for centralized logs
-- [x] Grafana dashboards for all services
-- [x] Metrics with Prometheus + Grafana
-- [ ] Health endpoints for all services
+### 📊 Monitoring and Logs
+- [x] Centralized logging via Loki
+- [x] Metrics via Prometheus → Grafana
+- [x] Grafana dashboards for core services
 
 ### 💵 Monetization
-- [x] Balance top-up system
-- [ ] Credit system (1 GPT request = 1 credit)
-- [ ] File storage agreement notification
+- [x] Manual balance top-up system
 
-### 📝 Documentation and Testing
-- [x] Basic README
-- [x] Architecture diagram
-- [x] Tests for key components
-- [ ] API and architecture documentation
-- [ ] User guide
-- [ ] Demo video with explanation in English
+### 📝 Documentation
+- [x] Readme and setup instructions
+- [x] Architecture diagram (Graphviz)
+- [x] Roadmap and overview
 
-### 🌐 External Interfaces
-- [x] Minimal web interface (Next.js + Nest.js)
-- [ ] API for integration with other services
-- [ ] Preparation for academic collaboration and research
+---
+
+## 🛠 In Progress / Priority Tasks
+
+- [ ] **Repeat-answer logic**: tag repeated answers (used for mimicry), exclude from metrics
+- [ ] **Word cloud (last 30 days)**: active vocabulary stats via Bytewax → ClickHouse
+- [ ] **Dashboard rewrite**:
+  - [ ] Move all queries behind backend API
+  - [ ] Migrate away from client-DDNS access
+  - [ ] Centralize on server; plan for a separate dashboard host
+- [ ] **New question types**:
+  - [ ] Interview preparation questions
+  - [ ] TOEFL Speaking 2–4 (with reading/audio prompt support)
+- [ ] **E2E and load testing**:
+  - [ ] Simulate multiple users and audio uploads
+  - [ ] Track processing time and system load
+
+---
+
+## 🕒 Optional / Future Enhancements
+
+- [ ] Full Ansible deployment for all services
+- [ ] ClickHouse retention policy and long-term storage strategy
+- [ ] GPT credit-based request system
+- [ ] External API for integration
+- [ ] Multilingual interface
+- [ ] User guide and demo video for portfolio/showcase
+
 
 ---
 
