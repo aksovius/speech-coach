@@ -1,7 +1,7 @@
 import os
 
-from server.ai.services.architecture_service import evaluate_architecture
 from server.ai.services.audio_service import transcribe_audio
+from server.ai.services.question_service import evaluate_question
 from server.bot.dp import bot
 from server.models.schema import Media, UserAnswer
 from server.utils.database import async_session
@@ -11,10 +11,10 @@ from shared.services import answers_service, media_service
 from shared.services.question_manager import get_user_question
 
 
-@broker.subscriber(stream="architecture_response_stream")
-async def handle_architecture_task(result: AudioTaskResult):
-    print("Architecture result:", result)
+@broker.subscriber(stream="question_response_stream")
+async def handle_question_task(result: AudioTaskResult):
     telegram_id = result.telegram_id
+    question_category = result.question_category
 
     if result.error:
         await bot.send_message(
@@ -38,7 +38,9 @@ async def handle_architecture_task(result: AudioTaskResult):
         )
         return
 
-    evaluation = await evaluate_architecture(question.text, transcription)
+    evaluation = await evaluate_question(
+        question.text, transcription, question_category
+    )
     print(f"Evaluation: {evaluation}")
 
     if isinstance(evaluation, str):
@@ -130,3 +132,12 @@ async def handle_architecture_task(result: AudioTaskResult):
         await media_service.save_media(media, session)
         print(f"Transcription: {transcription}")
         print(f"Evaluation: {evaluation}")
+
+
+# Для обратной совместимости
+@broker.subscriber(stream="architecture_response_stream")
+async def handle_architecture_task(result: AudioTaskResult):
+    # Добавляем тип вопроса, если его нет
+    if not hasattr(result, "question_type"):
+        result.question_type = "architecture"
+    return await handle_question_task(result)

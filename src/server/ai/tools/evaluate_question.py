@@ -3,7 +3,7 @@ from typing import List
 from pydantic import BaseModel, Field
 
 
-class ArchitectureEvaluation(BaseModel):
+class QuestionEvaluation(BaseModel):
     recommended_answer: str = Field(default="")
     content_score: float = Field(default=0.0)
     language_score: float = Field(default=0.0)
@@ -18,8 +18,8 @@ tools = [
     {
         "type": "function",
         "function": {
-            "name": "evaluate_architecture_response",
-            "description": "Evaluate a response to an architecture question",
+            "name": "evaluate_question_response",
+            "description": "Evaluate a response to a technical question",
             "parameters": {
                 "type": "object",
                 "properties": {

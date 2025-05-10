@@ -11,7 +11,7 @@ from shared.services import answers_service, media_service
 from shared.services.question_manager import get_user_question
 
 
-@broker.subscriber(stream="audio_response_stream")
+@broker.subscriber(stream="toefl_response_stream")
 async def handle_task(result: AudioTaskResult):
     print("result", result)
     telegram_id = result.telegram_id

@@ -51,6 +51,7 @@ async def handle_architecture_start(
             await callback_query.message.answer("❌ Error: No questions available")
             return
 
+        question.question_category = "architecture"
         set_user_question(callback_query.from_user.id, question)
 
         # Remove reply buttons

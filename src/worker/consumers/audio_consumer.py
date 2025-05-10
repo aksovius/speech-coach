@@ -39,6 +39,7 @@ async def handle_task(data: AudioTaskProcessing):
         user_id=data.user_id,
         converted_file="",
         uploaded_file="",
+        question_category=data.question_category,
     )
 
     try:
@@ -53,14 +54,17 @@ async def handle_task(data: AudioTaskProcessing):
         )
 
         time_limit = 45
+        stream = ""
         match data.question_category:
             case "toefl1":
                 time_limit = 45
+                stream = "toefl_response_stream"
             case "toefl2":
                 time_limit = 60
-            case "architecture":
+                stream = "toefl_response_stream"
+            case "general" | "architecture" | "frontend" | "backend" | "interview":
                 time_limit = 180
-
+                stream = "question_response_stream"
         # Measure processing time and track metrics
         with PROCESSING_LATENCY.labels(message_type="audio").time():
             converted_file = await audio_processing.process_audio(
@@ -104,7 +108,8 @@ async def handle_task(data: AudioTaskProcessing):
             "Task completed successfully",
             extra={
                 "event": "task_success",
-                "file_path": data.file_path,
+                "converted_file": converted_file,
+                "uploaded_file": uploaded_file,
                 "question_category": data.question_category,
             },
         )
@@ -152,14 +157,7 @@ async def handle_task(data: AudioTaskProcessing):
                     "question_category": data.question_category,
                 },
             )
-        stream = "audio_response_stream"
-        match data.question_category:
-            case "toefl1":
-                stream = "toefl1_response_stream"
-            case "toefl2":
-                stream = "toefl2_response_stream"
-            case "architecture":
-                stream = "architecture_response_stream"
+
         # Publish response
         try:
             await broker.publish(task_output, stream=stream)

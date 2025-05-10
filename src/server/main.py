@@ -11,8 +11,8 @@ from faststream import FastStream
 from prometheus_client import make_asgi_app
 from prometheus_fastapi_instrumentator import Instrumentator
 
-import server.consumers.architecture_consumer  # noqa: F401   !DO NOT REMOVE
-import server.consumers.audio_consumer  # noqa: F401   !DO NOT REMOVE
+import server.consumers.question_consumer  # noqa: F401   !DO NOT REMOVE
+import server.consumers.toefl_consumer  # noqa: F401   !DO NOT REMOVE
 from server.api.routes import statistics
 from server.bot.dp import bot, dp, set_commands
 from shared.config import settings

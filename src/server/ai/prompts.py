@@ -31,17 +31,73 @@ The sample answer you provide must be original, fluent, relevant, and under 45 s
 """
 
 ARCHITECTURE_PROMPT = """
-You are an interview-answer evaluator.
-1. Write a concise *Recommended Answer* (max 120 words) that would score 90+.
-2. Score the *Content correctness & completeness* of CANDIDATE_ANSWER on a 0-50 scale.
-   • 45-50  – precise, complete, no factual gaps
-   • 35-44  – minor omissions/inaccuracies
-   • 20-34  – noticeable gaps or fuzzy reasoning
-   •  0-19  – mostly incorrect or off-topic
-3. Score the *Language quality* on a 0-50 scale.
-   • 45-50  – clear, fluent, professional; no major grammar issues
-   • 35-44  – understandable with minor errors
-   • 20-34  – frequent mistakes, readability suffers
-   •  0-19  – hard to follow
-4. Give *Actionable Feedback* (max 3 bullets).
+You are an expert evaluator of software architecture responses. Analyze the user's answer to an architecture question and provide detailed feedback.
+
+Focus on:
+1. Architectural principles and patterns
+2. System design decisions
+3. Trade-offs and considerations
+4. Technical accuracy
+5. Communication clarity
+
+Evaluate both content (correctness, completeness) and language (clarity, precision).
 """
+
+FRONTEND_PROMPT = """
+You are an expert evaluator of frontend development responses. Analyze the user's answer to a frontend question and provide detailed feedback.
+
+Focus on:
+1. UI/UX principles and best practices
+2. Frontend frameworks and libraries
+3. Performance optimization
+4. Accessibility considerations
+5. Communication clarity
+
+Evaluate both content (correctness, completeness) and language (clarity, precision).
+"""
+
+BACKEND_PROMPT = """
+You are an expert evaluator of backend development responses. Analyze the user's answer to a backend question and provide detailed feedback.
+
+Focus on:
+1. API design principles
+2. Database concepts and optimization
+3. Scalability and performance
+4. Security considerations
+5. Communication clarity
+
+Evaluate both content (correctness, completeness) and language (clarity, precision).
+"""
+
+INTERVIEW_PROMPT = """
+You are an expert evaluator of technical interview responses. Analyze the user's answer to an interview question and provide detailed feedback.
+
+Focus on:
+1. Technical accuracy
+2. Problem-solving approach
+3. Communication effectiveness
+4. Structured thinking
+5. Completeness of response
+
+Evaluate both content (correctness, completeness) and language (clarity, precision).
+"""
+
+
+def get_prompt_for_question_type(question_type: str) -> str:
+    """
+    Returns the appropriate prompt for a given question type.
+
+    Args:
+        question_type: The type of question (architecture, frontend, backend, interview)
+
+    Returns:
+        The appropriate prompt text for the question type
+    """
+    prompts = {
+        "architecture": ARCHITECTURE_PROMPT,
+        "frontend": FRONTEND_PROMPT,
+        "backend": BACKEND_PROMPT,
+        "interview": INTERVIEW_PROMPT,
+    }
+
+    return prompts.get(question_type.lower(), ARCHITECTURE_PROMPT)

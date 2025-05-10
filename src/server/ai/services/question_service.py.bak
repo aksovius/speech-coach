@@ -2,48 +2,51 @@ import json
 import os
 
 from server.ai.client import client
-from server.ai.prompts import ARCHITECTURE_PROMPT
-from server.ai.tools.evaluate_architecture import ArchitectureEvaluation, tools
+from server.ai.prompts import ARCHITECTURE_PROMPT, get_prompt_for_question_type
+from server.ai.tools.evaluate_question import QuestionEvaluation, tools
 from shared.logging import get_log_level, setup_logger
 
 # Configure logger with Loki formatter
 logger = setup_logger(
-    name="server.ai.architecture",
+    name="server.ai.question_evaluation",
     level=get_log_level(os.getenv("LOG_LEVEL", "INFO")),
     service=os.getenv("LOG_SERVICE", "speech-coach"),
-    component="server.ai.architecture",
+    component="server.ai.question_evaluation",
     use_loki=True,
 )
 
 
-async def evaluate_architecture(question: str, answer: str) -> ArchitectureEvaluation:
+async def evaluate_question(question: str, answer: str, question_type: str) -> QuestionEvaluation:
     try:
         logger.info(
-            "Evaluating architecture answer",
+            f"Evaluating {question_type} answer",
             extra={
-                "event": "architecture_evaluation_start",
+                "event": f"{question_type}_evaluation_start",
                 "question_length": len(question),
                 "answer_length": len(answer),
+                "question_type": question_type,
             },
         )
+
+        prompt = get_prompt_for_question_type(question_type)
 
         response = await client.chat.completions.create(
             model="gpt-4-turbo",
             messages=[
-                {"role": "system", "content": ARCHITECTURE_PROMPT},
+                {"role": "system", "content": prompt},
                 {"role": "user", "content": f"Question: {question}\nAnswer: {answer}"},
             ],
             tools=tools,
             tool_choice={
                 "type": "function",
-                "function": {"name": "evaluate_architecture_response"},
+                "function": {"name": "evaluate_question_response"},
             },
         )
 
         logger.debug(
             "Received evaluation response",
             extra={
-                "event": "architecture_evaluation_response",
+                "event": f"{question_type}_evaluation_response",
                 "model": response.model,
                 "usage": dict(response.usage) if hasattr(response, "usage") else {},
             },
@@ -54,15 +57,19 @@ async def evaluate_architecture(question: str, answer: str) -> ArchitectureEvalu
         args = json.loads(args_str)
 
         logger.info(
-            "Architecture evaluation completed successfully",
-            extra={"event": "architecture_evaluation_success"},
+            f"{question_type.capitalize()} evaluation completed successfully",
+            extra={"event": f"{question_type}_evaluation_success"},
         )
 
-        return ArchitectureEvaluation(**args)
+        return QuestionEvaluation(**args)
 
     except Exception as e:
         logger.error(
-            "Error evaluating architecture answer",
-            extra={"event": "architecture_evaluation_error", "error": str(e)},
+            f"Error evaluating {question_type} answer",
+            extra={"event": f"{question_type}_evaluation_error", "error": str(e)},
         )
         raise
+
+
+async def evaluate_architecture(question: str, answer: str) -> QuestionEvaluation:
+    return await evaluate_question(question, answer, "architecture")
