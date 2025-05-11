@@ -2,11 +2,12 @@
 id: ha-failover
 title: High Availability & Failover
 sidebar_label: HA & Failover
+sidebar_position: 5
 ---
 
 # 🔐 High Availability & Failover Strategy
 
-This section outlines how **Speech Coach** is built with reliability and resilience in mind — and what’s planned for future improvements.
+This section outlines how **Speech Coach** is built with reliability and resilience in mind — and what's planned for future improvements.
 
 ---
 
@@ -46,11 +47,17 @@ If OpenAI API becomes a bottleneck or goes down, I plan to add **fallback provid
 
 ## 📊 Monitoring and SLA Readiness
 
-If I had to hit **99.9% SLA**, I’d start with:
+If I had to hit **99.9% SLA**, I'd start with:
 
 - Full **monitoring stack** (Grafana + Prometheus + Loki)
 - Alerting that "shocks" the devs every time something breaks 🫨
 - Health checks, auto-restart, and eventually Kubernetes
+
+![System Monitoring Dashboard](/img/monitoring_ex.png)
+*Real-time system metrics and performance monitoring*
+
+![Application Logs](/img/logs_ex.png)
+*Detailed application logs with error tracking and debugging information*
 
 ---
 

@@ -2,6 +2,7 @@
 id: architecture-choices
 title: Architecture Design
 sidebar_label: Architecture Design
+sidebar_position: 3
 ---
 
 # 🧠 Architecture Design Choices

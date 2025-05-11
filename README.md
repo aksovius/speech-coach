@@ -11,7 +11,7 @@ Beyond individual practice, the project is designed with **language learning ana
 
 ## 🏗️ System Architecture
 
-![System Architecture](docs/diagrams/graphviz.svg)
+![System Architecture](docs/static/img/architecture-diagram.svg)
 
 Speech Coach uses a microservices architecture with three main components:
 

@@ -74,23 +74,24 @@ digraph G {
     }
 
     subgraph cluster_monitoring {
-        label="Monitoring Layer (Future)";
+        label="Monitoring Layer";
         style=filled;
         color=lightgrey;
         fontname="Arial Bold";
 
-        prometheus [label="Prometheus", fillcolor="#e6522c", fontcolor=white, style="rounded,filled,dashed"];
-        loki [label="Loki", fillcolor="#5c4ee5", fontcolor=white, style="rounded,filled,dashed"];
+        prometheus [label="Prometheus", fillcolor="#e6522c", fontcolor=white];
+        loki [label="Loki", fillcolor="#5c4ee5", fontcolor=white];
+        grafana [label="Grafana", fillcolor="#f46800", fontcolor=white];
     }
 
     subgraph cluster_presentation {
-        label="Presentation Layer (Future)";
+        label="Presentation Layer";
         style=filled;
         color=lightgrey;
         fontname="Arial Bold";
 
-        nextapp [label="Next/Nest App\n(Future)", fillcolor="#0070f3", fontcolor=white, style="rounded,filled,dashed"];
-        grafana [label="Grafana", fillcolor="#f46800", fontcolor=white, style="rounded,filled,dashed"];
+        nextapp [label="Next.js Dashboards", fillcolor="#0070f3", fontcolor=white];
+        nextjs_nest [label="Next/Nest App\n(Future)", fillcolor="#0070f3", fontcolor=white, style="rounded,filled,dashed"];
     }
 
     // Infrastructure components
@@ -110,6 +111,22 @@ digraph G {
     postgres -> debezium [label="CDC", color="darkgreen", penwidth=2.0];
     debezium -> redpanda [label="Data Events", color="darkgreen", penwidth=2.0];
     redpanda -> bytewax [label="Stream", color="darkgreen", penwidth=2.0];
+    
+    // Monitoring connections - now current
+    prometheus -> nginx [color="darkgreen", penwidth=2.0];
+    prometheus -> fastapi [color="darkgreen", penwidth=2.0];
+    prometheus -> worker [color="darkgreen", penwidth=2.0];
+    prometheus -> redpanda [color="darkgreen", penwidth=2.0];
+    prometheus -> bytewax [color="darkgreen", penwidth=2.0];
+    loki -> nginx [color="darkgreen", penwidth=2.0];
+    loki -> fastapi [color="darkgreen", penwidth=2.0];
+    loki -> worker [color="darkgreen", penwidth=2.0];
+    
+    // Presentation layer connections - now current
+    nginx -> nextapp [color="darkgreen", penwidth=2.0];
+    nextapp -> fastapi [label="API Requests", color="darkgreen", penwidth=2.0];
+    prometheus -> grafana [color="darkgreen", penwidth=2.0];
+    loki -> grafana [color="darkgreen", penwidth=2.0];
 
     // Define edges/relationships - Future
     telegram -> nginx [style=dashed];
@@ -123,21 +140,14 @@ digraph G {
     redis -> openai_worker [label="Dedicated GPT", style=dashed];
     patroni -> debezium [style=dashed];
     bytewax -> clickhouse [label="Store Metrics", style=dashed];
-    clickhouse -> grafana [label="Visualize", style=dashed];
-    clickhouse -> nextapp [style=dashed];
-    prometheus -> grafana [style=dashed];
-    loki -> grafana [style=dashed];
-    nginx -> nextapp [style=dashed];
-
-    // Monitoring connections
-    prometheus -> nginx [style=dashed];
+    clickhouse -> grafana [style=dashed];
+    clickhouse -> nextjs_nest [style=dashed];
+    
+    // Future monitoring connections
     prometheus -> fastapi_cluster [style=dashed];
     prometheus -> worker_cluster [style=dashed];
     prometheus -> openai_worker [style=dashed];
     prometheus -> patroni [style=dashed];
-    prometheus -> redpanda [style=dashed];
-    prometheus -> bytewax [style=dashed];
-    loki -> nginx [style=dashed];
     loki -> fastapi_cluster [style=dashed];
     loki -> worker_cluster [style=dashed];
 

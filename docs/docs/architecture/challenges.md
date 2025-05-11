@@ -2,6 +2,7 @@
 id: challenges
 title: Technical Challenges
 sidebar_label: Challenges
+sidebar_position: 4
 ---
 
 # 🧗 Technical Challenges
