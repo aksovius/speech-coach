@@ -20,6 +20,8 @@ async def get_unseen_questions(
     if category:
         query = query.where(Question.category == category)
 
+    query = query.where(Question.is_active)
+
     query = query.order_by(coalesce(subquery.c.ask_count, 0), func.random()).limit(1)
 
     result = await db.execute(query)

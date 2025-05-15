@@ -12,7 +12,8 @@ def trim_audio(audio: AudioSegment, time_limit: int = 45) -> AudioSegment:
         Trimmed AudioSegment
     """
     if time_limit:
-        end_time = min(time_limit, 45) * 1000  # Convert to milliseconds
+        audio_duration = len(audio) / 1000  # Convert to seconds
+        end_time = min(time_limit, audio_duration) * 1000  # Convert to milliseconds
         audio = audio[:end_time]
         print(f"Trimmed duration: {len(audio) / 1000:.2f} seconds")
     return audio

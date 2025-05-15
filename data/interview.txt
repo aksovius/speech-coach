@@ -1,0 +1,59 @@
+category: architecture
+text: Why did you choose an event-driven architecture for this project?
+
+category: architecture
+text: Why did you separate processing into FastAPI + Redis + Kafka instead of handling everything inside the API layer?
+
+category: architecture
+text: Why use Redpanda instead of Kafka? What trade-offs did you consider?
+
+category: architecture
+text: What made you choose Bytewax over Flink, Airflow, or Faust?
+
+category: architecture
+text: How would you redesign the system if it had to support 10x more users and concurrent requests?
+
+category: architecture
+text: What happens if PostgreSQL goes down? How does the system behave, and how do you recover?
+
+category: architecture
+text: What happens if Redis crashes while handling user audio data?
+
+category: architecture
+text: How do you ensure message delivery and avoid data loss between services?
+
+category: architecture
+text: What's your retry/backoff strategy in case of downstream service failure (e.g., OpenAI API)?
+
+category: architecture
+text: How do you detect that something went wrong in real time? What's your observability stack?
+
+category: architecture
+text: Why did you choose ClickHouse as the analytics store? How do you handle large volumes?
+
+category: architecture
+text: Can you explain the schema design for analytics — how you model user answers, scores, or trends?
+
+category: architecture
+text: How do you ensure analytical data consistency given that messages come asynchronously?
+
+category: architecture
+text: If Bytewax produces incorrect metrics due to buggy logic, how do you recover or reprocess?
+
+category: architecture
+text: How do you ensure idempotent processing in case the same message is replayed through Kafka?
+
+category: architecture
+text: How do you guarantee ordering of events when processing via multiple services?
+
+category: architecture
+text: How is user authentication and authorization handled between Telegram and your backend?
+
+category: architecture
+text: What prevents malicious users from spamming audio uploads or overwhelming the backend?
+
+category: architecture
+text: How is your infrastructure deployed and managed? Why did you choose Docker Compose instead of Kubernetes?
+
+category: architecture
+text: What are the weakest points in your architecture today, and how would you improve them in the next iteration?

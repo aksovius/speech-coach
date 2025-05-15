@@ -1,12 +1,11 @@
 from datetime import datetime
-from typing import Optional
+from urllib.parse import parse_qsl
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from server.services.statistics_service import get_chart_data, get_session_stats
-from server.utils.database import get_db
+from server.utils.telegram import parse_telegram_user_data, validate_telegram_data
+from shared.config import settings
 
 router = APIRouter(prefix="/api/statistics", tags=["Statistics"])
 
@@ -26,24 +25,41 @@ class ChartDataResponse(BaseModel):
     attempts: int
 
 
-@router.get("/sessions", response_model=StatisticsResponse)
-async def get_statistics(
-    user_id: Optional[int] = None, db: AsyncSession = Depends(get_db)
-):
-    """
-    Get overall statistics for user sessions
-    """
-    return await get_session_stats(user_id, db)
+@router.get("/")
+async def get_statistics(request: Request):
+    raw_query = request.url.query
+
+    parsed = dict(parse_qsl(raw_query, keep_blank_values=True))
+
+    if not validate_telegram_data(parsed.copy(), bot_token=settings.TELEGRAM_BOT_TOKEN):
+        raise HTTPException(status_code=400, detail="Invalid signature")
+
+    user_data = parse_telegram_user_data(parsed.get("user"))
+    print(user_data)
+    if not user_data:
+        raise HTTPException(status_code=400, detail="Invalid user data")
+
+    return {"status": "success", "user": user_data}
 
 
-@router.get("/chart", response_model=list[ChartDataResponse])
-async def get_statistics_chart(
-    user_id: Optional[int] = None, db: AsyncSession = Depends(get_db)
-):
-    """
-    Get daily statistics for chart visualization
-    """
-    return await get_chart_data(user_id, db)
+# @router.get("/sessions", response_model=StatisticsResponse)
+# async def get_statistics(
+#     user_id: Optional[int] = None, db: AsyncSession = Depends(get_db)
+# ):
+#     """
+#     Get overall statistics for user sessions
+#     """
+#     return await get_session_stats(user_id, db)
+
+
+# @router.get("/chart", response_model=list[ChartDataResponse])
+# async def get_statistics_chart(
+#     user_id: Optional[int] = None, db: AsyncSession = Depends(get_db)
+# ):
+#     """
+#     Get daily statistics for chart visualization
+#     """
+#     return await get_chart_data(user_id, db)
 
 
 # @router.post("", response_model=QuestionResponse)

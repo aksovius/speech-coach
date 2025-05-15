@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     LOG_SERVICE: str = "speech-coach"
     LOG_COMPONENT: str = "unknown"
     STATISTICS_API_URL: str = (
-        "https://aksovius.ddns.net/statistics/"  # "https://192.168.1.35:3001"
+        "https://aksovius.ddns.net/"  # "https://192.168.1.35:3001"
     )
 
     class Config:
