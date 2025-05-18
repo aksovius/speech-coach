@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from server.crud import user_crud as crud_user
@@ -28,3 +29,10 @@ async def get_user_id_and_quota(user_dto: UserCreate, db: AsyncSession) -> dict:
     user = await get_current_user_or_create(user_dto=user_dto, db=db)
     user_quota = await user_quota_crud.get_user_quota(user.id, db)
     return {"user_id": user.id, "quota": user_quota.total_allowed - user_quota.used}
+
+
+async def get_user_id_by_telegram_id(telegram_id: int, db: AsyncSession) -> int:
+    user = await crud_user.get_by_telegram_id(telegram_id=telegram_id, db=db)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user.id

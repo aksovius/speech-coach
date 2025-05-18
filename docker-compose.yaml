@@ -68,6 +68,8 @@ services:
         max-file: "3"
     labels:
       - "logging=promtail"
+    volumes:
+      - ./src/dashboard:/app
   # db:
   #   image: postgres:latest
   #   container_name: speech-db

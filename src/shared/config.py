@@ -17,10 +17,10 @@ class Settings(BaseSettings):
     DEBUG: bool = False
 
     # ClickHouse settings
-    CLICKHOUSE_HOST: str = "192.168.1.86"
+    CLICKHOUSE_HOST: str = "clickhouse"
     CLICKHOUSE_PORT: int = 9000
-    CLICKHOUSE_USER: str = "default"
-    CLICKHOUSE_PASSWORD: str = ""
+    CLICKHOUSE_USER: str = "user"
+    CLICKHOUSE_PASSWORD: str = "password"
     CLICKHOUSE_DATABASE: str = "speech"
 
     # Logging settings
