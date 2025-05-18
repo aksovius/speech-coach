@@ -28,7 +28,7 @@ class ChartDataResponse(BaseModel):
 @router.get("/")
 async def get_statistics(request: Request):
     raw_query = request.url.query
-
+    print("raw_query", raw_query)
     parsed = dict(parse_qsl(raw_query, keep_blank_values=True))
 
     if not validate_telegram_data(parsed.copy(), bot_token=settings.TELEGRAM_BOT_TOKEN):

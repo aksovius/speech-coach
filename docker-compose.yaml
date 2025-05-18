@@ -51,19 +51,15 @@ services:
   dashboard:
     build:
       context: ./src/dashboard
-      dockerfile: Dockerfile
+      dockerfile: ${DASHBOARD_DOCKERFILE:-Dockerfile.dev}
     container_name: speech-dashboard
-    volumes:
-      - ./src/dashboard:/src/dashboard
-      - /src/dashboard/node_modules
-      - /src/dashboard/.next
     ports:
       - "3001:3000"
     networks:
       - app-network
       - monitoring-network
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENV:-development}
       - NEXT_PUBLIC_API_URL=http://server:8000
     logging:
       driver: "json-file"
@@ -72,7 +68,6 @@ services:
         max-file: "3"
     labels:
       - "logging=promtail"
-
   # db:
   #   image: postgres:latest
   #   container_name: speech-db
@@ -288,3 +283,5 @@ volumes:
   loki_data:
     driver: local
   grafana_data:
+  pm2_data:
+    driver: local

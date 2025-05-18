@@ -12,7 +12,6 @@ export default function TelegramScript() {
         if (window.Telegram?.WebApp) {
           console.log('Initializing Telegram WebApp');
           window.Telegram.WebApp.ready();
-          // Проверяем, не находимся ли мы уже на странице /mydata
           if (!window.location.pathname.includes('/mydata')) {
             const params = new URLSearchParams(window.Telegram.WebApp.initData);
             const url = `/mydata?${params}`;

@@ -8,9 +8,11 @@ export default async function MyData({
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
   console.log('searchParams', searchParams);
-  const userData = await getUserData(searchParams);
-  console.log(userData);
+  const headersList = headers();
+  console.log('All headers:', Object.fromEntries(headersList.entries()));
 
+  const userData = await getUserData(searchParams);
+  console.log('User data response:', userData);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">

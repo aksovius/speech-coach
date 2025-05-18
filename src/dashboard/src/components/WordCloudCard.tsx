@@ -4,8 +4,17 @@ import { useEffect, useState, useRef } from 'react';
 import * as d3 from 'd3';
 import cloud from 'd3-cloud';
 
+interface Word {
+  text: string;
+  value: number;
+  size?: number;
+  x?: number;
+  y?: number;
+  rotate?: number;
+}
+
 // Dummy data for demonstration
-const dummyWords = [
+const dummyWords: Word[] = [
   { text: 'hello', value: 100 },
   { text: 'world', value: 80 },
   { text: 'speech', value: 90 },
@@ -56,23 +65,23 @@ export default function WordCloudCard() {
       .padding(5)
       .rotate(() => ~~(Math.random() * 2) * 90)
       .font('Impact')
-      .fontSize(d => d.size)
+      .fontSize((d: any) => d.size || 10)
       .on('end', draw);
 
     layout.start();
 
-    function draw(words: any[]) {
+    function draw(words: Word[]) {
       svg.append('g')
         .attr('transform', `translate(${width / 2},${height / 2})`)
         .selectAll('text')
         .data(words)
         .enter()
         .append('text')
-        .style('font-size', d => `${d.size}px`)
+        .style('font-size', d => `${d.size || 10}px`)
         .style('font-family', 'Impact')
         .style('fill', (_, i) => colors[i % colors.length])
         .attr('text-anchor', 'middle')
-        .attr('transform', d => `translate(${d.x},${d.y}) rotate(${d.rotate})`)
+        .attr('transform', d => `translate(${d.x || 0},${d.y || 0}) rotate(${d.rotate || 0})`)
         .text(d => d.text);
     }
   }, [isMounted]);
