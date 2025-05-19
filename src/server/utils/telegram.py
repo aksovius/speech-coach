@@ -1,6 +1,7 @@
 import hashlib
 import hmac
 import json
+from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
 
@@ -22,6 +23,14 @@ def parse_telegram_user_data(user_param: str) -> Optional[Dict[str, Any]]:
 
 def validate_telegram_data(parsed: dict, bot_token: str) -> bool:
     try:
+        auth_date = int(parsed.get("auth_date", 0))
+        current_time = datetime.now(timezone.utc).timestamp()
+        if abs(current_time - auth_date) > 900:
+            print(
+                f"Auth date validation failed: {current_time - auth_date} seconds difference"
+            )
+            return False
+
         received_hash = parsed.pop("hash", None)
 
         data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(parsed.items()))
