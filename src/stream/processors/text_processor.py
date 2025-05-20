@@ -1,6 +1,20 @@
 import re
+from collections import Counter
+from datetime import datetime, timezone
 
+import nltk
+from nltk import pos_tag
+from nltk.corpus import stopwords, wordnet
+from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import wordpunct_tokenize
+
+nltk.download("punkt")
+nltk.download("averaged_perceptron_tagger")
+nltk.download("averaged_perceptron_tagger_eng")
+nltk.download("wordnet")
+nltk.download("omw-1.4")
+nltk.download("stopwords")
+stop_words = set(stopwords.words("english"))
 
 
 def extract_words(rec):
@@ -39,3 +53,44 @@ def calculate_ttr_from_words(words):
     ttr = unique_words / total_words
 
     return ttr
+
+
+lemmatizer = WordNetLemmatizer()
+
+
+# Функция преобразования POS из nltk → wordnet
+def get_wordnet_pos(tag):
+    if tag.startswith("J"):
+        return wordnet.ADJ
+    elif tag.startswith("V"):
+        return wordnet.VERB
+    elif tag.startswith("N"):
+        return wordnet.NOUN
+    elif tag.startswith("R"):
+        return wordnet.ADV
+    else:
+        return wordnet.NOUN  # по умолчанию
+
+
+def lemmatize_text(message):
+    text = message["asr_transcript"]
+    user_id = int(message["user_id"])
+
+    timestamp = datetime.fromtimestamp(
+        message["created_at"] / 1_000_000, tz=timezone.utc
+    )
+
+    tokens = wordpunct_tokenize(text.lower())
+    pos_tags = pos_tag(tokens)
+    lemmas = [
+        lemmatizer.lemmatize(word, get_wordnet_pos(tag))
+        for word, tag in pos_tags
+        if word.isalpha() and word not in stop_words
+    ]
+
+    lemma_counts = Counter(lemmas)
+
+    return [
+        {"user_id": user_id, "timestamp": timestamp, "word": word, "count": count}
+        for word, count in lemma_counts.items()
+    ]

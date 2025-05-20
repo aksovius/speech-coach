@@ -10,7 +10,6 @@ export default async function MyData({
 }) {
 
   const userData = await getUserData(searchParams);
-  console.log('User data response:', userData);
 
   return (
     <>

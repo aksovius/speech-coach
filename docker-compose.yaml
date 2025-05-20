@@ -248,12 +248,13 @@ services:
     depends_on:
       - prometheus
       - loki
-    environment:
-      - GF_SECURITY_ALLOW_EMBEDDING=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_DISABLE_SIGNOUT_MENU=true
+    # environment:
+
+      # - GF_SECURITY_ALLOW_EMBEDDING=true
+      # - GF_AUTH_ANONYMOUS_ENABLED=true
+      # - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      # - GF_AUTH_DISABLE_LOGIN_FORM=true
+      # - GF_AUTH_DISABLE_SIGNOUT_MENU=true
     restart: unless-stopped
 
   promtail:

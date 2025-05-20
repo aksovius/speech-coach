@@ -12,7 +12,6 @@ from stream.processors.filters import filter_empty_transcript, filter_none
 from stream.processors.formaters import to_kafka_message
 from stream.processors.text_processor import normalize_text
 
-# Запускаем сервер метрик
 start_metrics_server(port=9091)
 
 # Configure logger with Loki formatter

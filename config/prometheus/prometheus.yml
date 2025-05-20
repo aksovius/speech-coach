@@ -52,3 +52,14 @@ scrape_configs:
       - source_labels: [__address__]
         target_label: instance
         replacement: 'answer-ttr-workflow'
+
+  - job_name: 'active_words_workflow'
+    static_configs:
+      - targets: ['stream:9093']
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+    scrape_timeout: 4s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'active-words-workflow'

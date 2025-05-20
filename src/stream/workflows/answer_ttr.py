@@ -12,7 +12,6 @@ from stream.processors.deserialize import parse_kafka_message
 from stream.processors.text_processor import calculate_ttr_simple
 from stream.sinks.clickhouse import ClickHouseSink
 
-# Запускаем сервер метрик
 start_metrics_server(port=9092)
 
 # Configure logger with Loki formatter

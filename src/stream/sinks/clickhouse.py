@@ -39,7 +39,7 @@ class ClickHouseSinkPartition(StatelessSinkPartition):
         )
         self.table = table
         self.database = database
-        self.colum_names = column_names
+        self.column_names = column_names
 
     def write_batch(self, items):
         if items:
@@ -51,11 +51,17 @@ class ClickHouseSinkPartition(StatelessSinkPartition):
                     "batch_size": len(items),
                 },
             )
+            print("INSERT DEBUG", items[0])
+            print("COLUMNS", self.column_names)
+            if isinstance(items[0], dict):
+                rows = [tuple(item[col] for col in self.column_names) for item in items]
+            else:
+                rows = items
             self.client.insert(
                 database=self.database,
                 table=self.table,
-                column_names=self.colum_names,
-                data=items,
+                column_names=self.column_names,
+                data=rows,
             )
 
     def close(self):
