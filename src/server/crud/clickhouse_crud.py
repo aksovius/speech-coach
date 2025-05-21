@@ -88,7 +88,7 @@ async def get_word_cloud_data(user_id: Optional[int] = None) -> List[WordCloudIt
         {time_filter}
         GROUP BY word
         ORDER BY value DESC
-        LIMIT 15
+        LIMIT 30
     """
 
     client = get_clickhouse_client()

@@ -40,7 +40,7 @@ export default function ChartCard({ data, stats }: ChartCardProps) {
 
   return (
     <div className="rounded-lg bg-white p-4 shadow-sm">
-      <div className="mb-3 grid grid-cols-3 gap-4 border-b border-gray-100 pb-3">
+      <div className="mb-3 grid grid-cols-2 gap-4 border-b border-gray-100 pb-3">
         <div>
           <p className="text-sm text-gray-600">Total Answers</p>
           <p className="text-xl font-bold text-gray-900">{stats.total_sessions}</p>
@@ -49,10 +49,10 @@ export default function ChartCard({ data, stats }: ChartCardProps) {
           <p className="text-sm text-gray-600">Average TTR</p>
           <p className="text-xl font-bold text-gray-900">{stats.avg_ttr.toFixed(2)}</p>
         </div>
-        <div>
+        {/* <div>
           <p className="text-sm text-gray-600">Average Score</p>
           <p className="text-xl font-bold text-gray-900">{Math.round(stats.avg_score)}</p>
-        </div>
+        </div> */}
       </div>
 
       <h2 className="text-lg font-semibold text-gray-900 mb-2">Progress</h2>
