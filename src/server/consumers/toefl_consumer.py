@@ -3,6 +3,7 @@ import os
 from server.ai.services.audio_service import transcribe_audio
 from server.ai.services.chat_service import evaluate_answer
 from server.bot.dp import bot
+from server.bot.keyboards.menu_keyboards import MODE_TOEFL_START, get_next_back_keyboard
 from server.models.schema import Media, UserAnswer
 from server.utils.database import async_session
 from shared.messaging.broker import broker
@@ -86,6 +87,11 @@ async def handle_task(result: AudioTaskResult):
             chat_id=telegram_id,
             text=f"<b>Example:</b> {answer.example_answer}",
             parse_mode="HTML",
+        )
+        await bot.send_message(
+            chat_id=telegram_id,
+            text="Choose next action:",
+            reply_markup=get_next_back_keyboard(MODE_TOEFL_START.format(task=1)),
         )
 
     os.remove(converted_file)

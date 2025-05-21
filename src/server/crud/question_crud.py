@@ -16,17 +16,17 @@ async def get_unseen_questions(
     )
 
     query = select(Question).outerjoin(subquery, Question.id == subquery.c.question_id)
-
     if category:
         query = query.where(Question.category == category)
 
     query = query.where(Question.is_active)
 
     query = query.order_by(coalesce(subquery.c.ask_count, 0), func.random()).limit(1)
-
+    print("category", category)
+    print("query", query)
     result = await db.execute(query)
     question = result.scalars().first()
-
+    print("question", question)
     if question:
         await db.execute(
             insert(UserQuestionHistory).values(user_id=user_id, question_id=question.id)

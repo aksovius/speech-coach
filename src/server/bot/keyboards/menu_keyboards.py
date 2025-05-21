@@ -19,6 +19,7 @@ MODE_FRONTEND = "mode_frontend"
 MODE_BACKEND = "mode_backend"
 MODE_ALGORITHMS = "mode_algorithms"
 
+
 # def get_main_keyboard() -> InlineKeyboardMarkup:
 #     keyboard = InlineKeyboardMarkup(
 #         inline_keyboard=[
@@ -43,7 +44,7 @@ def get_main_keyboard() -> InlineKeyboardMarkup:
             ],
             [
                 InlineKeyboardButton(
-                    text="TOEFL SPEAKING 3", callback_data=MODE_TOEFL_SPEAKING3
+                    text="TOEFL SPEAKING 2", callback_data=MODE_TOEFL_SPEAKING2
                 ),
                 InlineKeyboardButton(text="ALGORITHMS", callback_data=MODE_ALGORITHMS),
             ],
@@ -127,6 +128,18 @@ def get_architecture_start_keyboard() -> InlineKeyboardMarkup:
                     text="Start",
                     callback_data=MODE_ARCHITECTURE_START,
                 ),
+            ],
+        ]
+    )
+    return keyboard
+
+
+def get_next_back_keyboard(mode: str) -> InlineKeyboardMarkup:
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="« Back", callback_data=MODE_BACK),
+                InlineKeyboardButton(text="Next", callback_data=mode),
             ],
         ]
     )
