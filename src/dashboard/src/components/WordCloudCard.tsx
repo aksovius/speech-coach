@@ -13,28 +13,14 @@ interface Word {
   rotate?: number;
 }
 
-// Dummy data for demonstration
-const dummyWords: Word[] = [
-  { text: 'hello', value: 100 },
-  { text: 'world', value: 80 },
-  { text: 'speech', value: 90 },
-  { text: 'practice', value: 85 },
-  { text: 'language', value: 75 },
-  { text: 'learning', value: 70 },
-  { text: 'pronunciation', value: 65 },
-  { text: 'fluency', value: 60 },
-  { text: 'vocabulary', value: 55 },
-  { text: 'communication', value: 50 },
-  { text: 'confidence', value: 45 },
-  { text: 'improvement', value: 40 },
-  { text: 'progress', value: 35 },
-  { text: 'skills', value: 30 },
-  { text: 'development', value: 25 },
+const colors = [
+  '#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#0088fe',
+  '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeead',
+  '#ff9999', '#99cc99', '#99ccff', '#ffcc99', '#ff99cc',
+  '#c5e1a5', '#81d4fa', '#ce93d8', '#ffcc80', '#ef9a9a'
 ];
 
-const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#0088fe'];
-
-export default function WordCloudCard() {
+export default function WordCloudCard({data}: {data: Word[]}) {
   const [isMounted, setIsMounted] = useState(false);
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -57,7 +43,7 @@ export default function WordCloudCard() {
 
     const layout = cloud()
       .size([width, height])
-      .words(dummyWords.map(d => ({
+      .words(data.map(d => ({
         text: d.text,
         size: 10 + (d.value / 2),
         value: d.value

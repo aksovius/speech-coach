@@ -1,65 +1,29 @@
-from typing import Optional
+from typing import List, Optional
 
-from clickhouse_driver import Client
-
-from shared.config import settings
-
-
-def get_clickhouse_client() -> Client:
-    """
-    Get ClickHouse client instance
-    """
-    return Client(
-        host=settings.CLICKHOUSE_HOST,
-        port=settings.CLICKHOUSE_PORT,
-        user=settings.CLICKHOUSE_USER,
-        password=settings.CLICKHOUSE_PASSWORD,
-        database=settings.CLICKHOUSE_DATABASE,
-    )
+from server.crud.clickhouse_crud import (
+    get_daily_statistics,
+    get_session_statistics,
+    get_word_cloud_data,
+)
+from server.models.statistics import DailyStatistics, SessionStatistics, WordCloudItem
 
 
-async def get_session_stats(user_id: Optional[int], db=None):
+async def get_session_stats(user_id: Optional[int]) -> Optional[SessionStatistics]:
     """
     Get overall statistics for user sessions
     """
-    where_clause = f"WHERE user_id = {user_id}" if user_id else ""
-
-    query = f"""
-        SELECT
-            count() as total_sessions,
-            avg(ttr) as avg_ttr,
-            avg(score_overall) as avg_score,
-            min(timestamp) as first_session,
-            max(timestamp) as last_session
-        FROM speech.answer_ttr
-        {where_clause}
-    """
-
-    client = get_clickhouse_client()
-    result = client.execute(query, with_column_types=True)
-    columns = [col[0] for col in result[1]]
-    return dict(zip(columns, result[0][0])) if result[0] else None
+    return await get_session_statistics(user_id)
 
 
-async def get_chart_data(user_id: Optional[int], db=None):
+async def get_chart_data(user_id: Optional[int]) -> List[DailyStatistics]:
     """
     Get daily statistics for chart visualization
     """
-    where_clause = f"WHERE user_id = {user_id}" if user_id else ""
+    return await get_daily_statistics(user_id)
 
-    query = f"""
-        SELECT
-            toStartOfDay(timestamp) as date,
-            avg(ttr) as avg_ttr,
-            avg(score_overall) as avg_score,
-            count() as attempts
-        FROM speech.answer_ttr
-        {where_clause}
-        GROUP BY date
-        ORDER BY date ASC
+
+async def get_word_cloud(user_id: Optional[int]) -> List[WordCloudItem]:
     """
-
-    client = get_clickhouse_client()
-    result = client.execute(query, with_column_types=True)
-    columns = [col[0] for col in result[1]]
-    return [dict(zip(columns, row)) for row in result[0]]
+    Get word cloud data for visualization
+    """
+    return await get_word_cloud_data(user_id)

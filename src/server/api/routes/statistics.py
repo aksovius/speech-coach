@@ -5,7 +5,11 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from server.services.statistics_service import get_chart_data, get_session_stats
+from server.services.statistics_service import (
+    get_chart_data,
+    get_session_stats,
+    get_word_cloud,
+)
 from server.utils.database import get_db
 from server.utils.telegram import parse_telegram_user_data, validate_telegram_data
 from shared.config import settings
@@ -51,6 +55,7 @@ async def get_statistics(request: Request, db: AsyncSession = Depends(get_db)):
 
     session = await get_session_stats(user_id=user_id)
     chart_data = await get_chart_data(user_id=user_id)
+    word_cloud = await get_word_cloud(user_id=user_id)
     print("chart_data", chart_data)
     print("session", session)
     return {
@@ -58,31 +63,5 @@ async def get_statistics(request: Request, db: AsyncSession = Depends(get_db)):
         "user": telegram_data,
         "session": session,
         "chart_data": chart_data,
+        "word_cloud": word_cloud,
     }
-
-
-# @router.get("/sessions", response_model=StatisticsResponse)
-# async def get_statistics(
-#     user_id: Optional[int] = None, db: AsyncSession = Depends(get_db)
-# ):
-#     """
-#     Get overall statistics for user sessions
-#     """
-#     return await get_session_stats(user_id, db)
-
-
-# @router.get("/chart", response_model=list[ChartDataResponse])
-# async def get_statistics_chart(
-#     user_id: Optional[int] = None, db: AsyncSession = Depends(get_db)
-# ):
-#     """
-#     Get daily statistics for chart visualization
-#     """
-#     return await get_chart_data(user_id, db)
-
-
-# @router.post("", response_model=QuestionResponse)
-# async def create_question(data: QuestionRequest, db: AsyncSession = Depends(get_db)):
-#     question = await generate_question()
-#     await save_user_question(db, user_id=data.user_id, question=question)
-#     return {"question": question}

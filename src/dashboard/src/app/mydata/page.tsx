@@ -2,6 +2,7 @@ import { headers } from 'next/headers';
 import { validateTelegramWebAppData, parseTelegramInitData } from '@/lib/telegram';
 import { getUserData } from '@/api/user';
 import ChartCard from '@/components/ChartCard';
+import WordCloudCard from '@/components/WordCloudCard';
 
 export default async function MyData({
   searchParams,
@@ -14,7 +15,7 @@ export default async function MyData({
   return (
     <>
         <ChartCard data={userData?.chart_data} stats={userData?.session} />
-
+        <WordCloudCard data={userData?.word_cloud} />
     <div>
       DEBUG
       <div className="text-gray-600">
