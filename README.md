@@ -110,7 +110,7 @@ This project presented several interesting technical challenges:
 4. **AI Integration**: Balancing response time and accuracy with OpenAI API rate limits and costs
 
 ## 🔭 Roadmap
-[Roadmap](docs/roadmap.md)
+[Roadmap](docs/docs/roadmap.md)
 
 ## 📚 Documentation
 
