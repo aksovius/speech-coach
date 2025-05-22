@@ -2,7 +2,13 @@
 
 **Speech Coach** is a Telegram-based assistant for practicing spoken English, with automatic feedback, speech recognition, and real-time progress tracking.
 
-## 👨‍💻 About the Project
+<div align="center">
+<img src="docs/static/img/menu.png" alt="Menu Interface" width="30%">
+<img src="docs/static/img/feedback.png" alt="Feedback Interface" width="30%">
+<img src="docs/static/img/webapp.png" alt="Web Application" width="30%">
+</div>
+
+## 👨‍�� About the Project
 
 Originally built by [Alexander Kim](https://www.linkedin.com/in/aksovius) as a personal tool to prepare for TOEFL speaking tasks and job interviews, **Speech Coach** has grown into a robust portfolio project. It demonstrates skills in backend development, real-time data pipelines, infrastructure automation, and AI integration.
 

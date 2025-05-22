@@ -6,8 +6,9 @@
 }
 
 .featureImage {
-  height: 200px;
-  width: 200px;
+  height: 600px;
+  width: 300px;
   /* background-color: rgb(40, 142, 64); */
   border-radius: 10px;
+  object-fit: cover;
 }

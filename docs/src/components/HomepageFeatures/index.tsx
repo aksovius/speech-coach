@@ -11,8 +11,18 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
+    title: "Telegram Integration",
+    image: "/img/menu.png",
+    description: (
+      <>
+        Built on a modern distributed architecture with FastAPI, Redpanda, and Bytewax. Speech Coach
+        is engineered for high availability, real-time processing, and future app integration.
+      </>
+    ),
+  },
+  {
     title: "AI-Powered Feedback",
-    image: "/img/server.png",
+    image: "/img/feedback.png",
     description: (
       <>
         Transform your voice into structured feedback using OpenAI Whisper for speech-to-text and
@@ -22,22 +32,12 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Real-Time Analytics",
-    image: "/img/graph.png",
+    image: "/img/webapp.png",
     description: (
       <>
         Understand your speaking with real metrics: total words, unique vocabulary, TTR, sentence
         complexity, and active phrase usage. A quantified approach to language learning, designed
         for developers and analytical minds.
-      </>
-    ),
-  },
-  {
-    title: "Telegram Integration",
-    image: "/img/mic.png",
-    description: (
-      <>
-        Built on a modern distributed architecture with FastAPI, Redpanda, and Bytewax. Speech Coach
-        is engineered for high availability, real-time processing, and future app integration.
       </>
     ),
   },

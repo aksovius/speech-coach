@@ -34,7 +34,6 @@ export default function Home() {
         </div>
       </header>
       <main className="mainWrapper">
-        <HomepageFeatures />
         <section className={styles.section}>
           <div className="container">
           <h2>Why Speech Coach?</h2>
@@ -44,20 +43,21 @@ export default function Home() {
                 It provides automated speech recognition, lexical analysis, and constructive suggestions 
                 based on actual use cases — from job interviews to team meetings.
               </p>
+            <img
+              src="/img/architecture-diagram.svg"
+              alt="System Architecture"
+              className={styles.architectureImage}
+            />
               <p>
                 Originally built to practice English for professional contexts, Speech Coach now serves as 
                 a foundation for language coaching, continuous improvement, and AI-driven communication 
                 support. Its backend is powered by a modern microservices architecture and real-time data pipelines, 
                 with a flexible delivery channel — including but not limited to Telegram.
               </p>
-            <img
-              src="/img/architecture-diagram.svg"
-              alt="System Architecture"
-              className={styles.architectureImage}
-            />
           </div>
         </section>
       </main>
+        <HomepageFeatures />
     </Layout>
   );
 }
