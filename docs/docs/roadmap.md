@@ -4,7 +4,7 @@ title: Roadmap
 sidebar_label: Roadmap
 ---
 
-_Last updated: 2025-05-11_
+_Last updated: 2025-05-22_
 
 ## 📋 About the Project
 
@@ -41,6 +41,8 @@ _Last updated: 2025-05-11_
 - [x] Answer time tracking
 - [x] TTR (unique word ratio)
 - [x] Sliding window (last N answers) with Bytewax
+- [x] Word cloud visualization (last 30 days)
+- [x] Interview preparation questions
 
 ### 🏗 Infrastructure
 - [x] Docker containerization
@@ -55,9 +57,6 @@ _Last updated: 2025-05-11_
 - [x] Metrics via Prometheus → Grafana
 - [x] Grafana dashboards for core services
 
-### 💵 Monetization
-- [x] Manual balance top-up system
-
 ### 📝 Documentation
 - [x] Readme and setup instructions
 - [x] Architecture diagram (Graphviz)
@@ -68,13 +67,7 @@ _Last updated: 2025-05-11_
 ## 🛠 In Progress / Priority Tasks
 
 - [ ] **Repeat-answer logic**: tag repeated answers (used for mimicry), exclude from metrics
-- [ ] **Word cloud (last 30 days)**: active vocabulary stats via Bytewax → ClickHouse
-- [ ] **Dashboard rewrite**:
-  - [ ] Move all queries behind backend API
-  - [ ] Migrate away from client-DDNS access
-  - [ ] Centralize on server; plan for a separate dashboard host
 - [ ] **New question types**:
-  - [ ] Interview preparation questions
   - [ ] TOEFL Speaking 2–4 (with reading/audio prompt support)
 - [ ] **E2E and load testing**:
   - [ ] Simulate multiple users and audio uploads
