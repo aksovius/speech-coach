@@ -83,7 +83,7 @@ const config: Config = {
           position: "left",
           label: "Docs",
         },
-        { to: "/blog", label: "Blog", position: "left" },
+        { href: "https://alexanderkim.dev", label: "Blog", position: "left" },
         { to: "/contact", label: "Contact", position: "right" },
         {
           href: "https://github.com/aksovius/speech-coach",
